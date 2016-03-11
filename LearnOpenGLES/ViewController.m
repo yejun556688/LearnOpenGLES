@@ -19,17 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
-//    GLKView* view = (GLKView *)self.view;
-//    view.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-//    
-//    view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
-//    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-//    view.drawableStencilFormat = GLKViewDrawableStencilFormat8;
-//    
-//    view.drawableMultisample = GLKViewDrawableMultisample4X;
    
+
+    //新建OpenGLES 上下文
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
     GLKView* view = (GLKView *)self.view;
@@ -43,7 +35,6 @@
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
     self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    
     
     
     
