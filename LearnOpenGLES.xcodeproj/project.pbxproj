@@ -14,6 +14,8 @@
 		FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734D1C929DB9001A5D46 /* Assets.xcassets */; };
 		FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */; };
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
+		FD8C73681C92A2EF001A5D46 /* LearnView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73671C92A2EF001A5D46 /* LearnView.m */; };
+		FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */ = {isa = PBXBuildFile; fileRef = FD8C73691C92AC07001A5D46 /* for_test.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,9 @@
 		FD8C73571C929DB9001A5D46 /* LearnOpenGLESTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnOpenGLESTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnOpenGLESTests.m; sourceTree = "<group>"; };
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD8C73661C92A2EF001A5D46 /* LearnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnView.h; sourceTree = "<group>"; };
+		FD8C73671C92A2EF001A5D46 /* LearnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnView.m; sourceTree = "<group>"; };
+		FD8C73691C92AC07001A5D46 /* for_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = for_test.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +86,13 @@
 		FD8C73401C929DB9001A5D46 /* LearnOpenGLES */ = {
 			isa = PBXGroup;
 			children = (
+				FD8C73691C92AC07001A5D46 /* for_test.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FD8C73471C929DB9001A5D46 /* ViewController.h */,
 				FD8C73481C929DB9001A5D46 /* ViewController.m */,
+				FD8C73661C92A2EF001A5D46 /* LearnView.h */,
+				FD8C73671C92A2EF001A5D46 /* LearnView.m */,
 				FD8C734A1C929DB9001A5D46 /* Main.storyboard */,
 				FD8C734D1C929DB9001A5D46 /* Assets.xcassets */,
 				FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */,
@@ -192,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
+				FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
 			);
@@ -214,6 +223,7 @@
 				FD8C73491C929DB9001A5D46 /* ViewController.m in Sources */,
 				FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */,
 				FD8C73431C929DB9001A5D46 /* main.m in Sources */,
+				FD8C73681C92A2EF001A5D46 /* LearnView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +410,7 @@
 				FD8C73621C929DB9001A5D46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FD8C73631C929DB9001A5D46 /* Build configuration list for PBXNativeTarget "LearnOpenGLESTests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +419,7 @@
 				FD8C73651C929DB9001A5D46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
