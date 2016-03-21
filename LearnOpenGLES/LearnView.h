@@ -6,8 +6,9 @@
 //  Copyright © 2016年 林伟池. All rights reserved.
 //
 
-#import <GLKit/GLKit.h>
+#import <UIKit/UIKit.h>
 
-@interface LearnView : GLKView
+@interface LearnView : UIView
+
 
 @end
