@@ -8,6 +8,8 @@
 
 #import "LearnView.h"
 #import <OpenGLES/ES2/gl.h>
+#import "GLESUtils.h"
+#import "GLESMath.h"
 
 @interface LearnView()
 @property (nonatomic , strong) EAGLContext* myContext;
@@ -23,6 +25,10 @@
 @end
 
 @implementation LearnView
+{
+    float degree;
+    NSTimer* myTimer;
+}
 
 + (Class)layerClass {
     return [CAEAGLLayer class];
@@ -47,11 +53,25 @@
     [self render]; 
 }
 
+- (IBAction)onTimer:(id)sender {
+    if (myTimer) {
+        [myTimer invalidate];
+        myTimer = nil;
+    }
+    else {
+        myTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onRes:) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)onRes:(id)sender {
+    degree += 5;
+    [self render];
+}
+
 - (void)render {
     glClearColor(0, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    CGRect rect = self.frame;
     CGFloat scale = [[UIScreen mainScreen] scale];
     glViewport(self.frame.origin.x * scale, self.frame.origin.y * scale, self.frame.size.width * scale, self.frame.size.height * scale);
     
@@ -73,18 +93,40 @@
         return ;
     }
     else {
-        NSLog(@"ok");
+//        NSLog(@"ok");
     }
+    glUseProgram(self.myProgram);
     
     
     GLfloat attrArr[] =
     {
-        0.6f, -0.6f, -1.0f, 1.0f, -1.0f,
-        -0.5f, 0.5f, -1.0f, -1.0f, 1.0f,
-        -0.5f, -0.5f, -1.0f, -1.0f, -1.0f,
-        0.5f, 0.5f, -1.0f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -1.0f, -1.0f, 1.0f,
-        0.5f, -0.5f, -1.0f, 1.0f, -1.0f,
+        -0.5f, 0.5f, 0.0f, 0.5f, 0.0f, 0.0f, //左上
+        0.5f, 0.5f, 0.0f, 0.0f, 0.5f, 0.0f, //右上
+        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, //左下
+        0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, //右下
+        0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, //顶点
+    };
+    
+//    GLuint indices[] =
+//    {
+//        0, 2, 4,
+//        0, 1, 4,
+//        3, 4, 2,
+//        1, 3, 4,
+//        0, 2, 3,
+//        0, 1, 3,
+//    };
+
+    GLuint indices[] =
+    {
+        0, 4,
+        0, 2,
+        0, 1,
+        1, 3,
+        1, 4,
+        2, 3,
+        2, 4,
+        3, 4
     };
     
     GLuint attrBuffer;
@@ -93,18 +135,37 @@
     glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
     
     GLuint position = glGetAttribLocation(self.myProgram, "position");
-    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, NULL);
     glEnableVertexAttribArray(position);
     
-    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
-    glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (float *)NULL + 3);
-    glEnableVertexAttribArray(textCoor);
+    GLuint positionColor = glGetAttribLocation(self.myProgram, "positionColor");
+    glVertexAttribPointer(positionColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, (float *)NULL + 3);
+    glEnableVertexAttribArray(positionColor);
     
-    GLuint sampler = [self setupTexture:@"for_test"];
-    GLuint texture = glGetUniformLocation(self.myProgram, "colorMap");
+    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
+    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
     
-    GLuint rotate = glGetUniformLocation(self.myProgram, "rotateMatrix");
+    float width = self.frame.size.width;
+    float height = self.frame.size.height;
     
+    // Generate a perspective matrix with a 60 degree FOV
+
+    KSMatrix4 _projectionMatrix;
+    ksMatrixLoadIdentity(&_projectionMatrix);
+    float aspect = width / height;
+    ksPerspective(&_projectionMatrix, 60.0, 1.0f, 2.0f, 10.0f);
+    
+    // Load projection matrix
+    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
+    
+//    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    
+    
+    KSMatrix4 _modelViewMatrix;
+    ksMatrixLoadIdentity(&_modelViewMatrix);
+    
+    ksTranslate(&_modelViewMatrix, 0.0, 0.0, -5);
     
     float radians = 10 * 3.14159f / 180.0f;
     float s = sin(radians);
@@ -116,17 +177,32 @@
         0, 0, 1.0, 0,//
         0.0, 0, 0, 1.0//
     };
+
+    KSMatrix4 _rotationMatrix;
+    ksMatrixLoadIdentity(&_rotationMatrix);
+    
+    ksRotate(&_modelViewMatrix, degree, 1.0, 0.0, 0.0);
+    
+    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
+    
+    // Load the model-view matrix
+    glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
+    
+
     
     
-    glUseProgram(self.myProgram);
     
-    glUniformMatrix4fv(rotate, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
+//    glUniformMatrix4fv(rotate, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
     
     
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+//    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_LINES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
     
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
 }
+
+
+
 
 
 - (GLuint)loadShaders:(NSString *)vert frag:(NSString *)frag {
