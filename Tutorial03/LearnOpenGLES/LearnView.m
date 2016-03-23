@@ -27,7 +27,9 @@
 @implementation LearnView
 {
     float degree;
+    float yDegree;
     NSTimer* myTimer;
+    NSTimer* myYTimer;
 }
 
 + (Class)layerClass {
@@ -63,13 +65,31 @@
     }
 }
 
+
+- (IBAction)onYTimer:(id)sender {
+    if (myYTimer) {
+        [myYTimer invalidate];
+        myYTimer = nil;
+    }
+    else {
+        myYTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onY:) userInfo:nil repeats:YES];
+    }
+}
+
+
+
 - (void)onRes:(id)sender {
     degree += 5;
     [self render];
 }
 
+- (void)onY:(id)sender {
+    yDegree += 5;
+    [self render];
+}
+
 - (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
+    glClearColor(0, 0.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
     CGFloat scale = [[UIScreen mainScreen] scale];
@@ -100,34 +120,34 @@
     
     GLfloat attrArr[] =
     {
-        -0.5f, 0.5f, 0.0f, 0.5f, 0.0f, 0.0f, //左上
-        0.5f, 0.5f, 0.0f, 0.0f, 0.5f, 0.0f, //右上
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f, //左下
-        0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, //右下
-        0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, //顶点
+        -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //左上
+        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //右上
+        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, //左下
+        0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, //右下
+        0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, //顶点
     };
     
-//    GLuint indices[] =
-//    {
-//        0, 2, 4,
-//        0, 1, 4,
-//        3, 4, 2,
-//        1, 3, 4,
-//        0, 2, 3,
-//        0, 1, 3,
-//    };
-
     GLuint indices[] =
     {
-        0, 4,
-        0, 2,
-        0, 1,
-        1, 3,
-        1, 4,
-        2, 3,
-        2, 4,
-        3, 4
+        0, 3, 2,
+        0, 1, 3,
+        0, 2, 4,
+        0, 4, 1,
+        2, 3, 4, //??
+        1, 4, 3,
     };
+
+//    GLuint indices[] =
+//    {
+//        0, 4,
+//        0, 2,
+//        0, 1,
+//        1, 3,
+//        1, 4,
+//        2, 3,
+//        2, 4,
+//        3, 4
+//    };
     
     GLuint attrBuffer;
     glGenBuffers(1, &attrBuffer);
@@ -153,35 +173,27 @@
     KSMatrix4 _projectionMatrix;
     ksMatrixLoadIdentity(&_projectionMatrix);
     float aspect = width / height;
-    ksPerspective(&_projectionMatrix, 60.0, 1.0f, 2.0f, 10.0f);
+    
+    ksPerspective(&_projectionMatrix, 30.0, aspect, -5.0f, 20.0f); //透视变换
     
     // Load projection matrix
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
     
-//    glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     
     
     KSMatrix4 _modelViewMatrix;
     ksMatrixLoadIdentity(&_modelViewMatrix);
     
-    ksTranslate(&_modelViewMatrix, 0.0, 0.0, -5);
+    ksTranslate(&_modelViewMatrix, 0.0, 0.0, 0.0);
     
-    float radians = 10 * 3.14159f / 180.0f;
-    float s = sin(radians);
-    float c = cos(radians);
-    
-    GLfloat zRotation[16] = { //
-        c, -s, 0, 0.2, //
-        s, c, 0, 0,//
-        0, 0, 1.0, 0,//
-        0.0, 0, 0, 1.0//
-    };
-
     KSMatrix4 _rotationMatrix;
     ksMatrixLoadIdentity(&_rotationMatrix);
     
     ksRotate(&_modelViewMatrix, degree, 1.0, 0.0, 0.0);
+    ksRotate(&_modelViewMatrix, yDegree, 0.0, 1.0, 0.0);
+    
     
     ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
     
@@ -191,12 +203,8 @@
 
     
     
-    
-//    glUniformMatrix4fv(rotate, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
-    
-    
 //    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDrawElements(GL_LINES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
+    glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
     
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
 }

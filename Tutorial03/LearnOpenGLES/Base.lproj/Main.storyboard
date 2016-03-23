@@ -18,10 +18,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGQ-Lw-wep">
-                                <rect key="frame" x="48" y="47" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="56" y="47" width="30" height="30"/>
+                                <state key="normal" title="X"/>
                                 <connections>
                                     <action selector="onTimer:" destination="cDM-gx-J3Q" eventType="touchUpInside" id="ZSt-tM-8qd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="313-ex-dzu">
+                                <rect key="frame" x="188" y="47" width="30" height="30"/>
+                                <state key="normal" title="Y"/>
+                                <connections>
+                                    <action selector="onYTimer:" destination="cDM-gx-J3Q" eventType="touchUpInside" id="Tmc-PH-8fu"/>
                                 </connections>
                             </button>
                         </subviews>
