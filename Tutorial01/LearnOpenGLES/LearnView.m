@@ -79,12 +79,12 @@
     
     GLfloat attrArr[] =
     {
-        0.5f, -0.5f, -0.0f, 1.0f, -1.0f,
-        -0.5f, 0.5f, -0.0f, -1.0f, 1.0f,
-        -0.5f, -0.5f, -0.0f, -1.0f, -1.0f,
-        0.5f, 0.5f, -0.0f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.0f, -1.0f, 1.0f,
-        0.5f, -0.5f, -0.0f, 1.0f, -1.0f,
+        0.6f, -0.6f, -1.0f, 1.0f, -1.0f,
+        -0.5f, 0.5f, -1.0f, -1.0f, 1.0f,
+        -0.5f, -0.5f, -1.0f, -1.0f, -1.0f,
+        0.5f, 0.5f, -1.0f, 1.0f, 1.0f,
+        -0.5f, 0.5f, -1.0f, -1.0f, 1.0f,
+        0.5f, -0.5f, -1.0f, 1.0f, -1.0f,
     };
     
     GLuint attrBuffer;
@@ -103,8 +103,25 @@
     GLuint sampler = [self setupTexture:@"for_test"];
     GLuint texture = glGetUniformLocation(self.myProgram, "colorMap");
     
+    GLuint rotate = glGetUniformLocation(self.myProgram, "rotateMatrix");
+    
+    
+    float radians = 10 * 3.14159f / 180.0f;
+    float s = sin(radians);
+    float c = cos(radians);
+    
+    GLfloat zRotation[16] = { //
+        c, -s, 0, 0.2, //
+        s, c, 0, 0,//
+        0, 0, 1.0, 0,//
+        0.0, 0, 0, 1.0//
+    };
+    
     
     glUseProgram(self.myProgram);
+    
+    glUniformMatrix4fv(rotate, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
+    
     
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
