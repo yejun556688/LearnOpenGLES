@@ -11,6 +11,12 @@
 #import "GLESUtils.h"
 #import "GLESMath.h"
 
+enum LightMode {
+    PerVertex,
+    PerPixel,
+};
+const enum LightMode CurrentLightMode = PerPixel;
+
 @interface LearnView()
 @property (nonatomic , strong) EAGLContext* myContext;
 @property (nonatomic , strong) CAEAGLLayer* myEagLayer;
@@ -28,6 +34,7 @@
 - (void)setupLayer;
 
 @end
+
 
 @implementation LearnView
 {
@@ -103,6 +110,10 @@
     
     NSString* vertFile = [[NSBundle mainBundle] pathForResource:@"shaderv" ofType:@"glsl"];
     NSString* fragFile = [[NSBundle mainBundle] pathForResource:@"shaderf" ofType:@"glsl"];
+    if (CurrentLightMode == PerPixel) {
+        vertFile = [[NSBundle mainBundle] pathForResource:@"pixelV" ofType:@"glsl"];
+        fragFile = [[NSBundle mainBundle] pathForResource:@"pixelF" ofType:@"glsl"];
+    }
     
     self.myProgram = [self loadShaders:vertFile frag:fragFile];
     

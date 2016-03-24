@@ -1,4 +1,3 @@
-
 varying lowp vec4 varyColor;
 
 void main()
