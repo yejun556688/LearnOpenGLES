@@ -21,6 +21,10 @@
 @property (nonatomic , assign) GLuint myFrameRenderBuffer;
 @property (nonatomic , assign) GLuint myDepthRenderBuffer;
 
+
+@property (nonatomic , assign) GLuint myLightPosition;
+@property (nonatomic , assign) GLuint myNormalMatrix;
+
 - (void)setupLayer;
 
 @end
@@ -90,7 +94,7 @@
 }
 
 - (void)render {
-    glClearColor(0, 0.0, 0, 1.0);
+    glClearColor(0, 0.0, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     CGFloat scale = [[UIScreen mainScreen] scale];
@@ -123,8 +127,8 @@
     {
         -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //左上
         0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //右上
-        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, //左下
-        0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, //右下
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //左下
+        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //右下
         0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, //顶点
     };
     
@@ -159,12 +163,18 @@
     glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, NULL);
     glEnableVertexAttribArray(position);
     
-    GLuint positionColor = glGetAttribLocation(self.myProgram, "positionColor");
-    glVertexAttribPointer(positionColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, (float *)NULL + 3);
-    glEnableVertexAttribArray(positionColor);
+    GLuint vNormal = glGetAttribLocation(self.myProgram, "vNormal");
+    glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, (float *)NULL + 3);
+    glEnableVertexAttribArray(vNormal);
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
     GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    self.myNormalMatrix = glGetUniformLocation(self.myProgram, "normalMatrix");
+    GLuint lightPosition = glGetUniformLocation(self.myProgram, "vLightPosition");
+    GLuint vAmbientMaterial = glGetUniformLocation(self.myProgram, "vAmbientMaterial");
+    
+    glUniform3f(lightPosition, 1.0, 1.0, 1.0);
+    glUniform4f(vAmbientMaterial, 0.04, 0.04, 0.04, 0.05);
     
     float width = self.frame.size.width;
     float height = self.frame.size.height;
@@ -203,6 +213,9 @@
     glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
 
+    KSMatrix3 normalMatrix3;
+    ksMatrix4ToMatrix3(&normalMatrix3, &_modelViewMatrix);
+    glUniformMatrix3fv(self.myNormalMatrix, 1, GL_FALSE, (GLfloat*)&normalMatrix3.m[0][0]);
     
     
 //    glDrawArrays(GL_TRIANGLES, 0, 6);
