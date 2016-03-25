@@ -13,5 +13,4 @@ void main()
     
     vec3 tmp = vAmbientMaterial + df * vec3(0.5, 0.5, 1.0);
     gl_FragColor = vec4(tmp, 1.0);
-//    gl_FragColor = vec4(1, 1, 1, 1);
 }
