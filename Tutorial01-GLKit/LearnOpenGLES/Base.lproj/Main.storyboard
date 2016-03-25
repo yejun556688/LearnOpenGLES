@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,7 +17,20 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1aS-QK-7NE">
+                                <rect key="frame" x="530" y="44" width="30" height="30"/>
+                                <state key="normal" title="进阶"/>
+                                <connections>
+                                    <segue destination="ZRB-0S-R4F" kind="show" id="D2x-yq-VlF"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="1aS-QK-7NE" secondAttribute="trailing" constant="20" id="ano-oC-zRb"/>
+                            <constraint firstItem="1aS-QK-7NE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="24" id="q9J-bg-glF"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Vda-gL-9aU">
                         <barButtonItem key="rightBarButtonItem" title="Item" id="b3F-IF-T9r"/>
@@ -24,6 +38,48 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-1950" y="211"/>
+        </scene>
+        <!--Advance View Controller-->
+        <scene sceneID="i9r-rZ-Uxz">
+            <objects>
+                <viewController id="ZRB-0S-R4F" customClass="AdvanceViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hOx-M5-8bX"/>
+                        <viewControllerLayoutGuide type="bottom" id="q4K-hw-7AM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cvW-dY-UkR" customClass="GLKView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vs8-JA-ySg">
+                                <rect key="frame" x="150" y="62" width="30" height="30"/>
+                                <state key="normal" title="Y"/>
+                                <connections>
+                                    <action selector="onY:" destination="ZRB-0S-R4F" eventType="touchUpInside" id="6oo-gY-baF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1W-0l-SPi">
+                                <rect key="frame" x="78" y="62" width="30" height="30"/>
+                                <state key="normal" title="Z"/>
+                                <connections>
+                                    <action selector="onZ:" destination="ZRB-0S-R4F" eventType="touchUpInside" id="YHN-ar-sbA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tx4-iU-bu2">
+                                <rect key="frame" x="216" y="62" width="30" height="30"/>
+                                <state key="normal" title="X"/>
+                                <connections>
+                                    <action selector="onX:" destination="ZRB-0S-R4F" eventType="touchUpInside" id="Dju-Ta-MHu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xpp-St-IOk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1117" y="215"/>
         </scene>
     </scenes>
 </document>
