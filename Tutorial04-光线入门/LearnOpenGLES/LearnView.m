@@ -139,11 +139,11 @@ const enum LightMode CurrentLightMode = PerPixel;
     
     GLfloat attrArr[] =
     {
-        -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //左上
-        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //右上
+        -0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f, //左上
+        0.5f, 0.5f, 0.0f,   1.0f, 0.0f, 0.0f, //右上
         -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //左下
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //右下
-        0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, //顶点
+        0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, //右下
+        0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f, //顶点
     };
     
     GLuint indices[] =
@@ -232,7 +232,6 @@ const enum LightMode CurrentLightMode = PerPixel;
     glUniformMatrix3fv(self.myNormalMatrix, 1, GL_FALSE, (GLfloat*)&normalMatrix3.m[0][0]);
     
     
-//    glDrawArrays(GL_TRIANGLES, 0, 6);
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
     
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
@@ -318,9 +317,6 @@ const enum LightMode CurrentLightMode = PerPixel;
     self.myDepthRenderBuffer = buffer;
     glBindRenderbuffer(GL_RENDERBUFFER, self.myDepthRenderBuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
-    
-    
-
 }
 
 
@@ -337,7 +333,7 @@ const enum LightMode CurrentLightMode = PerPixel;
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                               GL_RENDERBUFFER, self.myDepthRenderBuffer);
     
-    glBindRenderbuffer(GL_RENDERBUFFER, self.myColorRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, self.myFrameRenderBuffer);
 }
 
 

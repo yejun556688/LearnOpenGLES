@@ -34,15 +34,11 @@
     
     [self setupContext];
     
-    
-    
     [self destoryRenderAndFrameBuffer];
     
     [self setupRenderBuffer];
     
     [self setupFrameBuffer];
-    
-    
     
     [self render]; 
 }
@@ -51,13 +47,15 @@
     glClearColor(0, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    CGFloat scale = [[UIScreen mainScreen] scale];
+    
+    CGFloat scale = [[UIScreen mainScreen] scale]; //调整正确的视图大小
     glViewport(self.frame.origin.x * scale, self.frame.origin.y * scale, self.frame.size.width * scale, self.frame.size.height * scale);
     
     
     NSString* vertFile = [[NSBundle mainBundle] pathForResource:@"shaderv" ofType:@"glsl"];
     NSString* fragFile = [[NSBundle mainBundle] pathForResource:@"shaderf" ofType:@"glsl"];
     
+    //加载shader
     self.myProgram = [self loadShaders:vertFile frag:fragFile];
     
     glLinkProgram(self.myProgram);
@@ -78,12 +76,12 @@
     
     GLfloat attrArr[] =
     {
-        0.6f, -0.6f, -1.0f, 1.0f, -1.0f,
-        -0.5f, 0.5f, -1.0f, -1.0f, 1.0f,
-        -0.5f, -0.5f, -1.0f, -1.0f, -1.0f,
+        0.5f, -0.5f, -1.0f, 1.0f, 0.0f,
+        -0.5f, 0.5f, -1.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
         0.5f, 0.5f, -1.0f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -1.0f, -1.0f, 1.0f,
-        0.5f, -0.5f, -1.0f, 1.0f, -1.0f,
+        -0.5f, 0.5f, -1.0f, 0.0f, 1.0f,
+        0.5f, -0.5f, -1.0f, 1.0f, 0.0f,
     };
     
     GLuint attrBuffer;
@@ -127,11 +125,19 @@
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-
+/**
+ *  c语言编译流程：预编译、编译、汇编、链接
+ *  glsl的编译过程主要有glCompileShader、glAttachShader、glLinkProgram三步；
+ *  @param vert 顶点着色器
+ *  @param frag 片元着色器
+ *
+ *  @return 编译成功的shaders
+ */
 - (GLuint)loadShaders:(NSString *)vert frag:(NSString *)frag {
     GLuint verShader, fragShader;
     GLint program = glCreateProgram();
     
+    //编译
     [self compileShader:&verShader type:GL_VERTEX_SHADER file:vert];
     [self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:frag];
     
@@ -139,7 +145,7 @@
     glAttachShader(program, fragShader);
     
     
-    // Free up no longer needed shader resources
+    //释放不需要的shader
     glDeleteShader(verShader);
     glDeleteShader(fragShader);
     
@@ -147,6 +153,7 @@
 }
 
 - (void)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file {
+    //读取字符串
     NSString* content = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
     const GLchar* source = (GLchar *)[content UTF8String];
     
@@ -160,6 +167,7 @@
 - (void)setupLayer
 {
     self.myEagLayer = (CAEAGLLayer*) self.layer;
+    //设置放大倍数
     [self setContentScaleFactor:[[UIScreen mainScreen] scale]];
     
     // CALayer 默认是透明的，必须将它设为不透明才能让其可见
@@ -193,7 +201,7 @@
     glGenRenderbuffers(1, &buffer);
     self.myColorRenderBuffer = buffer;
     glBindRenderbuffer(GL_RENDERBUFFER, self.myColorRenderBuffer);
-    // 为 color renderbuffer 分配存储空间
+    // 为 颜色缓冲区 分配存储空间
     [self.myContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.myEagLayer];
 }
 
