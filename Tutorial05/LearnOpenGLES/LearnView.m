@@ -29,8 +29,11 @@
 {
     float degree;
     float yDegree;
+    BOOL bX;
+    BOOL bY;
     NSTimer* myTimer;
-    NSTimer* myYTimer;
+    
+    float saturation;
 }
 
 + (Class)layerClass {
@@ -57,37 +60,34 @@
 }
 
 - (IBAction)onTimer:(id)sender {
-    if (myTimer) {
-        [myTimer invalidate];
-        myTimer = nil;
-    }
-    else {
+    if (!myTimer) {
         myTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onRes:) userInfo:nil repeats:YES];
     }
+    bX = !bX;
 }
 
 
 - (IBAction)onYTimer:(id)sender {
-    if (myYTimer) {
-        [myYTimer invalidate];
-        myYTimer = nil;
+    if (!myTimer) {
+        myTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onRes:) userInfo:nil repeats:YES];
     }
-    else {
-        myYTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onY:) userInfo:nil repeats:YES];
-    }
+    bY = !bY;
+}
+
+- (IBAction)onSlider:(UISlider *)sender {
+    float value = sender.value;
+    saturation = value;
+    [self render];
 }
 
 
 
 - (void)onRes:(id)sender {
-    degree += 5;
+    degree += bX * 5;
+    yDegree += bY * 5;
     [self render];
 }
 
-- (void)onY:(id)sender {
-    yDegree += 5;
-    [self render];
-}
 
 - (void)render {
     glClearColor(0, 0.0, 0, 1.0);
@@ -165,6 +165,10 @@
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
     GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    GLuint fSaturation = glGetUniformLocation(self.myProgram, "saturation");
+    
+    
+    glUniform1f(fSaturation, saturation);
     
     float width = self.frame.size.width;
     float height = self.frame.size.height;

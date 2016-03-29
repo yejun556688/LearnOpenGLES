@@ -28,8 +28,10 @@
 {
     float degree;
     float yDegree;
+    BOOL bX;
+    BOOL bY;
     NSTimer* myTimer;
-    NSTimer* myYTimer;
+    
 }
 
 + (Class)layerClass {
@@ -42,49 +44,36 @@
     
     [self setupContext];
     
-    
-    
     [self destoryRenderAndFrameBuffer];
     
     [self setupRenderBuffer];
     
     [self setupFrameBuffer];
     
-    
-    
     [self render]; 
 }
 
 - (IBAction)onTimer:(id)sender {
-    if (myTimer) {
-        [myTimer invalidate];
-        myTimer = nil;
-    }
-    else {
+    if (!myTimer) {
         myTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onRes:) userInfo:nil repeats:YES];
     }
+    bX = !bX;
 }
 
 
 - (IBAction)onYTimer:(id)sender {
-    if (myYTimer) {
-        [myYTimer invalidate];
-        myYTimer = nil;
+    if (!myTimer) {
+        myTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onRes:) userInfo:nil repeats:YES];
     }
-    else {
-        myYTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(onY:) userInfo:nil repeats:YES];
-    }
+    bY = !bY;
 }
+
 
 
 
 - (void)onRes:(id)sender {
-    degree += 5;
-    [self render];
-}
-
-- (void)onY:(id)sender {
-    yDegree += 5;
+    degree += bX * 5;
+    yDegree += bY * 5;
     [self render];
 }
 
@@ -113,18 +102,17 @@
         return ;
     }
     else {
-//        NSLog(@"ok");
+        glUseProgram(self.myProgram);
     }
-    glUseProgram(self.myProgram);
     
     
     GLfloat attrArr[] =
     {
-        -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //左上
-        0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, //右上
-        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, //左下
-        0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, //右下
-        0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, //顶点
+        -0.5f, 0.5f, 0.0f,      1.0f, 0.0f, 1.0f, //左上
+        0.5f, 0.5f, 0.0f,       1.0f, 0.0f, 1.0f, //右上
+        -0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f, //左下
+        0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 1.0f, //右下
+        0.0f, 0.0f, -1.0f,      0.0f, 1.0f, 0.0f, //顶点
     };
     
     GLuint indices[] =
@@ -133,10 +121,11 @@
         0, 1, 3,
         0, 2, 4,
         0, 4, 1,
-        2, 3, 4, //??
+        2, 3, 4,
         1, 4, 3,
     };
 
+        // 画线，可以注释上面的数组，采用这里的索引数组，然后把glDrawElements的第一个参数改为GL_LINES
 //    GLuint indices[] =
 //    {
 //        0, 4,
@@ -168,42 +157,42 @@
     float width = self.frame.size.width;
     float height = self.frame.size.height;
     
-    // Generate a perspective matrix with a 60 degree FOV
 
     KSMatrix4 _projectionMatrix;
     ksMatrixLoadIdentity(&_projectionMatrix);
-    float aspect = width / height;
+    float aspect = width / height; //长宽比
     
-    ksPerspective(&_projectionMatrix, 30.0, aspect, -5.0f, 20.0f); //透视变换
     
-    // Load projection matrix
+    ksPerspective(&_projectionMatrix, 30.0, aspect, 5.0f, 20.0f); //透视变换，视角30°
+    
+    //设置glsl里面的投影矩阵
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
     
     glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
     
     
     KSMatrix4 _modelViewMatrix;
     ksMatrixLoadIdentity(&_modelViewMatrix);
     
-    ksTranslate(&_modelViewMatrix, 0.0, 0.0, 0.0);
+    //平移
+    ksTranslate(&_modelViewMatrix, 0.5, 0.0, -10.0);
     
     KSMatrix4 _rotationMatrix;
     ksMatrixLoadIdentity(&_rotationMatrix);
     
-    ksRotate(&_modelViewMatrix, degree, 1.0, 0.0, 0.0);
-    ksRotate(&_modelViewMatrix, yDegree, 0.0, 1.0, 0.0);
+    //旋转
+    ksRotate(&_rotationMatrix, degree, 1.0, 0.0, 0.0); //绕X轴
+    ksRotate(&_rotationMatrix, yDegree, 0.0, 1.0, 0.0); //绕Y轴
     
-    
-    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
+    //把变换矩阵相乘，注意先后顺序
+//    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
+    ksMatrixMultiply(&_modelViewMatrix, &_modelViewMatrix, &_rotationMatrix);
     
     // Load the model-view matrix
     glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
 
     
-    
-//    glDrawArrays(GL_TRIANGLES, 0, 6);
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
     
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
@@ -303,46 +292,4 @@
     self.myColorRenderBuffer = 0;
 }
 
-
-
-
-- (GLuint)setupTexture:(NSString *)fileName {
-    // 1
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    if (!spriteImage) {
-        NSLog(@"Failed to load image %@", fileName);
-        exit(1);
-    }
-    
-    // 2
-    size_t width = CGImageGetWidth(spriteImage);
-    size_t height = CGImageGetHeight(spriteImage);
-    
-    GLubyte * spriteData = (GLubyte *) calloc(width*height*4, sizeof(GLubyte));
-    
-    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
-                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
-    
-    // 3
-    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
-    
-    CGContextRelease(spriteContext);
-    
-    // 4
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    float fw = width, fh = height;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    free(spriteData);
-    return 0;
-}
 @end
