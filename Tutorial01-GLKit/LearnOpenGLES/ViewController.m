@@ -33,7 +33,7 @@
    
     
     //顶点数据，前三个是顶点坐标，后面两个是纹理坐标
-    GLfloat squareVertexData[48] =
+    GLfloat squareVertexData[] =
     {
         0.5, -0.5, 0.0f,    1.0f, 0.0f, //右下
         -0.5, 0.5, 0.0f,    0.0f, 1.0f, //左上
@@ -75,8 +75,8 @@
     GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
     //着色器
     self.mEffect = [[GLKBaseEffect alloc] init];
-    self.mEffect.texture2d0.enabled = GL_TRUE;
-    self.mEffect.texture2d0.name = textureInfo.name;
+//    self.mEffect.texture2d0.enabled = GL_TRUE;
+//    self.mEffect.texture2d0.name = textureInfo.name;
 }
 
 - (void)didReceiveMemoryWarning {
