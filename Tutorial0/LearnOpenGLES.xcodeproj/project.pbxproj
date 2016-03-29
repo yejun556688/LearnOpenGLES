@@ -15,6 +15,7 @@
 		FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */; };
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
 		FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */ = {isa = PBXBuildFile; fileRef = FD8C73691C92AC07001A5D46 /* for_test.png */; };
+		FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnOpenGLESTests.m; sourceTree = "<group>"; };
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD8C73691C92AC07001A5D46 /* for_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = for_test.png; sourceTree = "<group>"; };
+		FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvanceViewController.h; sourceTree = "<group>"; };
+		FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvanceViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,7 @@
 		FD8C73401C929DB9001A5D46 /* LearnOpenGLES */ = {
 			isa = PBXGroup;
 			children = (
+				FD9EB92C1CA4E6F90086D839 /* 进阶 */,
 				FD8C73691C92AC07001A5D46 /* for_test.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
@@ -112,6 +116,15 @@
 				FD8C735D1C929DB9001A5D46 /* Info.plist */,
 			);
 			path = LearnOpenGLESTests;
+			sourceTree = "<group>";
+		};
+		FD9EB92C1CA4E6F90086D839 /* 进阶 */ = {
+			isa = PBXGroup;
+			children = (
+				FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */,
+				FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */,
+			);
+			name = "进阶";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +231,7 @@
 				FD8C73491C929DB9001A5D46 /* ViewController.m in Sources */,
 				FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */,
 				FD8C73431C929DB9001A5D46 /* main.m in Sources */,
+				FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

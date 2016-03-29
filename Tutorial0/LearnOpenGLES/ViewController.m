@@ -18,6 +18,7 @@
 
 @implementation ViewController
 {
+    dispatch_source_t timer; //临时变量的弱引用会导致定时器失效
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,15 +31,16 @@
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;  //颜色缓冲区格式
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24; // 模板缓冲区格式
     [EAGLContext setCurrentContext:self.mContext];
-   
+    glEnable(GL_DEPTH_TEST); //开启深度测试，这里因为是2D图形，没有作用，可以尝试注释进阶里面的这句
     
-    //顶点数据，前三个是顶点坐标，后面两个是纹理坐标
+    
+    //顶点数据，前三个是顶点坐标，法线，纹理坐标
     GLfloat squareVertexData[48] =
     {
-        0.5, -0.5, 0.0f,    1.0f, 0.0f, //右下
-        -0.5, 0.5, 0.0f,    0.0f, 1.0f, //左上
-        -0.5, -0.5, 0.0f,   0.0f, 0.0f, //左下
-        0.5, 0.5, -0.0f,    1.0f, 1.0f, //右上
+        0.5, -0.5, 0.0f,    0.0f, 0.0f, 1.0f,   1.0f, 0.0f, //右下
+        -0.5, 0.5, 0.0f,    0.0f, 0.0f, 1.0f,   0.0f, 1.0f, //左上
+        -0.5, -0.5, 0.0f,    0.0f, 0.0f, 1.0f,   0.0f, 0.0f, //左下
+        0.5, 0.5, -0.0f,    0.0f, 0.0f, 1.0f,   1.0f, 1.0f, //右上
     };
 
     //顶点索引
@@ -62,11 +64,13 @@
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition); //顶点数据缓存
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (GLfloat *)NULL + 0);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 4 * 8, (char *)NULL + 0);
 
+    glEnableVertexAttribArray(GLKVertexAttribNormal); //法线
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 4 * 8, (char *)NULL + 12);
 
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0); //纹理
-    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (GLfloat *)NULL + 3);
+    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (char *)NULL + 24);
 
     
     //纹理贴图
@@ -75,6 +79,8 @@
     GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
     //着色器
     self.mEffect = [[GLKBaseEffect alloc] init];
+    self.mEffect.light0.enabled = GL_TRUE;
+    self.mEffect.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
     self.mEffect.texture2d0.enabled = GL_TRUE;
     self.mEffect.texture2d0.name = textureInfo.name;
 }
@@ -89,6 +95,16 @@
  */
 - (void)update {
     
+    //投影变换
+    CGSize size = self.view.bounds.size;
+    float aspect = fabs(size.width / size.height);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(90.0), aspect, 0.1f, 10.f);
+    projectionMatrix = GLKMatrix4Scale(projectionMatrix, 1.0f, 1.0f, 1.0f);
+    self.mEffect.transform.projectionMatrix = projectionMatrix;
+    
+    //z轴平移
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -2.0f);
+    self.mEffect.transform.modelviewMatrix = modelViewMatrix;
 }
 
 
