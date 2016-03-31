@@ -519,13 +519,6 @@ typedef struct {
         [dict setObject:point.mY forKey:@"mY"];
         [mutableArr addObject:dict];
     }
-    
-    if ([NSJSONSerialization isValidJSONObject:mutableArr]) {
-//        NSData* data = [NSJSONSerialization dataWithJSONObject:mutableArr options:NSJSONWritingPrettyPrinted error:nil];
-//        NSLog(@"%@", [error description]);
-//        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        NSLog(@"%@", str);
-    }
     for (int i = 0; i + 1 < lyArr.count; i += 2) {
         LYPoint* lyPoint1 = lyArr[i];
         LYPoint* lyPoint2 = lyArr[i + 1];
@@ -537,13 +530,6 @@ typedef struct {
         [self renderLineFromPoint:point1 toPoint:point2];
     }
 }
-
-- (void)clearPaint
-{
-    [lyArr removeAllObjects];
-}
-
-
 
 // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -574,14 +560,7 @@ typedef struct {
 		previousLocation.y = bounds.size.height - previousLocation.y;
 	}
 		
-	// Render the stroke
-    if (!lyArr) {
-        lyArr = [NSMutableArray array];
-    }
-    [lyArr addObject:[[LYPoint alloc] initWithCGPoint:previousLocation]];
-    [lyArr addObject:[[LYPoint alloc] initWithCGPoint:location]];
-
-    
+	// Render the stroke    
 	[self renderLineFromPoint:previousLocation toPoint:location];
 }
 

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Painting View Controller-->
@@ -18,20 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SRi-LK-Bx0">
-                                <rect key="frame" x="20" y="20" width="48" height="30"/>
-                                <state key="normal" title="redraw"/>
-                                <connections>
-                                    <action selector="onDraw:" destination="lqJ-LQ-ALU" eventType="touchUpInside" id="N6m-uO-IXf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEN-Kk-bEd">
-                                <rect key="frame" x="510" y="20" width="70" height="30"/>
-                                <state key="normal" title="resetDraw"/>
-                                <connections>
-                                    <action selector="clearDraw:" destination="lqJ-LQ-ALU" eventType="touchUpInside" id="AW2-P1-rXu"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgh-18-LU6">
                                 <rect key="frame" x="281" y="20" width="38" height="30"/>
                                 <state key="normal" title="erase"/>
@@ -42,11 +27,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="LEN-Kk-bEd" firstAttribute="top" secondItem="edl-Gf-sbh" secondAttribute="bottom" id="H1x-yl-X7h"/>
-                            <constraint firstItem="SRi-LK-Bx0" firstAttribute="leading" secondItem="KsK-8s-8s7" secondAttribute="leadingMargin" id="SGH-aZ-k8E"/>
-                            <constraint firstItem="LEN-Kk-bEd" firstAttribute="trailing" secondItem="KsK-8s-8s7" secondAttribute="trailingMargin" id="dWy-df-954"/>
                             <constraint firstItem="Lgh-18-LU6" firstAttribute="centerX" secondItem="KsK-8s-8s7" secondAttribute="centerX" id="f7K-6v-4t1"/>
-                            <constraint firstItem="SRi-LK-Bx0" firstAttribute="top" secondItem="edl-Gf-sbh" secondAttribute="bottom" id="mlp-9L-Bme"/>
                             <constraint firstItem="Lgh-18-LU6" firstAttribute="top" secondItem="edl-Gf-sbh" secondAttribute="bottom" id="vEg-1M-4Xq"/>
                         </constraints>
                     </view>
