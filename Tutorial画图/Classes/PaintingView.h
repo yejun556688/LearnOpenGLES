@@ -54,6 +54,13 @@
 
 //CLASS INTERFACES:
 
+@interface LYPoint : NSObject
+
+@property (nonatomic , strong) NSNumber* mY;
+@property (nonatomic , strong) NSNumber* mX;
+
+@end
+
 @interface PaintingView : UIView
 
 @property(nonatomic, readwrite) CGPoint location;
@@ -61,5 +68,9 @@
 
 - (void)erase;
 - (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
+
+- (void)paint;
+
+- (void)clearPaint;
 
 @end

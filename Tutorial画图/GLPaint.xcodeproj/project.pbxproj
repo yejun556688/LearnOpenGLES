@@ -45,6 +45,7 @@
 		AFCEBA2711D96215001AA22A /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = AFCEBA2011D96215001AA22A /* iTunesArtwork */; };
 		FD6AD59E1CAC054D001151C5 /* launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6AD59D1CAC054D001151C5 /* launch.storyboard */; };
 		FD6AD5A01CAC05EE001151C5 /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6AD59F1CAC05EE001151C5 /* main.storyboard */; };
+		FD6AD5A81CACC8F1001151C5 /* abc.string in Resources */ = {isa = PBXBuildFile; fileRef = FD6AD5A71CACC8F1001151C5 /* abc.string */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		AFCEBA2011D96215001AA22A /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Images/iTunesArtwork; sourceTree = "<group>"; };
 		FD6AD59D1CAC054D001151C5 /* launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = launch.storyboard; sourceTree = "<group>"; };
 		FD6AD59F1CAC05EE001151C5 /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = main.storyboard; sourceTree = "<group>"; };
+		FD6AD5A71CACC8F1001151C5 /* abc.string */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = abc.string; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 				1BBE306B0DD273B90012773B /* Yellow.png */,
 				FD6AD59D1CAC054D001151C5 /* launch.storyboard */,
 				FD6AD59F1CAC05EE001151C5 /* main.storyboard */,
+				FD6AD5A71CACC8F1001151C5 /* abc.string */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				1BBE30700DD273B90012773B /* Yellow.png in Resources */,
 				FD6AD59E1CAC054D001151C5 /* launch.storyboard in Resources */,
 				1BD0B6AB0DDCA9B800E538F8 /* Default.png in Resources */,
+				FD6AD5A81CACC8F1001151C5 /* abc.string in Resources */,
 				1B612B1F0DDCF277003A5CC7 /* Particle.png in Resources */,
 				AFCEBA2111D96215001AA22A /* Icon-72.png in Resources */,
 				AFCEBA2211D96215001AA22A /* Icon-Small-50.png in Resources */,

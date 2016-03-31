@@ -100,6 +100,21 @@ typedef struct {
 } textureInfo_t;
 
 
+@implementation LYPoint
+
+- (instancetype)initWithCGPoint:(CGPoint)point {
+    self = [super init];
+    
+    if (self) {
+        self.mX = [NSNumber numberWithDouble:point.x];
+        self.mY = [NSNumber numberWithDouble:point.y];
+    }
+
+    return self;
+}
+
+@end
+
 @interface PaintingView()
 {
 	// The pixel dimensions of the backbuffer
@@ -129,6 +144,8 @@ typedef struct {
     GLuint vboId;
     
     BOOL initialized;
+    
+    NSMutableArray* lyArr;
 }
 
 @end
@@ -343,10 +360,19 @@ typedef struct {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     
     // Playback recorded path, which is "Shake Me"
-    NSMutableArray* recordedPaths = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Recording" ofType:@"data"]];
-    if([recordedPaths count])
-        [self performSelector:@selector(playback:) withObject:recordedPaths afterDelay:0.2];
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"abc" ofType:@"string"];
+    NSString* str = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     
+    lyArr = [NSMutableArray array];
+    NSArray* jsonArr = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+    for (NSDictionary* dict in jsonArr) {
+        LYPoint* point = [LYPoint new];
+        point.mX = [dict objectForKey:@"mX"];
+        point.mY = [dict objectForKey:@"mY"];
+        [lyArr addObject:point];
+    }
+    [self performSelector:@selector(paint) withObject:nil afterDelay:0.5];
+
     return YES;
 }
 
@@ -483,39 +509,40 @@ typedef struct {
 	[context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-// Reads previously recorded points and draws them onscreen. This is the Shake Me message that appears when the application launches.
-- (void)playback:(NSMutableArray*)recordedPaths
+- (void)paint
 {
-    // NOTE: Recording.data is stored with 32-bit floats
-    // To make it work on both 32-bit and 64-bit devices, we make sure we read back 32 bits each time.
+
+    NSMutableArray* mutableArr = [NSMutableArray array];
+    for (LYPoint* point in lyArr) {
+        NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+        [dict setObject:point.mX forKey:@"mX"];
+        [dict setObject:point.mY forKey:@"mY"];
+        [mutableArr addObject:dict];
+    }
     
-    Float32 x[1], y[1];
-    CGPoint point1, point2;
-    
-	NSData*				data = [recordedPaths objectAtIndex:0];
-	NSUInteger			count = [data length] / (sizeof(Float32)*2), // each point contains 64 bits (32-bit x and 32-bit y)
-						i;
-	
-	// Render the current path
-	for(i = 0; i < count - 1; i++) {
-        
-        [data getBytes:&x range:NSMakeRange(8*i, sizeof(Float32))]; // read 32 bits each time
-        [data getBytes:&y range:NSMakeRange(8*i+sizeof(Float32), sizeof(Float32))];
-        point1 = CGPointMake(x[0], y[0]);
-        
-        [data getBytes:&x range:NSMakeRange(8*(i+1), sizeof(Float32))];
-        [data getBytes:&y range:NSMakeRange(8*(i+1)+sizeof(Float32), sizeof(Float32))];
-        point2 = CGPointMake(x[0], y[0]);
-        
+    if ([NSJSONSerialization isValidJSONObject:mutableArr]) {
+//        NSData* data = [NSJSONSerialization dataWithJSONObject:mutableArr options:NSJSONWritingPrettyPrinted error:nil];
+//        NSLog(@"%@", [error description]);
+//        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@", str);
+    }
+    for (int i = 0; i + 1 < lyArr.count; i += 2) {
+        LYPoint* lyPoint1 = lyArr[i];
+        LYPoint* lyPoint2 = lyArr[i + 1];
+        CGPoint point1, point2;
+        point1.x = lyPoint1.mX.floatValue;
+        point1.y = lyPoint1.mY.floatValue;
+        point2.x = lyPoint2.mX.floatValue;
+        point2.y = lyPoint2.mY.floatValue;
         [self renderLineFromPoint:point1 toPoint:point2];
     }
-	
-	// Render the next path after a short delay 
-	[recordedPaths removeObjectAtIndex:0];
-    if([recordedPaths count]){
-		[self performSelector:@selector(playback:) withObject:recordedPaths afterDelay:1];
-    }
 }
+
+- (void)clearPaint
+{
+    [lyArr removeAllObjects];
+}
+
 
 
 // Handles the start of a touch
@@ -548,6 +575,13 @@ typedef struct {
 	}
 		
 	// Render the stroke
+    if (!lyArr) {
+        lyArr = [NSMutableArray array];
+    }
+    [lyArr addObject:[[LYPoint alloc] initWithCGPoint:previousLocation]];
+    [lyArr addObject:[[LYPoint alloc] initWithCGPoint:location]];
+
+    
 	[self renderLineFromPoint:previousLocation toPoint:location];
 }
 
@@ -569,6 +603,7 @@ typedef struct {
 {
 	// If appropriate, add code necessary to save the state of the application.
 	// This application is not saving state.
+    NSLog(@"cancell");
 }
 
 - (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue

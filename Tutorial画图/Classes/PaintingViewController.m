@@ -136,6 +136,26 @@
     return YES;
 }
 
+- (IBAction)onDraw:(id)sender {
+    PaintingView* paintView = (PaintingView *)self.view;
+    if (paintView) {
+        [paintView paint];
+    }
+}
+
+- (IBAction)clearDraw:(id)sender {
+    
+    PaintingView* paintView = (PaintingView *)self.view;
+    if (paintView) {
+        [paintView clearPaint];
+        [self eraseView];
+    }
+}
+
+- (IBAction)erase:(id)sender {
+    [self eraseView];
+}
+
 // Release resources when they are no longer needed,
 - (void)dealloc
 {
