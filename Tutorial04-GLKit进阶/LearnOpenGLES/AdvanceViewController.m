@@ -70,7 +70,7 @@
         0, 1, 3,
         0, 2, 4,
         0, 4, 1,
-        2, 3, 4, //??
+        2, 3, 4,
         1, 4, 3,
     };
     self.mCount = sizeof(indices) / sizeof(GLuint);

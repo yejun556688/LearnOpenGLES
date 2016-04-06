@@ -108,9 +108,6 @@ const enum LightMode CurrentLightMode = PerPixel;
         vertFile = [[NSBundle mainBundle] pathForResource:@"pixelV" ofType:@"glsl"];
         fragFile = [[NSBundle mainBundle] pathForResource:@"pixelF" ofType:@"glsl"];
     }
-//    int i = 12;
-
-//    NSLog(@"%d", i += i -= i  *= i);
     
     self.myProgram = [self loadShaders:vertFile frag:fragFile];
     
@@ -146,21 +143,9 @@ const enum LightMode CurrentLightMode = PerPixel;
         0, 1, 3,
         0, 2, 4,
         0, 4, 1,
-        2, 3, 4, //??
+        2, 3, 4,
         1, 4, 3,
     };
-
-//    GLuint indices[] =
-//    {
-//        0, 4,
-//        0, 2,
-//        0, 1,
-//        1, 3,
-//        1, 4,
-//        2, 3,
-//        2, 4,
-//        3, 4
-//    };
     
     GLuint attrBuffer;
     glGenBuffers(1, &attrBuffer);
@@ -187,7 +172,6 @@ const enum LightMode CurrentLightMode = PerPixel;
     float width = self.frame.size.width;
     float height = self.frame.size.height;
     
-    // Generate a perspective matrix with a 60 degree FOV
 
     KSMatrix4 _projectionMatrix;
     ksMatrixLoadIdentity(&_projectionMatrix);
