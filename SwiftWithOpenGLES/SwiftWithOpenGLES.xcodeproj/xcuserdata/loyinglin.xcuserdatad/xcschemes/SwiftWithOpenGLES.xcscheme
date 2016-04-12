@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FD8543871CB4E69C006848ED"
-               BuildableName = "LearnSwift.app"
-               BlueprintName = "LearnSwift"
-               ReferencedContainer = "container:LearnSwift.xcodeproj">
+               BlueprintIdentifier = "FD1DF00B1CBCDEBE008AB24C"
+               BuildableName = "SwiftWithOpenGLES.app"
+               BlueprintName = "SwiftWithOpenGLES"
+               ReferencedContainer = "container:SwiftWithOpenGLES.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,20 +32,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FD85439F1CB4E69D006848ED"
-               BuildableName = "LearnSwiftTests.xctest"
-               BlueprintName = "LearnSwiftTests"
-               ReferencedContainer = "container:LearnSwift.xcodeproj">
+               BlueprintIdentifier = "FD1DF0231CBCDEBF008AB24C"
+               BuildableName = "SwiftWithOpenGLESTests.xctest"
+               BlueprintName = "SwiftWithOpenGLESTests"
+               ReferencedContainer = "container:SwiftWithOpenGLES.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FD8543871CB4E69C006848ED"
-            BuildableName = "LearnSwift.app"
-            BlueprintName = "LearnSwift"
-            ReferencedContainer = "container:LearnSwift.xcodeproj">
+            BlueprintIdentifier = "FD1DF00B1CBCDEBE008AB24C"
+            BuildableName = "SwiftWithOpenGLES.app"
+            BlueprintName = "SwiftWithOpenGLES"
+            ReferencedContainer = "container:SwiftWithOpenGLES.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,10 +65,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FD8543871CB4E69C006848ED"
-            BuildableName = "LearnSwift.app"
-            BlueprintName = "LearnSwift"
-            ReferencedContainer = "container:LearnSwift.xcodeproj">
+            BlueprintIdentifier = "FD1DF00B1CBCDEBE008AB24C"
+            BuildableName = "SwiftWithOpenGLES.app"
+            BlueprintName = "SwiftWithOpenGLES"
+            ReferencedContainer = "container:SwiftWithOpenGLES.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -84,10 +84,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FD8543871CB4E69C006848ED"
-            BuildableName = "LearnSwift.app"
-            BlueprintName = "LearnSwift"
-            ReferencedContainer = "container:LearnSwift.xcodeproj">
+            BlueprintIdentifier = "FD1DF00B1CBCDEBE008AB24C"
+            BuildableName = "SwiftWithOpenGLES.app"
+            BlueprintName = "SwiftWithOpenGLES"
+            ReferencedContainer = "container:SwiftWithOpenGLES.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

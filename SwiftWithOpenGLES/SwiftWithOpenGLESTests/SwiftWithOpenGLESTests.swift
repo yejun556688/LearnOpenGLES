@@ -1,15 +1,15 @@
 //
-//  LearnSwiftTests.swift
-//  LearnSwiftTests
+//  SwiftWithOpenGLESTests.swift
+//  SwiftWithOpenGLESTests
 //
-//  Created by 林伟池 on 16/4/6.
+//  Created by 林伟池 on 16/4/12.
 //  Copyright © 2016年 林伟池. All rights reserved.
 //
 
 import XCTest
-@testable import LearnSwift
+@testable import SwiftWithOpenGLES
 
-class LearnSwiftTests: XCTestCase {
+class SwiftWithOpenGLESTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

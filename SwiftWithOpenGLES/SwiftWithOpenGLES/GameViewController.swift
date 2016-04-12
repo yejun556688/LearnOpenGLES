@@ -1,8 +1,8 @@
 //
 //  GameViewController.swift
-//  LearnSwift
+//  SwiftWithOpenGLES
 //
-//  Created by 林伟池 on 16/4/6.
+//  Created by 林伟池 on 16/4/12.
 //  Copyright © 2016年 林伟池. All rights reserved.
 //
 
@@ -58,7 +58,7 @@ class GameViewController: GLKViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        //TODO: 测试
+        
         if self.isViewLoaded() && (self.view.window != nil) {
             self.view = nil
             
@@ -71,7 +71,6 @@ class GameViewController: GLKViewController {
         }
     }
     
-    // MARK: NSString 类型
     func setupGL() {
         EAGLContext.setCurrentContext(self.context)
         

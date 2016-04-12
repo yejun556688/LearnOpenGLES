@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>LearnSwift.xcscheme</key>
+		<key>SwiftWithOpenGLES.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,12 +12,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>FD8543871CB4E69C006848ED</key>
+		<key>FD1DF00B1CBCDEBE008AB24C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FD85439F1CB4E69D006848ED</key>
+		<key>FD1DF0231CBCDEBF008AB24C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
