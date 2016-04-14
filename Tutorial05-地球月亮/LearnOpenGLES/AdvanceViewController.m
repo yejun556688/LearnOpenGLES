@@ -186,17 +186,38 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     self.baseEffect.texture2d0.name = self.earthTextureInfo.name;
     self.baseEffect.texture2d0.target = self.earthTextureInfo.target;
     
+    /*
+     current matrix:
+     1.000000 0.000000 0.000000 0.000000
+     0.000000 1.000000 0.000000 0.000000
+     0.000000 0.000000 1.000000 0.000000
+     0.000000 0.000000 -5.000000 1.000000
+     */
     GLKMatrixStackPush(self.modelviewMatrixStack);
     
     GLKMatrixStackRotate(
                          self.modelviewMatrixStack,
                          GLKMathDegreesToRadians(SceneEarthAxialTiltDeg),
                          1.0, 0.0, 0.0);
+    /*
+     current matrix:
+     1.000000 0.000000 0.000000 0.000000
+     0.000000 0.917060 0.398749 0.000000
+     0.000000 -0.398749 0.917060 0.000000
+     0.000000 0.000000 -5.000000 1.000000
+     */
+    
     GLKMatrixStackRotate(
                          self.modelviewMatrixStack,
                          GLKMathDegreesToRadians(self.earthRotationAngleDegrees),
                          0.0, 1.0, 0.0);
-    
+    /*
+     current matrix:
+     0.994522 0.041681 -0.095859 0.000000
+     0.000000 0.917060 0.398749 0.000000
+     0.104528 -0.396565 0.912036 0.000000
+     0.000000 0.000000 -5.000000 1.000000
+     */
     self.baseEffect.transform.modelviewMatrix =
     GLKMatrixStackGetMatrix4(self.modelviewMatrixStack);
     
@@ -208,8 +229,24 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
      startVertexIndex:0
      numberOfVertices:sphereNumVerts];
     
+    /*
+     
+     current matrix:
+     0.994522 0.041681 -0.095859 0.000000
+     0.000000 0.917060 0.398749 0.000000
+     0.104528 -0.396565 0.912036 0.000000
+     0.000000 0.000000 -5.000000 1.000000
+     */
     GLKMatrixStackPop(self.modelviewMatrixStack);
     
+    /*
+     current matrix:
+     1.000000 0.000000 0.000000 0.000000
+     0.000000 1.000000 0.000000 0.000000
+     0.000000 0.000000 1.000000 0.000000
+     0.000000 0.000000 -5.000000 1.000000
+
+    */
     self.baseEffect.transform.modelviewMatrix =
     GLKMatrixStackGetMatrix4(self.modelviewMatrixStack);
 }
@@ -270,8 +307,10 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
                               1.0 * aspectRatio,
                               -1.0,
                               1.0,
-                              1.0,
+                              2.0,
                               120.0);
+//        self.baseEffect.transform.projectionMatrix =
+//        GLKMatrix4MakePerspective(1.0, aspectRatio, 1.0, 50.0);
     }
     else
     {
