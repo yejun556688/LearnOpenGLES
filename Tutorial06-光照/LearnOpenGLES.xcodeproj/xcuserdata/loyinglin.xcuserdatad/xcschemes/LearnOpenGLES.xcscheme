@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FD8C733D1C929DB9001A5D46"
-               BuildableName = "LearnOpenGLES-light.app"
-               BlueprintName = "LearnOpenGLES-light"
-               ReferencedContainer = "container:LearnOpenGLES-light.xcodeproj">
+               BuildableName = "LearnOpenGLES.app"
+               BlueprintName = "LearnOpenGLES"
+               ReferencedContainer = "container:LearnOpenGLES.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FD8C73561C929DB9001A5D46"
-               BuildableName = "LearnOpenGLES-light.xctest"
-               BlueprintName = "LearnOpenGLES-lightTests"
-               ReferencedContainer = "container:LearnOpenGLES-light.xcodeproj">
+               BuildableName = "LearnOpenGLESTests.xctest"
+               BlueprintName = "LearnOpenGLESTests"
+               ReferencedContainer = "container:LearnOpenGLES.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FD8C733D1C929DB9001A5D46"
-            BuildableName = "LearnOpenGLES-light.app"
-            BlueprintName = "LearnOpenGLES-light"
-            ReferencedContainer = "container:LearnOpenGLES-light.xcodeproj">
+            BuildableName = "LearnOpenGLES.app"
+            BlueprintName = "LearnOpenGLES"
+            ReferencedContainer = "container:LearnOpenGLES.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FD8C733D1C929DB9001A5D46"
-            BuildableName = "LearnOpenGLES-light.app"
-            BlueprintName = "LearnOpenGLES-light"
-            ReferencedContainer = "container:LearnOpenGLES-light.xcodeproj">
+            BuildableName = "LearnOpenGLES.app"
+            BlueprintName = "LearnOpenGLES"
+            ReferencedContainer = "container:LearnOpenGLES.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FD8C733D1C929DB9001A5D46"
-            BuildableName = "LearnOpenGLES-light.app"
-            BlueprintName = "LearnOpenGLES-light"
-            ReferencedContainer = "container:LearnOpenGLES-light.xcodeproj">
+            BuildableName = "LearnOpenGLES.app"
+            BlueprintName = "LearnOpenGLES"
+            ReferencedContainer = "container:LearnOpenGLES.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
