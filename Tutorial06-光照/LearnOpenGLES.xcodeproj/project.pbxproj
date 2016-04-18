@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD1328E81CC3C4F400A49783 /* sceneUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1328E71CC3C4F400A49783 /* sceneUtil.m */; };
 		FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */; };
 		FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0351CBDEE52008AB24C /* Moon256x128.png */; };
 		FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0371CBDEE52008AB24C /* sphere.obj */; };
@@ -32,6 +33,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD1328E61CC3C4F400A49783 /* sceneUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sceneUtil.h; sourceTree = "<group>"; };
+		FD1328E71CC3C4F400A49783 /* sceneUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sceneUtil.m; sourceTree = "<group>"; };
 		FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
 		FD1DF0351CBDEE52008AB24C /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
 		FD1DF0361CBDEE52008AB24C /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
@@ -88,6 +91,8 @@
 			children = (
 				FD1DF03C1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.h */,
 				FD1DF03D1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m */,
+				FD1328E61CC3C4F400A49783 /* sceneUtil.h */,
+				FD1328E71CC3C4F400A49783 /* sceneUtil.m */,
 			);
 			path = Kit;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1DF03E1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m in Sources */,
+				FD1328E81CC3C4F400A49783 /* sceneUtil.m in Sources */,
 				FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */,
 				FD8C73431C929DB9001A5D46 /* main.m in Sources */,
 				FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */,
