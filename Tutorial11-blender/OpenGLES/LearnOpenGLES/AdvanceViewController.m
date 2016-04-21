@@ -7,7 +7,7 @@
 //
 
 #import "AdvanceViewController.h"
-#import "cube.h"
+#import "starship.h"
 
 
 @interface AdvanceViewController ()
@@ -41,7 +41,7 @@
     self.baseEffect = [[GLKBaseEffect alloc] init];
     
     self.baseEffect.light0.enabled = GL_TRUE;
-    self.baseEffect.light0.position = GLKVector4Make(0.0f, 1.0f, 0.0f, 1.0f);
+    self.baseEffect.light0.position = GLKVector4Make(0.0f, 0.0f, 1.0f, 1.0f);
     self.baseEffect.light0.specularColor = GLKVector4Make(0.25f, 0.25f, 0.25f, 1.0f);
     self.baseEffect.light0.diffuseColor = GLKVector4Make(0.75f, 0.75f, 0.75f, 1.0f);
     self.baseEffect.lightingType = GLKLightingTypePerPixel;
@@ -76,7 +76,8 @@
     
     
     _rotate = 0.0f;
-    glEnable(GL_CULL_FACE);    
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -92,14 +93,18 @@
     self.baseEffect.transform.projectionMatrix = projectionMatrix;
     
     // ModelView Matrix
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -5.0f);
-    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(45.0f));
+//    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
+//    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -3.0f);
+//    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(45.0f));
+//    
+//    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
+//    modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
+//    
+//    self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
-    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
-    modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
-    
-    self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
+    self.baseEffect.transform.modelviewMatrix = GLKMatrix4MakeLookAt(0, 0, 3,
+                                                                     1 * cos(GLKMathDegreesToRadians(_rotate)), 0, 0,
+                                                                     0, 1, 0);
 }
 
 - (void)update {
@@ -111,7 +116,7 @@
  */
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [self setMatrices];
     

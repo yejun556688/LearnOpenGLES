@@ -15,7 +15,7 @@
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
 		FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */; };
 		FDE8F3031CC7208C00B5906A /* cube.png in Resources */ = {isa = PBXBuildFile; fileRef = FDEA44DD1CC65F6300A332F1 /* cube.png */; };
-		FDEA44DC1CC65A7700A332F1 /* cube.c in Sources */ = {isa = PBXBuildFile; fileRef = FDEA44DA1CC65A7700A332F1 /* cube.c */; };
+		FDE8F3061CC79E6C00B5906A /* starship.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F3041CC79E6C00B5906A /* starship.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,8 +42,8 @@
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvanceViewController.h; sourceTree = "<group>"; };
 		FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvanceViewController.m; sourceTree = "<group>"; };
-		FDEA44DA1CC65A7700A332F1 /* cube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cube.c; sourceTree = "<group>"; };
-		FDEA44DB1CC65A7700A332F1 /* cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cube.h; sourceTree = "<group>"; };
+		FDE8F3041CC79E6C00B5906A /* starship.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = starship.c; sourceTree = "<group>"; };
+		FDE8F3051CC79E6C00B5906A /* starship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = starship.h; sourceTree = "<group>"; };
 		FDEA44DD1CC65F6300A332F1 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cube.png; path = ../cube.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,8 +76,8 @@
 		FD1DF03B1CBDF3AD008AB24C /* Kit */ = {
 			isa = PBXGroup;
 			children = (
-				FDEA44DA1CC65A7700A332F1 /* cube.c */,
-				FDEA44DB1CC65A7700A332F1 /* cube.h */,
+				FDE8F3041CC79E6C00B5906A /* starship.c */,
+				FDE8F3051CC79E6C00B5906A /* starship.h */,
 			);
 			path = Kit;
 			sourceTree = "<group>";
@@ -238,8 +238,8 @@
 			files = (
 				FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */,
 				FD8C73431C929DB9001A5D46 /* main.m in Sources */,
-				FDEA44DC1CC65A7700A332F1 /* cube.c in Sources */,
 				FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */,
+				FDE8F3061CC79E6C00B5906A /* starship.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
