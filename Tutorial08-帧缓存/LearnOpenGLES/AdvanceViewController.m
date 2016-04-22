@@ -11,6 +11,7 @@
 #import "cube.h"
 #import "starship.h"
 
+#define const_length 512
 
 @interface AdvanceViewController ()
 
@@ -49,10 +50,10 @@
     //顶点数据，前三个是顶点坐标， 中间三个是顶点颜色，    最后两个是纹理坐标
     GLfloat attrArr[] =
     {
-        -0.5f, 0.5f, 0.0f,      0.0f, 0.0f, 0.5f,       0.0f, 1.0f,//左上
-        0.5f, 0.5f, 0.0f,       0.0f, 0.5f, 0.0f,       1.0f, 1.0f,//右上
-        -0.5f, -0.5f, 0.0f,     0.5f, 0.0f, 1.0f,       0.0f, 0.0f,//左下
-        0.5f, -0.5f, 0.0f,      0.0f, 0.0f, 0.5f,       1.0f, 0.0f,//右下
+        -1.0f, 1.0f, 0.0f,      0.0f, 0.0f, 1.0f,       0.0f, 1.0f,//左上
+        1.0f, 1.0f, 0.0f,       0.0f, 1.0f, 0.0f,       1.0f, 1.0f,//右上
+        -1.0f, -1.0f, 0.0f,     1.0f, 0.0f, 1.0f,       0.0f, 0.0f,//左下
+        1.0f, -1.0f, 0.0f,      0.0f, 0.0f, 1.0f,       1.0f, 0.0f,//右下
         0.0f, 0.0f, 1.0f,       1.0f, 1.0f, 1.0f,       0.5f, 0.5f,//顶点
     };
     //顶点索引
@@ -60,10 +61,10 @@
     {
         0, 3, 2,
         0, 1, 3,
-        0, 2, 4,
-        0, 4, 1,
-        2, 3, 4,
-        1, 4, 3,
+//        0, 2, 4,
+//        0, 4, 1,
+//        2, 3, 4,
+//        1, 4, 3,
     };
     self.mCount = sizeof(indices) / sizeof(GLuint);
     
@@ -79,15 +80,16 @@
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLfloat *)NULL);
-    //顶点颜色
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
+
+//    glEnableVertexAttribArray(GLKVertexAttribColor);
+//    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
     
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 6);
     
     
     self.mBaseEffect = [[GLKBaseEffect alloc] init];
+    self.mExtraEffect = [[GLKBaseEffect alloc] init];
     
     glEnable(GL_DEPTH_TEST);
     
@@ -99,27 +101,28 @@
     NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];
 
     GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
-    self.mBaseEffect.texture2d0.enabled = GL_TRUE;
-    self.mBaseEffect.texture2d0.name = textureInfo.name;
+    self.mExtraEffect.texture2d0.enabled = self.mBaseEffect.texture2d0.enabled = GL_TRUE;
+    self.mExtraEffect.texture2d0.name = self.mBaseEffect.texture2d0.name = textureInfo.name;
+    NSLog(@"panda texture %d", textureInfo.name);
     
     int width, height;
     width = self.view.bounds.size.width * self.view.contentScaleFactor;
     height = self.view.bounds.size.height * self.view.contentScaleFactor;
-    [self extraInitWithWidth:128 height:128];
+    [self extraInitWithWidth:width height:height];
 }
 
 
 //MVP矩阵
 - (void)preparePointOfViewWithAspectRatio:(GLfloat)aspectRatio
 {
-    self.mBaseEffect.transform.projectionMatrix =
+    self.mExtraEffect.transform.projectionMatrix = self.mBaseEffect.transform.projectionMatrix =
     GLKMatrix4MakePerspective(
                               GLKMathDegreesToRadians(85.0f),
                               aspectRatio,
                               0.1f,
                               20.0f);
     
-    self.mBaseEffect.transform.modelviewMatrix =
+    self.mExtraEffect.transform.modelviewMatrix = self.mBaseEffect.transform.modelviewMatrix =
     GLKMatrix4MakeLookAt(
                          0.0, 0.0, 3.0,   // Eye position
                          0.0, 0.0, 0.0,   // Look-at position
@@ -135,8 +138,8 @@
 - (void)extraInitWithWidth:(GLint)width height:(GLint)height {
 
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_mDefaultFBO);
-    
     glGenTextures(1, &_mExtraTexture);
+    NSLog(@"render texture %d", self.mExtraTexture);
     glGenFramebuffers(1, &_mExtraFBO);
     glGenRenderbuffers(1, &_mExtraDepthBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
@@ -156,7 +159,6 @@
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    
 
     
     glFramebufferTexture2D(GL_FRAMEBUFFER,
@@ -186,6 +188,7 @@
     }
     
     glBindFramebuffer(GL_FRAMEBUFFER, self.mDefaultFBO);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
@@ -194,13 +197,13 @@
 }
 
 - (void)renderFBO {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
     
     glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    
-    [self.mBaseEffect prepareToDraw];
+    [self.mExtraEffect prepareToDraw];
     glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
     
     glBindFramebuffer(GL_FRAMEBUFFER, self.mDefaultFBO);
@@ -218,6 +221,7 @@
     
 
     [self.mBaseEffect prepareToDraw];
+    
     glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
 }
 
