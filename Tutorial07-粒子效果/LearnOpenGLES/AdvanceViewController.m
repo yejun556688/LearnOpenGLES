@@ -131,7 +131,7 @@
              lifeSpanSeconds:3.2f
              fadeDurationSeconds:0.5f];
         }
-    } copy],[^{  // 3
+    } copy],[^{  // 4
         self.autoSpawnDelta = 3.2f;
         
         self.particleEffect.gravity = GLKVector3Make(

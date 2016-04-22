@@ -181,7 +181,7 @@ particleDataWasUpdated;
     sizeof(AGLKParticleAttributes);
     if (last != ret) {
         last = ret;
-        NSLog(@"count %ld", ret);
+//        NSLog(@"count %ld", ret);
     }
     return ret;
 }

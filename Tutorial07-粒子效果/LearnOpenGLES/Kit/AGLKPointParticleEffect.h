@@ -10,7 +10,7 @@
 // {0, (-9.80665 m/s/s), 0} assuming +Y up coordinate system
 extern const GLKVector3 AGLKDefaultGravity;
 
-@interface AGLKPointParticleEffect : NSObject  <GLKNamedEffect>
+@interface AGLKPointParticleEffect : NSObject
 
 @property (nonatomic, assign) GLKVector3 gravity;                
 @property (nonatomic, assign) GLfloat elapsedSeconds;

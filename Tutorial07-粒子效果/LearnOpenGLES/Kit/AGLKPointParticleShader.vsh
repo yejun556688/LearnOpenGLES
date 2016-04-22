@@ -3,7 +3,7 @@
 attribute vec3 a_emissionPosition; //位置
 attribute vec3 a_emissionVelocity; //速度
 attribute vec3 a_emissionForce; //受力
-attribute vec2 a_size;  //大小 和 持续时间  size = GLKVector2Make(aSize, aDuration);
+attribute vec2 a_size;  //大小 和 Fade持续时间  size = GLKVector2Make(aSize, aDuration);
 attribute vec2 a_emissionAndDeathTimes; //发射时间 和 消失时间
 
 // UNIFORMS
@@ -41,7 +41,7 @@ void main()
     gl_PointSize = a_size.x / gl_Position.w;    
     
     
-    // 消失时间减去当前时间，得到当前的寿命； 除以持续时间，得到一个从1到0变化的值
+    // 消失时间减去当前时间，得到当前的寿命； 除以Fade持续时间，当剩余时间小于Fade时间后，得到一个从1到0变化的值
     // 如果这个值小于0，则取0
     v_particleOpacity = max(0.0, min(1.0,
                                      (a_emissionAndDeathTimes.y - u_elapsedSeconds) /
