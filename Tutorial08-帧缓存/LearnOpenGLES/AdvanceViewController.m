@@ -88,11 +88,6 @@
     
     
     self.mBaseEffect = [[GLKBaseEffect alloc] init];
-//    self.mBaseEffect.light0.enabled = GL_TRUE;
-    self.mBaseEffect.light0.position = GLKVector4Make(0.0f, 0.0f, 1.0f, 1.0f);
-    self.mBaseEffect.light0.specularColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1.0f);
-    self.mBaseEffect.light0.diffuseColor = GLKVector4Make(0.75f, 0.75f, 0.75f, 1.0f);
-    self.mBaseEffect.lightingType = GLKLightingTypePerPixel;
     
     glEnable(GL_DEPTH_TEST);
     
@@ -101,26 +96,11 @@
     
 
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"for_test" ofType:@"png"];
-    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];//GLKTextureLoaderOriginBottomLeft 纹理坐标系是相反的
+    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];
 
-//    GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
-//    self.mBaseEffect.texture2d0.enabled = GL_TRUE;
-//    self.mBaseEffect.texture2d0.name = textureInfo.name;
-    
-    // to test texturing
-    GLuint texture;
-    GLubyte tex[] = {255, 0, 0, 255, 0, 255, 0, 255, 0, 255, 0, 255, 255, 0, 0, 255};
-    glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2, 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    self.mBaseEffect.texture2d0.name = texture;
-    
+    GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
+    self.mBaseEffect.texture2d0.enabled = GL_TRUE;
+    self.mBaseEffect.texture2d0.name = textureInfo.name;
     
     int width, height;
     width = self.view.bounds.size.width * self.view.contentScaleFactor;
@@ -189,14 +169,6 @@
                           width, height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, self.mExtraDepthBuffer);
     
-//    self.mExtraEffect = [[GLKBaseEffect alloc] init];
-//    self.mExtraEffect.light0.enabled = GL_TRUE;
-//    self.mExtraEffect.light0.position = GLKVector4Make(0.0f, 0.0f, 1.0f, 1.0f);
-//    self.mExtraEffect.light0.specularColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1.0f);
-//    self.mExtraEffect.light0.diffuseColor = GLKVector4Make(0.75f, 0.75f, 0.75f, 1.0f);
-//    self.mExtraEffect.lightingType = GLKLightingTypePerPixel;
-    
-    // FBO status check
     GLenum status;
     status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     switch(status) {
@@ -209,7 +181,6 @@
             break;
             
         default:
-            /* programming error; will fail on all hardware */
             NSLog(@"Framebuffer Error");
             break;
     }
@@ -223,24 +194,15 @@
 }
 
 - (void)renderFBO {
-    glBindTexture(GL_TEXTURE_2D, 0);
-//    glEnable(GL_TEXTURE_2D);
     glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
     
-//    glEnableVertexAttribArray(GLKVertexAttribPosition);
-//    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, cubePositions);
-//    
-//    glEnableVertexAttribArray(GLKVertexAttribNormal);
-//    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, cubeNormals);
-    
-
     glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-//    [self.mExtraEffect prepareToDraw];
-//    
-//    glDrawArrays(GL_TRIANGLES, 0, cubeVertices);
-
+    
+    [self.mBaseEffect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
+    
     glBindFramebuffer(GL_FRAMEBUFFER, self.mDefaultFBO);
     self.mBaseEffect.texture2d0.name = self.mExtraTexture;
 }
@@ -257,9 +219,6 @@
 
     [self.mBaseEffect prepareToDraw];
     glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
-    
-//    [EAGLContext setCurrentContext:self.mExtraContext];
-
 }
 
 
@@ -269,17 +228,6 @@
     return (interfaceOrientation !=
             UIInterfaceOrientationPortraitUpsideDown);
 }
-
-
-- (IBAction)takeSelectedEmitterFrom:(UISegmentedControl *)sender;
-{
-
-}
-
-
-
-
-
 
 @end
 

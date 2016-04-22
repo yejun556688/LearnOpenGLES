@@ -15,6 +15,10 @@
 		FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */; };
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
 		FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */; };
+		FDCA3BF21CCA6A0100D33D27 /* fileUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCA3BEC1CCA6A0100D33D27 /* fileUtil.m */; };
+		FDCA3BF31CCA6A0100D33D27 /* point.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDCA3BEE1CCA6A0100D33D27 /* point.fsh */; };
+		FDCA3BF41CCA6A0100D33D27 /* point.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FDCA3BEF1CCA6A0100D33D27 /* point.vsh */; };
+		FDCA3BF51CCA6A0100D33D27 /* shaderUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCA3BF01CCA6A0100D33D27 /* shaderUtil.c */; };
 		FDE166091CCA0125008F8EAF /* cube.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE166051CCA0125008F8EAF /* cube.c */; };
 		FDE1660A1CCA0125008F8EAF /* starship.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE166071CCA0125008F8EAF /* starship.c */; };
 		FDE1660C1CCA179D008F8EAF /* for_test.png in Resources */ = {isa = PBXBuildFile; fileRef = FDE1660B1CCA179D008F8EAF /* for_test.png */; };
@@ -46,6 +50,13 @@
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvanceViewController.h; sourceTree = "<group>"; };
 		FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvanceViewController.m; sourceTree = "<group>"; };
+		FDCA3BEA1CCA6A0100D33D27 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
+		FDCA3BEB1CCA6A0100D33D27 /* fileUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileUtil.h; sourceTree = "<group>"; };
+		FDCA3BEC1CCA6A0100D33D27 /* fileUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fileUtil.m; sourceTree = "<group>"; };
+		FDCA3BEE1CCA6A0100D33D27 /* point.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = point.fsh; sourceTree = "<group>"; };
+		FDCA3BEF1CCA6A0100D33D27 /* point.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = point.vsh; sourceTree = "<group>"; };
+		FDCA3BF01CCA6A0100D33D27 /* shaderUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = shaderUtil.c; sourceTree = "<group>"; };
+		FDCA3BF11CCA6A0100D33D27 /* shaderUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shaderUtil.h; sourceTree = "<group>"; };
 		FDE166051CCA0125008F8EAF /* cube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cube.c; sourceTree = "<group>"; };
 		FDE166061CCA0125008F8EAF /* cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cube.h; sourceTree = "<group>"; };
 		FDE166071CCA0125008F8EAF /* starship.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = starship.c; sourceTree = "<group>"; };
@@ -108,6 +119,7 @@
 		FD8C73401C929DB9001A5D46 /* LearnOpenGLES */ = {
 			isa = PBXGroup;
 			children = (
+				FDCA3BE91CCA6A0100D33D27 /* UtilSrc */,
 				FDE1660B1CCA179D008F8EAF /* for_test.png */,
 				FDE166041CCA0125008F8EAF /* extern */,
 				FD1DF03B1CBDF3AD008AB24C /* Kit */,
@@ -140,6 +152,28 @@
 				FD8C735D1C929DB9001A5D46 /* Info.plist */,
 			);
 			path = LearnOpenGLESTests;
+			sourceTree = "<group>";
+		};
+		FDCA3BE91CCA6A0100D33D27 /* UtilSrc */ = {
+			isa = PBXGroup;
+			children = (
+				FDCA3BEA1CCA6A0100D33D27 /* debug.h */,
+				FDCA3BEB1CCA6A0100D33D27 /* fileUtil.h */,
+				FDCA3BEC1CCA6A0100D33D27 /* fileUtil.m */,
+				FDCA3BED1CCA6A0100D33D27 /* Shaders */,
+				FDCA3BF01CCA6A0100D33D27 /* shaderUtil.c */,
+				FDCA3BF11CCA6A0100D33D27 /* shaderUtil.h */,
+			);
+			path = UtilSrc;
+			sourceTree = "<group>";
+		};
+		FDCA3BED1CCA6A0100D33D27 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				FDCA3BEE1CCA6A0100D33D27 /* point.fsh */,
+				FDCA3BEF1CCA6A0100D33D27 /* point.vsh */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 		FDE166041CCA0125008F8EAF /* extern */ = {
@@ -233,7 +267,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCA3BF31CCA6A0100D33D27 /* point.fsh in Resources */,
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
+				FDCA3BF41CCA6A0100D33D27 /* point.vsh in Resources */,
 				FDE1660C1CCA179D008F8EAF /* for_test.png in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
@@ -255,6 +291,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDE166091CCA0125008F8EAF /* cube.c in Sources */,
+				FDCA3BF21CCA6A0100D33D27 /* fileUtil.m in Sources */,
+				FDCA3BF51CCA6A0100D33D27 /* shaderUtil.c in Sources */,
 				FDE1660A1CCA0125008F8EAF /* starship.c in Sources */,
 				FD1DF03E1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m in Sources */,
 				FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */,
