@@ -8,8 +8,6 @@
 
 #import "AdvanceViewController.h"
 #import "AGLKVertexAttribArrayBuffer.h"
-#import "cube.h"
-#import "starship.h"
 
 #define const_length 512
 
@@ -28,6 +26,11 @@
 @property (nonatomic , assign) GLuint mExtraDepthBuffer;
 @property (nonatomic , assign) GLuint mExtraTexture;
 
+@property (nonatomic , assign) long mBaseRotate;
+@property (nonatomic , assign) long mExtraRotate;
+
+@property (nonatomic , strong) IBOutlet UISwitch* mBaseSwitch;
+@property (nonatomic , strong) IBOutlet UISwitch* mExtraSwitch;
 @end
 
 
@@ -35,7 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     //新建OpenGLES 上下文
     self.mContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
@@ -61,10 +64,10 @@
     {
         0, 3, 2,
         0, 1, 3,
-//        0, 2, 4,
-//        0, 4, 1,
-//        2, 3, 4,
-//        1, 4, 3,
+        0, 2, 4,
+        0, 4, 1,
+        2, 3, 4,
+        1, 4, 3,
     };
     self.mCount = sizeof(indices) / sizeof(GLuint);
     
@@ -81,8 +84,8 @@
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLfloat *)NULL);
 
-//    glEnableVertexAttribArray(GLKVertexAttribColor);
-//    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
+    glEnableVertexAttribArray(GLKVertexAttribColor);
+    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
     
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 6);
@@ -109,6 +112,8 @@
     width = self.view.bounds.size.width * self.view.contentScaleFactor;
     height = self.view.bounds.size.height * self.view.contentScaleFactor;
     [self extraInitWithWidth:width height:height]; //特别注意这里的大小
+    
+    self.mBaseRotate = self.mExtraRotate = 0;
 }
 
 
@@ -194,6 +199,22 @@
 
 - (void)update
 {
+    GLKMatrix4 modelViewMatrix;
+    if (self.mBaseSwitch.on) {
+        ++self.mBaseRotate;
+        modelViewMatrix = GLKMatrix4Identity;
+        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0, 0, -3);
+        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.mBaseRotate), 1, 1, 1);
+        self.mBaseEffect.transform.modelviewMatrix = modelViewMatrix;
+    }
+    
+    if (self.mExtraSwitch.on) {
+        self.mExtraRotate += 2;
+        modelViewMatrix = GLKMatrix4Identity;
+        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0, 0, -3);
+        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(self.mExtraRotate), 1, 1, 1);
+        self.mExtraEffect.transform.modelviewMatrix = modelViewMatrix;
+    }
 }
 
 - (void)renderFBO {
@@ -201,8 +222,8 @@
     glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
     
     //如果视口和主缓存的不同，需要根据当前的大小调整，同时在下面的绘制时需要调整glviewport
-//    glViewport(<#GLint x#>, <#GLint y#>, <#GLsizei width#>, <#GLsizei height#>)
-    glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
+//    glViewport(0, 0, const_length, const_length)
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [self.mExtraEffect prepareToDraw];
@@ -214,12 +235,12 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    [self renderFBO];
+//    [self renderFBO];
     
     [((GLKView *) self.view) bindDrawable];
     
 
-//    glViewport(<#GLint x#>, <#GLint y#>, <#GLsizei width#>, <#GLsizei height#>) 见上面
+//    glViewport() 见上面
     glClearColor(0.3, 0.3, 0.3, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
