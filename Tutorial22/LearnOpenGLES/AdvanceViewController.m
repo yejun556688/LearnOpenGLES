@@ -34,7 +34,6 @@
 @end
 
 
-
 @implementation AdvanceViewController
 
 - (void)viewDidLoad {
@@ -50,53 +49,33 @@
     
     [EAGLContext setCurrentContext:self.mContext];
     
-    
-    //顶点数据，前三个是顶点坐标， 中间三个是顶点颜色，    最后两个是纹理坐标
-    GLfloat attrArr[] =
-    {
-        -1.0f, 1.0f, 0.0f,      0.0f, 0.0f, 1.0f,       0.0f, 1.0f,//左上
-        1.0f, 1.0f, 0.0f,       0.0f, 1.0f, 0.0f,       1.0f, 1.0f,//右上
-        -1.0f, -1.0f, 0.0f,     1.0f, 0.0f, 1.0f,       0.0f, 0.0f,//左下
-        1.0f, -1.0f, 0.0f,      0.0f, 0.0f, 1.0f,       1.0f, 0.0f,//右下
-        0.0f, 0.0f, 1.0f,       1.0f, 1.0f, 1.0f,       0.5f, 0.5f,//顶点
+    GLfloat cubePositions[] = {
+        
     };
-    //顶点索引
-    GLuint indices[] =
-    {
-        0, 3, 2,
-        0, 1, 3,
-        //可以去掉注释
-//        0, 2, 4,
-//        0, 4, 1,
-//        2, 3, 4,
-//        1, 4, 3,
+    
+    GLfloat cubeTexels[] = {
+        
     };
-    self.mCount = sizeof(indices) / sizeof(GLuint);
-    
-    GLuint buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_STATIC_DRAW);
-    
-    GLuint index;
-    glGenBuffers(1, &index);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 8, (GLfloat *)NULL);
-
-    //可以去掉注释
-//    glEnableVertexAttribArray(GLKVertexAttribColor);
-//    glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 3);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, cubePositions);
+    
+//    glEnableVertexAttribArray(GLKVertexAttribNormal);
+//    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, cubeNormals);
     
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 4 * 8, (GLfloat *)NULL + 6);
+    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, cubeTexels);
     
     
     self.mBaseEffect = [[GLKBaseEffect alloc] init];
     self.mExtraEffect = [[GLKBaseEffect alloc] init];
-
+    
+//    self.mExtraEffect.light0.enabled = self.mBaseEffect.light0.enabled = GL_TRUE;
+    self.mExtraEffect.light0.position = self.mBaseEffect.light0.position = GLKVector4Make(0.0f, 0.0f, 1.0f, 1.0f);
+    self.mExtraEffect.light0.specularColor = self.mBaseEffect.light0.specularColor = GLKVector4Make(0.25f, 0.25f, 0.25f, 1.0f);
+    self.mExtraEffect.light0.diffuseColor = self.mBaseEffect.light0.diffuseColor = GLKVector4Make(0.75f, 0.75f, 0.75f, 1.0f);
+    self.mExtraEffect.lightingType = self.mBaseEffect.lightingType = GLKLightingTypePerPixel;
+    
     glEnable(GL_DEPTH_TEST);
     
     [self preparePointOfViewWithAspectRatio:
@@ -136,6 +115,8 @@
                          0.0, 0.0, 0.0,   // Look-at position
                          0.0, 1.0, 0.0);  // Up direction
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -224,12 +205,12 @@
     
     //如果视口和主缓存的不同，需要根据当前的大小调整，同时在下面的绘制时需要调整glviewport
 //    glViewport(0, 0, const_length, const_length)
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.3f, 0.3f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [self.mExtraEffect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
-    
+    glDrawArrays(GL_TRIANGLES, 0, cubeVertices);
+
     glBindFramebuffer(GL_FRAMEBUFFER, self.mDefaultFBO);
     self.mBaseEffect.texture2d0.name = self.mExtraTexture;
 }
@@ -245,9 +226,9 @@
     glClearColor(0.3, 0.3, 0.3, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    
+
     [self.mBaseEffect prepareToDraw];
-    glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, cubeVertices);
 }
 
 

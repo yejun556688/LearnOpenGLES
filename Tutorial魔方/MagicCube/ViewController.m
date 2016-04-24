@@ -302,6 +302,7 @@ static int randcount = 0;
             }
             glVertexAttribPointer(ATTRIBUTE_VERTEX, 3, GL_FLOAT, 0, 0, cubes[i]._vertices);
             glEnableVertexAttribArray(ATTRIBUTE_VERTEX);
+            
             if (_isSelectMode) {
                 glVertexAttribPointer(ATTRIBUTE_COLOR, 4, GL_UNSIGNED_BYTE, 1, 0, cubes[i]._colors);
                 glEnableVertexAttribArray(ATTRIBUTE_COLOR);
@@ -309,6 +310,13 @@ static int randcount = 0;
                 glVertexAttribPointer(ATTRIBUTE_TEXTURE_COORD, 2, GL_FLOAT, 0, 0, cubes[i]._textureCoords);
                 glEnableVertexAttribArray(ATTRIBUTE_TEXTURE_COORD);
             }
+            NSLog(@"%d %d",ATTRIBUTE_TEXTURE_COORD, ATTRIBUTE_COLOR);
+            
+//            glVertexAttribPointer(ATTRIBUTE_COLOR, 4, GL_UNSIGNED_BYTE, 1, 0, cubes[i]._colors);
+//            glEnableVertexAttribArray(ATTRIBUTE_COLOR);
+//            glVertexAttribPointer(ATTRIBUTE_TEXTURE_COORD, 2, GL_FLOAT, 0, 0, cubes[i]._textureCoords);
+//            glEnableVertexAttribArray(ATTRIBUTE_TEXTURE_COORD);
+            
             //进行变换
             [MatrixTools applyIdentity:mvpMatrix];
             [MatrixTools applyIdentity:_translationMatrix];
