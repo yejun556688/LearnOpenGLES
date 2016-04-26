@@ -86,6 +86,7 @@ Model getOBJinfo(string fp)
     
     return model;
 }
+
 void extractMTLdata(string fp, string* materials, float diffuses[][3], float speculars[][3])
 {
 

@@ -15,7 +15,7 @@
 
 @interface AdvanceViewController ()
 {
-    NSMutableArray      *cars; // Cars to simulate
+    NSMutableArray      *cars;
 }
 
 @property (strong, nonatomic) GLKBaseEffect *baseEffect;
@@ -30,6 +30,7 @@
 @property (nonatomic, assign, readwrite) SceneAxisAllignedBoundingBox rinkBoundingBox;
 
 @property (nonatomic , strong) IBOutlet UILabel* myBounceLabel;
+@property (nonatomic , strong) IBOutlet UILabel* myVelocityLabel;
 @end
 
 static const int SceneNumberOfPOVAnimationSeconds = 2.0;
@@ -50,17 +51,10 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
     [EAGLContext setCurrentContext:view.context];
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
-        
-    // Create an array to store cars
+    
     cars = [[NSMutableArray alloc] init];
-    
-    
-    // Create a base effect that provides standard OpenGL ES 2.0
-    // shading language programs and set constants to be used for
-    // all subsequent rendering
     self.baseEffect = [[GLKBaseEffect alloc] init];
     
-    // Configure a light
     self.baseEffect.light0.enabled = GL_TRUE;
     self.baseEffect.light0.ambientColor = GLKVector4Make(
                                                          0.6f, // Red
@@ -69,19 +63,16 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
                                                          1.0f);// Alpha
     self.baseEffect.light0.position = GLKVector4Make(
                                                      1.0f,
-                                                     0.8f, 
-                                                     0.4f,  
+                                                     0.8f,
+                                                     0.4f,
                                                      0.0f);
     
     
-
-    
-    // Load models used to draw the scene
     self.carModel = [[SceneCarModel alloc] init];
     self.rinkModel = [[SceneRinkModel alloc] init];
     
-    // Remember the rink bounding box for future collision
-    // detection with cars
+    
+    //场地
     self.rinkBoundingBox = self.rinkModel.axisAlignedBoundingBox;
     NSAssert(0 < (self.rinkBoundingBox.max.x -
                   self.rinkBoundingBox.min.x) &&
@@ -89,8 +80,7 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
                   self.rinkBoundingBox.min.z),
              @"Rink has no area");
     
-    // Create and add some cars to the simulation. The number of
-    // cars, colors and velocities are arbitrary
+    
     SceneCar   *newCar = [[SceneCar alloc]
                           initWithModel:self.carModel
                           position:GLKVector3Make(1.0, 0.0, 1.0)
@@ -120,41 +110,28 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
     newCar.mCarId = 3;
     [cars addObject:newCar];
     
-    // Set initial point of view to reasonable arbitrary values
-    // These values make most of the simulated rink visible
     self.eyePosition = GLKVector3Make(10.5, 5.0, 0.0);
     self.lookAtPosition = GLKVector3Make(0.0, 0.5, 0.0);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 - (void)updatePointOfView
 {
-    if(!self.shouldUseFirstPersonPOV)
-    {  // Set the target point of view to arbitrary "third person"
-        // perspective
-        self.eyePosition = GLKVector3Make(10.5, 5.0, 0.0);
-        self.lookAtPosition = GLKVector3Make(0.0, 0.5, 0.0);
+    if(!self.shouldUseFirstPersonPOV) {
+        self.targetEyePosition= GLKVector3Make(10.5, 5.0, 0.0);
+        self.targetLookAtPosition = GLKVector3Make(0.0, 0.5, 0.0);
     }
     else
-    {  // Set the target point of view to a position within the
-        // last car and facing the direction of the car's motion.
+    {
         SceneCar *viewerCar = [cars lastObject];
-        
-        // Set the new target position up a bit from center of
-        // car
-        self.targetEyePosition = GLKVector3Make(
-                                                viewerCar.position.x,
+        self.targetEyePosition = GLKVector3Make(viewerCar.position.x,
                                                 viewerCar.position.y + 0.45f,
                                                 viewerCar.position.z);
         
-        // Look from eye position in direction of motion
-        self.targetLookAtPosition = GLKVector3Add(
-                                                  _eyePosition,
-                                                  viewerCar.velocity);
+        self.targetLookAtPosition = GLKVector3Add(_eyePosition, viewerCar.velocity);
     }
 }
 
@@ -163,13 +140,9 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
 {
     if(0 < self.pointOfViewAnimationCountdown)
     {
-        self.pointOfViewAnimationCountdown -=
-        self.timeSinceLastUpdate;
-        
-        // Update the current eye and look-at positions with slow
-        // filter so user can savor the POV animation
-        self.eyePosition = SceneVector3SlowLowPassFilter(
-                                                         self.timeSinceLastUpdate,
+        self.pointOfViewAnimationCountdown -= self.timeSinceLastUpdate;
+
+        self.eyePosition = SceneVector3SlowLowPassFilter(self.timeSinceLastUpdate,
                                                          self.targetEyePosition,
                                                          self.eyePosition);
         self.lookAtPosition = SceneVector3SlowLowPassFilter(
@@ -178,11 +151,9 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
                                                             self.lookAtPosition);
     }
     else
-    {  // Update the current eye and look-at positions with fast
-        // filter so POV stays close to car orientation but still
-        // has a little "bounce"
-        self.eyePosition = SceneVector3FastLowPassFilter(
-                                                         self.timeSinceLastUpdate,
+    {
+//        NSLog(@"%f %f %f %f", self.pointOfViewAnimationCountdown, self.eyePosition.x, self.eyePosition.y, self.eyePosition.z);
+        self.eyePosition = SceneVector3FastLowPassFilter(self.timeSinceLastUpdate,
                                                          self.targetEyePosition,
                                                          self.eyePosition);
         self.lookAtPosition = SceneVector3FastLowPassFilter(
@@ -191,12 +162,10 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
                                                             self.lookAtPosition);
     }
     
-    // Update the cars
     [cars makeObjectsPerformSelector:
      @selector(updateWithController:) withObject:self];
     
-    // Update the target positions
-    [self updatePointOfView];   
+    [self updatePointOfView];
 }
 
 
@@ -207,54 +176,53 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    // Make the light white
     self.baseEffect.light0.diffuseColor = GLKVector4Make(
                                                          1.0f, // Red
                                                          1.0f, // Green
                                                          1.0f, // Blue
                                                          1.0f);// Alpha
-    
-    
-    // Calculate the aspect ratio for the scene and setup a
-    // perspective projection
+
     const GLfloat  aspectRatio =
     (GLfloat)view.drawableWidth / (GLfloat)view.drawableHeight;
     
     self.baseEffect.transform.projectionMatrix =
     GLKMatrix4MakePerspective(
-                              GLKMathDegreesToRadians(35.0f),// Standard field of view
+                              GLKMathDegreesToRadians(35.0f),
                               aspectRatio,
-                              0.1f,   // Don't make near plane too close
-                              25.0f); // Far is aritrarily far enough to contain scene
+                              0.1f,
+                              25.0f);
     
-    // Set the modelview matrix to match current eye and look-at
-    // positions
+
     self.baseEffect.transform.modelviewMatrix =
     GLKMatrix4MakeLookAt(
                          self.eyePosition.x,
                          self.eyePosition.y,
                          self.eyePosition.z,
                          self.lookAtPosition.x,
-                         self.lookAtPosition.y, 
-                         self.lookAtPosition.z, 
+                         self.lookAtPosition.y,
+                         self.lookAtPosition.z,
                          0, 1, 0);
     
-    // Draw the rink
+
+    //场地
     [self.baseEffect prepareToDraw];
-    [self.rinkModel draw];        
+    [self.rinkModel draw];
     
-    // Draw the cars
+    //碰碰车
     [cars makeObjectsPerformSelector:@selector(drawWithBaseEffect:)
                           withObject:self.baseEffect];
     
+
+    //碰撞次数
     self.myBounceLabel.text = [NSString stringWithFormat:@"%ld", [SceneCar getBounceCount]];
+    SceneCar *viewerCar = [cars lastObject];
+    self.myVelocityLabel.text = [NSString stringWithFormat:@"%.1f", GLKVector3Length(viewerCar.velocity)];
     
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation !=
             UIInterfaceOrientationPortraitUpsideDown &&
             interfaceOrientation !=
@@ -267,17 +235,21 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
 }
 
 
-/////////////////////////////////////////////////////////////////
-// This method is called by a UISwitch in the user interface
 - (IBAction)takeShouldUseFirstPersonPOVFrom:(UISwitch *)sender;
 {
     self.shouldUseFirstPersonPOV = [sender isOn];
-    
-    // Reset a counter that makes point of view animation
-    // last SceneNumberOfPOVAnimationFrames so animation is
-    // noticeable.
-    _pointOfViewAnimationCountdown =
-    SceneNumberOfPOVAnimationSeconds;
+
+    _pointOfViewAnimationCountdown = SceneNumberOfPOVAnimationSeconds;
+}
+
+- (IBAction)onSlow:(id)sender {
+    SceneCar* car = [cars lastObject];
+    [car onSpeedChange:YES];
+}
+
+- (IBAction)onFast:(id)sender {
+    SceneCar* car = [cars lastObject];
+    [car onSpeedChange:NO];
 }
 
 @end

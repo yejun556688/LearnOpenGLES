@@ -30,8 +30,6 @@
 @synthesize name;
 
 
-/////////////////////////////////////////////////////////////////
-// Designated initializer
 - (id)initWithName:(NSString *)aName
    mesh:(SceneMesh *)aMesh
    numberOfVertices:(GLsizei)aCount;
@@ -47,8 +45,6 @@
 }
 
 
-/////////////////////////////////////////////////////////////////
-// Returns nil
 - (id)init
 {
    NSAssert(0, @"Invalid initializer");
@@ -59,16 +55,13 @@
 }
 
 
-/////////////////////////////////////////////////////////////////
-// Prepare the model's mesh for drawing
 - (void)prepareToDraw;
 {
    [self.mesh prepareToDraw];
 }
 
 
-/////////////////////////////////////////////////////////////////
-// Prepare the model's mesh for drawing, draws the model.
+
 - (void)draw;
 {
    [self.mesh prepareToDraw];
@@ -78,9 +71,7 @@
 }
 
 
-/////////////////////////////////////////////////////////////////
-// Call this method to recalculate the receiver's bounding box
-// any time the vertex attributes for the receiver change.
+//顶点数据改变后，重新计算边界
 - (void)updateAlignedBoundingBoxForVertices:(float *)verts
    count:(unsigned int)aCount;
 {

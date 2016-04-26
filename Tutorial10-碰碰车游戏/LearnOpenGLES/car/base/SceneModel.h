@@ -9,11 +9,7 @@
 @class SceneMesh;
 
 
-/////////////////////////////////////////////////////////////////
-// Type that defines the bounding box for a model. No vertex
-// position in the model has position.x less than min.x or 
-// position.x greater than max.x. The same is true for Y and Z
-// coordinates.
+// 边界，注意min和max都是vector3
 typedef struct
 {
    GLKVector3 min;

@@ -47,6 +47,9 @@
 - (void)drawWithBaseEffect:(GLKBaseEffect *)anEffect;
 
 + (long)getBounceCount;
+
+- (void)onSpeedChange:(BOOL)slow;
+
 @end
 
 

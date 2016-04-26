@@ -11,9 +11,6 @@
 
 @implementation SceneRinkModel
 
-/////////////////////////////////////////////////////////////////
-// Initialize the receiver's properties with data from the 
-// bumperRink.h file.
 - (id)init
 {
    SceneMesh *rinkMesh = [[SceneMesh alloc] 

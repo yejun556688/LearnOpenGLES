@@ -1,10 +1,10 @@
-// This is a .c file for the model: cube
+// This is a .c file for the model: starship
 
 #include "starship.h"
 
-const int cubeVertices = 66;
+const int starshipVertices = 66;
 
-const float cubePositions[198] = 
+const float starshipPositions[198] = 
 {
 -0.215379, -0.018131, 0.254635, 
 -0.130827, -0.03062, -0.229209, 
@@ -74,7 +74,7 @@ const float cubePositions[198] =
 0.219197, -0.018172, 0.253044, 
 };
 
-const float cubeTexels[132] = 
+const float starshipTexels[132] = 
 {
 0.80337, 0.558166, 
 0.81902, 0.647724, 
@@ -144,7 +144,7 @@ const float cubeTexels[132] =
 0.727495, 0.712881, 
 };
 
-const float cubeNormals[198] = 
+const float starshipNormals[198] = 
 {
 0.588526, 0.8043, 0.082085, 
 0.588526, 0.8043, 0.082085, 
@@ -214,30 +214,30 @@ const float cubeNormals[198] =
 0.002747, -0.641946, 0.766745, 
 };
 
-const int cubeMaterials = 3;
+const int starshipMaterials = 3;
 
-const int cubeFirsts[3] = 
+const int starshipFirsts[3] = 
 {
 0,
 30,
 63,
 };
 
-const int cubeCounts[3] = 
+const int starshipCounts[3] = 
 {
 30,
 33,
 3,
 };
 
-const float cubeDiffuses[3][3] = 
+const float starshipDiffuses[3][3] = 
 {
 0, 0, 0.75, 
 0.75, 0.75, 0.75, 
 1, 0.5, 0, 
 };
 
-const float cubeSpeculars[3][3] = 
+const float starshipSpeculars[3][3] = 
 {
 0, 0.25, 0.25, 
 1, 1, 1, 

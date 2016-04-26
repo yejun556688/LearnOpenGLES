@@ -7,15 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD08A45F1CC4C2F60020F861 /* SceneAnimatedMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08A4521CC4C2F60020F861 /* SceneAnimatedMesh.m */; };
 		FD08A4601CC4C2F60020F861 /* SceneMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08A4541CC4C2F60020F861 /* SceneMesh.m */; };
 		FD08A4611CC4C2F60020F861 /* SceneModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08A4561CC4C2F60020F861 /* SceneModel.m */; };
 		FD08A4621CC4C2F60020F861 /* SceneCar.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08A45A1CC4C2F60020F861 /* SceneCar.m */; };
 		FD08A4631CC4C2F60020F861 /* SceneCarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08A45C1CC4C2F60020F861 /* SceneCarModel.m */; };
 		FD08A4641CC4C2F60020F861 /* SceneRinkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08A45E1CC4C2F60020F861 /* SceneRinkModel.m */; };
-		FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */; };
-		FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0351CBDEE52008AB24C /* Moon256x128.png */; };
-		FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0371CBDEE52008AB24C /* sphere.obj */; };
 		FD1DF03E1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1DF03D1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m */; };
 		FD8C73431C929DB9001A5D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73421C929DB9001A5D46 /* main.m */; };
 		FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73451C929DB9001A5D46 /* AppDelegate.m */; };
@@ -37,9 +33,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FD08A4501CC4C2F60020F861 /* canLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = canLight.h; sourceTree = "<group>"; };
-		FD08A4511CC4C2F60020F861 /* SceneAnimatedMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneAnimatedMesh.h; sourceTree = "<group>"; };
-		FD08A4521CC4C2F60020F861 /* SceneAnimatedMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneAnimatedMesh.m; sourceTree = "<group>"; };
 		FD08A4531CC4C2F60020F861 /* SceneMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneMesh.h; sourceTree = "<group>"; };
 		FD08A4541CC4C2F60020F861 /* SceneMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneMesh.m; sourceTree = "<group>"; };
 		FD08A4551CC4C2F60020F861 /* SceneModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneModel.h; sourceTree = "<group>"; };
@@ -52,10 +45,6 @@
 		FD08A45C1CC4C2F60020F861 /* SceneCarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneCarModel.m; sourceTree = "<group>"; };
 		FD08A45D1CC4C2F60020F861 /* SceneRinkModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneRinkModel.h; sourceTree = "<group>"; };
 		FD08A45E1CC4C2F60020F861 /* SceneRinkModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneRinkModel.m; sourceTree = "<group>"; };
-		FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
-		FD1DF0351CBDEE52008AB24C /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
-		FD1DF0361CBDEE52008AB24C /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
-		FD1DF0371CBDEE52008AB24C /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		FD1DF03C1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKVertexAttribArrayBuffer.h; sourceTree = "<group>"; };
 		FD1DF03D1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKVertexAttribArrayBuffer.m; sourceTree = "<group>"; };
 		FD8C733E1C929DB9001A5D46 /* LearnOpenGLES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnOpenGLES.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,26 +99,12 @@
 		FD08A44F1CC4C2F60020F861 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				FD08A4501CC4C2F60020F861 /* canLight.h */,
-				FD08A4511CC4C2F60020F861 /* SceneAnimatedMesh.h */,
-				FD08A4521CC4C2F60020F861 /* SceneAnimatedMesh.m */,
 				FD08A4531CC4C2F60020F861 /* SceneMesh.h */,
 				FD08A4541CC4C2F60020F861 /* SceneMesh.m */,
 				FD08A4551CC4C2F60020F861 /* SceneModel.h */,
 				FD08A4561CC4C2F60020F861 /* SceneModel.m */,
 			);
 			path = base;
-			sourceTree = "<group>";
-		};
-		FD1DF0331CBDEE52008AB24C /* res */ = {
-			isa = PBXGroup;
-			children = (
-				FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */,
-				FD1DF0351CBDEE52008AB24C /* Moon256x128.png */,
-				FD1DF0361CBDEE52008AB24C /* sphere.h */,
-				FD1DF0371CBDEE52008AB24C /* sphere.obj */,
-			);
-			path = res;
 			sourceTree = "<group>";
 		};
 		FD1DF03B1CBDF3AD008AB24C /* Kit */ = {
@@ -164,7 +139,6 @@
 			children = (
 				FD08A44E1CC4C2F60020F861 /* car */,
 				FD1DF03B1CBDF3AD008AB24C /* Kit */,
-				FD1DF0331CBDEE52008AB24C /* res */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */,
@@ -275,11 +249,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */,
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
-				FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
-				FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +276,6 @@
 				FD08A4611CC4C2F60020F861 /* SceneModel.m in Sources */,
 				FD8C73431C929DB9001A5D46 /* main.m in Sources */,
 				FD08A4631CC4C2F60020F861 /* SceneCarModel.m in Sources */,
-				FD08A45F1CC4C2F60020F861 /* SceneAnimatedMesh.m in Sources */,
 				FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */,
 				FD08A4601CC4C2F60020F861 /* SceneMesh.m in Sources */,
 			);

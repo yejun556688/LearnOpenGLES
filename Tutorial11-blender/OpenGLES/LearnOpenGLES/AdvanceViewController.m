@@ -48,32 +48,11 @@
     
     [self setMatrices];
     
-    // 1
-    // Positions
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, cubePositions);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, starshipPositions);
     
-    // Normals
     glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, cubeNormals);
-    
-    // Texels
-//    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-//    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, cubeTexels);
-    
-    
-    
-    NSDictionary* options = @{ GLKTextureLoaderOriginBottomLeft: @YES };
-    NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"cube.png" ofType:nil];
-    GLKTextureInfo* texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    
-    if(texture == nil)
-        NSLog(@"Error loading file: %@", [error localizedDescription]);
-    
-    self.baseEffect.texture2d0.name = texture.name;
-    self.baseEffect.texture2d0.enabled = true;
-    
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, starshipNormals);
     
     _rotate = 0.0f;
     glEnable(GL_CULL_FACE);
@@ -81,30 +60,33 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+#define DISABLE_LOOKAT YES
 
 - (void)setMatrices
 {
-    // Projection Matrix
     const GLfloat aspectRatio = (GLfloat)(self.view.bounds.size.width) / (GLfloat)(self.view.bounds.size.height);
     const GLfloat fieldView = GLKMathDegreesToRadians(90.0f);
     const GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldView, aspectRatio, 0.1f, 10.0f);
     self.baseEffect.transform.projectionMatrix = projectionMatrix;
     
-    // ModelView Matrix
-//    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-//    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -3.0f);
-//    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(45.0f));
-//    
-//    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
-//    modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
-//    
-//    self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
     
-    self.baseEffect.transform.modelviewMatrix = GLKMatrix4MakeLookAt(0, 0, 3,
-                                                                     1 * cos(GLKMathDegreesToRadians(_rotate)), 0, 0,
-                                                                     0, 1, 0);
+    if (DISABLE_LOOKAT) {
+        GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
+        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -3.0f);
+        modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(45.0f));
+        
+        modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
+        modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(_rotate));
+        
+        self.baseEffect.transform.modelviewMatrix = modelViewMatrix;
+    }
+    else {
+        self.baseEffect.transform.modelviewMatrix = GLKMatrix4MakeLookAt(0, 0, 3,
+                                                                         1 * cos(GLKMathDegreesToRadians(_rotate)), 0, 0,
+                                                                         0, 1, 0);
+    }
 }
 
 - (void)update {
@@ -120,18 +102,16 @@
     
     [self setMatrices];
     
-    // Render by parts
-    for(int i=0; i<cubeMaterials; i++)
+
+    for(int i=0; i<starshipMaterials; i++)
     {
-        // Set material
-        self.baseEffect.material.diffuseColor = GLKVector4Make(cubeDiffuses[i][0], cubeDiffuses[i][1], cubeDiffuses[i][2], 1.0f);
-        self.baseEffect.material.specularColor = GLKVector4Make(cubeSpeculars[i][0], cubeSpeculars[i][1], cubeSpeculars[i][2], 1.0f);
+        // 设置材质
+        self.baseEffect.material.diffuseColor = GLKVector4Make(starshipDiffuses[i][0], starshipDiffuses[i][1], starshipDiffuses[i][2], 1.0f);
+        self.baseEffect.material.specularColor = GLKVector4Make(starshipSpeculars[i][0], starshipSpeculars[i][1], starshipSpeculars[i][2], 1.0f);
         
-        // Prepare effect
         [self.baseEffect prepareToDraw];
         
-        // Draw vertices
-        glDrawArrays(GL_TRIANGLES, cubeFirsts[i], cubeCounts[i]);
+        glDrawArrays(GL_TRIANGLES, starshipFirsts[i], starshipCounts[i]);
     }
     
 }

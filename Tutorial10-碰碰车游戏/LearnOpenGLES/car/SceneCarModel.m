@@ -11,9 +11,6 @@
 
 @implementation SceneCarModel
 
-/////////////////////////////////////////////////////////////////
-// Initialize the receiver's properties with data from the 
-// bumperCar.h file.
 - (id)init
 {
    SceneMesh *carMesh = [[SceneMesh alloc] 
