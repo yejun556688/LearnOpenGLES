@@ -86,21 +86,21 @@ static const int SceneNumberOfPOVAnimationSeconds = 2.0;
                           position:GLKVector3Make(1.0, 0.0, 1.0)
                           velocity:GLKVector3Make(1.5, 0.0, 1.5)
                           color:GLKVector4Make(0.0, 0.5, 0.0, 1.0)];
-//    [cars addObject:newCar];
+    [cars addObject:newCar];
     
     newCar = [[SceneCar alloc]
               initWithModel:self.carModel
               position:GLKVector3Make(-1.0, 0.0, 1.0)
               velocity:GLKVector3Make(-1.5, 0.0, 1.5)
               color:GLKVector4Make(0.5, 0.5, 0.0, 1.0)];
-//    [cars addObject:newCar];
+    [cars addObject:newCar];
     
     newCar = [[SceneCar alloc]
               initWithModel:self.carModel
               position:GLKVector3Make(1.0, 0.0, -1.0)
               velocity:GLKVector3Make(-1.5, 0.0, -1.5)
               color:GLKVector4Make(0.5, 0.0, 0.0, 1.0)];
-//    [cars addObject:newCar];
+    [cars addObject:newCar];
     
     newCar = [[SceneCar alloc]
               initWithModel:self.carModel

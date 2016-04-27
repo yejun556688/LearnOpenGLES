@@ -171,7 +171,7 @@ static long bounceCount;
                                                    self.targetYawRadians,
                                                    self.yawRadians);
     if (self.mCarId > 0) {
-        //        NSLog(@"yawRadians %.3f v %.3f %0.3f", self.yawRadians, self.velocity.x, self.velocity.y);
+        NSLog(@"yawRadians %f", GLKMathRadiansToDegrees(self.yawRadians));
     }
 }
 
