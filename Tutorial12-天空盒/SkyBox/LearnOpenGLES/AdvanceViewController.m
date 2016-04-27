@@ -135,7 +135,7 @@
         
         // Pitch up and down slowly to marvel at the sky and water
         self.lookAtPosition = GLKVector3Make(0.0,
-                                             1.5 + 5.0f * sinf(0.3 * self.angle),
+                                             1.5 + 10.0f * sinf(0.3 * self.angle),
                                              0.0);
         
     }

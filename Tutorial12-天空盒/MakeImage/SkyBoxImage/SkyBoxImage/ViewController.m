@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.mImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 128, 128 * 6)];
+    self.mImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100 * 6)];
     UIImage* image = [UIImage imageNamed:@"skybox"];
     [self.mImageView setImage:image];
     NSLog(@"%@", [image description]);
@@ -45,6 +45,15 @@
         CGImageRef cgimage = CGImageCreateWithImageInRect(image.CGImage, CGRectMake(indices[i], indices[i + 1], length, length));
         UIImage* tmp = [UIImage imageWithCGImage:cgimage];
         [tmp drawInRect:CGRectMake(0, length * i / 2, length, length)];
+        
+// // // // // // // // // //
+//        CGContextRef gc = UIGraphicsGetCurrentContext();
+        //坐标系转换
+        //因为CGContextDrawImage会使用Quartz内的以左下角为(0,0)的坐标系
+//        CGContextTranslateCTM(gc, 0, length * facesCount);
+//        CGContextScaleCTM(gc, 1, -1);
+//        CGContextDrawImage(gc, CGRectMake(0, length * i / 2, length, length), cgimage);
+
     }
     UIImage* finalImage = UIGraphicsGetImageFromCurrentImageContext();
     [self.mImageView setImage:finalImage];

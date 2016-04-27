@@ -176,7 +176,6 @@
     
     //平移
     ksTranslate(&_modelViewMatrix, 0.5, 0.0, -10.0);
-    
     KSMatrix4 _rotationMatrix;
     ksMatrixLoadIdentity(&_rotationMatrix);
     
@@ -185,8 +184,8 @@
     ksRotate(&_rotationMatrix, yDegree, 0.0, 1.0, 0.0); //绕Y轴
     
     //把变换矩阵相乘，注意先后顺序
-//    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
-    ksMatrixMultiply(&_modelViewMatrix, &_modelViewMatrix, &_rotationMatrix);
+    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
+//    ksMatrixMultiply(&_modelViewMatrix, &_modelViewMatrix, &_rotationMatrix);
     
     // Load the model-view matrix
     glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
