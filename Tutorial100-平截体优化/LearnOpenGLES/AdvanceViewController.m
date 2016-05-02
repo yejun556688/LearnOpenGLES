@@ -22,13 +22,12 @@
 @property (strong, nonatomic) GLKBaseEffect *baseEffect;
 @property (assign, nonatomic) float filteredFPS;
 @property (assign, nonatomic) AGLKFrustum frustum;
-@property (assign, nonatomic) BOOL orientationDidChange;
-@property (assign, nonatomic) BOOL shouldCull;
+@property (assign, nonatomic) BOOL didChange;
 @property (assign, nonatomic) float yawAngleRad;
 
 @property (nonatomic , strong) UILabel* fpsField;
-
-- (IBAction)takeShouldUsePerspectiveFrom:(UISwitch *)aControl;
+@property (nonatomic , strong) UISlider* mFarSlider;
+@property (nonatomic , strong) UISwitch* mCullSwitch;
 
 @end
 
@@ -66,6 +65,25 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     self.fpsField = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 10, 10)];
     [self.fpsField setTextColor:[UIColor yellowColor]];
     [self.view addSubview:self.fpsField];
+    
+    self.mFarSlider = [[UISlider alloc] initWithFrame:CGRectMake(30, 50, 50, 50)];
+    [self.view addSubview:self.mFarSlider];
+    
+    UILabel* farLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 60, 50, 50)];
+    farLabel.text = @"eye距离";
+    farLabel.textColor = [UIColor yellowColor];
+    [farLabel sizeToFit];
+    [self.view addSubview:farLabel];
+    
+    
+    self.mCullSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(30, 100, 30, 30)];
+    [self.view addSubview:self.mCullSwitch];
+    
+    UILabel* cullLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 105, 50, 50)];
+    cullLabel.text = @"开启优化";
+    [cullLabel sizeToFit];
+    cullLabel.textColor = [UIColor yellowColor];
+    [self.view addSubview:cullLabel];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -183,7 +201,7 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
                 ScenePosition.z / 5 * j
             };
             
-            if(!self.shouldCull || AGLKFrustumOut != AGLKFrustumCompareSphere(&_frustum, addPosition, 1))
+            if(!self.mCullSwitch.on || AGLKFrustumOut != AGLKFrustumCompareSphere(&_frustum, addPosition, 1))
             {
                 GLKMatrixStackPush(modelviewMatrixStack);
                 GLKMatrixStackTranslate(modelviewMatrixStack, addPosition.x, addPosition.y, addPosition.z);
@@ -207,9 +225,8 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     self.baseEffect.transform.modelviewMatrix = GLKMatrixStackGetMatrix4(modelviewMatrixStack);
 }
 
-- (IBAction)takeShouldUsePerspectiveFrom:(UISwitch *)aControl;
-{
-    self.shouldCull = aControl.on;
+- (void)onNearToFar:(UISlider *)sender {
+    self.didChange = YES;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -242,7 +259,7 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
 
 - (void)calculateFrustum {
     
-    if(self.orientationDidChange ||
+    if(self.didChange ||
        !AGLKFrustumHasDimention(&_frustum))
     {
         GLfloat   aspectRatio =
@@ -270,9 +287,10 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     self.yawAngleRad = 0.1f * [self timeSinceLastResume];
     
     // Use reasonable eye position and up direction
-    static const GLKVector3 eyePosition = {
+    GLKVector3 eyePosition = {
         0.0, 5.0, 0.0
     };
+    eyePosition.y += self.mFarSlider.value * 200.0f;
     static const GLKVector3 upDirection = {
         0.0, 1.0, 0.0
     };

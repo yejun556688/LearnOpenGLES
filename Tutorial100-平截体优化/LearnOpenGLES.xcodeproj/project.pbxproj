@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */; };
-		FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0351CBDEE52008AB24C /* Moon256x128.png */; };
 		FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0371CBDEE52008AB24C /* sphere.obj */; };
 		FD1DF03E1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1DF03D1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m */; };
 		FD8C73431C929DB9001A5D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73421C929DB9001A5D46 /* main.m */; };
@@ -17,7 +16,6 @@
 		FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734D1C929DB9001A5D46 /* Assets.xcassets */; };
 		FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */; };
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
-		FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */ = {isa = PBXBuildFile; fileRef = FD8C73691C92AC07001A5D46 /* for_test.png */; };
 		FD96FA111CD1E41E003BF6D3 /* AGLKFrustum.m in Sources */ = {isa = PBXBuildFile; fileRef = FD96FA101CD1E41E003BF6D3 /* AGLKFrustum.m */; };
 		FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */; };
 /* End PBXBuildFile section */
@@ -34,7 +32,6 @@
 
 /* Begin PBXFileReference section */
 		FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
-		FD1DF0351CBDEE52008AB24C /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
 		FD1DF0361CBDEE52008AB24C /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		FD1DF0371CBDEE52008AB24C /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		FD1DF03C1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKVertexAttribArrayBuffer.h; sourceTree = "<group>"; };
@@ -50,7 +47,6 @@
 		FD8C73571C929DB9001A5D46 /* LearnOpenGLESTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnOpenGLESTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnOpenGLESTests.m; sourceTree = "<group>"; };
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FD8C73691C92AC07001A5D46 /* for_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = for_test.png; sourceTree = "<group>"; };
 		FD96FA0F1CD1E41E003BF6D3 /* AGLKFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKFrustum.h; sourceTree = "<group>"; };
 		FD96FA101CD1E41E003BF6D3 /* AGLKFrustum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKFrustum.m; sourceTree = "<group>"; };
 		FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvanceViewController.h; sourceTree = "<group>"; };
@@ -79,7 +75,6 @@
 			isa = PBXGroup;
 			children = (
 				FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */,
-				FD1DF0351CBDEE52008AB24C /* Moon256x128.png */,
 				FD1DF0361CBDEE52008AB24C /* sphere.h */,
 				FD1DF0371CBDEE52008AB24C /* sphere.obj */,
 			);
@@ -120,7 +115,6 @@
 			children = (
 				FD1DF03B1CBDF3AD008AB24C /* Kit */,
 				FD1DF0331CBDEE52008AB24C /* res */,
-				FD8C73691C92AC07001A5D46 /* for_test.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */,
@@ -233,8 +227,6 @@
 			files = (
 				FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */,
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
-				FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */,
-				FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
 				FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
