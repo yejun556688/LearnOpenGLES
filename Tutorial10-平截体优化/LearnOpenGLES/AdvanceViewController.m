@@ -266,40 +266,33 @@ static float randArr[ARR_LENGTH];
                                                             nearDistance,
                                                             farDistance);
         
-        // Set the base effect's projection matrix to match frustum
-        self.baseEffect.transform.projectionMatrix = 
-        AGLKFrustumMakePerspective(&_frustum);
+        
+        self.baseEffect.transform.projectionMatrix = AGLKFrustumMakePerspective(&_frustum);
     }
     
     self.yawAngleRad = 0.1f * [self timeSinceLastResume];
     
-    // Use reasonable eye position and up direction
     GLKVector3 eyePosition = {
         0.0, 5.0, 0.0
     };
     eyePosition.y += self.mFarSlider.value * 200.0f;
-    static const GLKVector3 upDirection = {
+    GLKVector3 upDirection = {
         0.0, 1.0, 0.0
     };
     
-    // Calculate current look-at position
     const GLKVector3 lookAtPosition = {
         ScenePosition.x * sinf(self.yawAngleRad),
         ScenePosition.y,
         ScenePosition.z * cosf(self.yawAngleRad)
     };
     
-    // Configure the frustum field of view with same parameters
-    // used by GLKMatrix4MakeLookAt()
     AGLKFrustumSetPositionAndDirection(
                                        &_frustum,
                                        eyePosition,
                                        lookAtPosition,
                                        upDirection);
     
-    // Set the base effect's modelview matrix to match frustum
-    self.baseEffect.transform.modelviewMatrix =  
-    AGLKFrustumMakeModelview(&_frustum);
+    self.baseEffect.transform.modelviewMatrix = AGLKFrustumMakeModelview(&_frustum);
 }
 
 

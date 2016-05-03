@@ -6,11 +6,8 @@
 #import <GLKit/GLKit.h>
 
 
-/////////////////////////////////////////////////////////////////
-// This data type is used to store the parameters that define a  
-// viewing frustum
 typedef struct 
-{  // Frustum definition
+{  // 平截体定义
    GLKVector3 eyePosition;
    GLKVector3 xUnitVector;
    GLKVector3 yUnitVector;
@@ -19,7 +16,7 @@ typedef struct
    GLfloat nearDistance;
    GLfloat farDistance;
    
-   // Derived frustum properties
+   // 平截体产生需要的属性
    GLfloat nearWidth;
    GLfloat nearHeight;
    GLfloat tangentOfHalfFieldOfView;
@@ -29,11 +26,7 @@ typedef struct
 AGLKFrustum;
 
 
-/////////////////////////////////////////////////////////////////
-// This data type enumerates the possible intersections of 
-// geometry with a frustum.  The geometry is potentially entirely
-// within the frustum, partially within the frustum, or 
-// completely outside the frustum.
+// 定义物体和平截体可能的关系
 typedef enum
 {
   AGLKFrustumIn,
@@ -43,8 +36,7 @@ typedef enum
 AGLKFrustumIntersectionType;
 
 
-/////////////////////////////////////////////////////////////////
-// 
+// 产生一个平截体
 extern AGLKFrustum AGLKFrustumMakeFrustumWithParameters
 (
    GLfloat fieldOfViewRad, 
@@ -53,8 +45,7 @@ extern AGLKFrustum AGLKFrustumMakeFrustumWithParameters
    GLfloat farDistance 
    );
 
-/////////////////////////////////////////////////////////////////
-// 
+// 设置平截体
 extern void AGLKFrustumSetPerspective
 (
    AGLKFrustum *frustumPtr, 
@@ -64,8 +55,7 @@ extern void AGLKFrustumSetPerspective
    GLfloat farDistance 
    );
 
-/////////////////////////////////////////////////////////////////
-// 
+// eye位置和朝向
 extern void AGLKFrustumSetPositionAndDirection
 (
  AGLKFrustum *frustumPtr, 
@@ -74,7 +64,6 @@ extern void AGLKFrustumSetPositionAndDirection
  GLKVector3 up
  );
 
-/////////////////////////////////////////////////////////////////
 // 
 extern void AGLKFrustumSetToMatchModelview
 (
@@ -82,23 +71,22 @@ extern void AGLKFrustumSetToMatchModelview
    GLKMatrix4 modelview
    ); 
 
-/////////////////////////////////////////////////////////////////
-// 
+
+// 判断平截体是否初始化
 extern BOOL AGLKFrustumHasDimention
 (
    const AGLKFrustum *frustumPtr
    );
       
-/////////////////////////////////////////////////////////////////
-// 
+
+// 判断点是否在平截体内
 extern AGLKFrustumIntersectionType AGLKFrustumComparePoint
 (
  const AGLKFrustum *frustumPtr, 
  GLKVector3 point
  );
 
-/////////////////////////////////////////////////////////////////
-// 
+// 判断球体是否在平截体内
 extern AGLKFrustumIntersectionType AGLKFrustumCompareSphere
 (
  const AGLKFrustum *frustumPtr, 
@@ -106,15 +94,12 @@ extern AGLKFrustumIntersectionType AGLKFrustumCompareSphere
  GLfloat radius
  );
 
-/////////////////////////////////////////////////////////////////
-// 
+
 extern GLKMatrix4 AGLKFrustumMakePerspective
 (
  const AGLKFrustum *frustumPtr
  );
 
-/////////////////////////////////////////////////////////////////
-// 
 extern GLKMatrix4 AGLKFrustumMakeModelview
 (
  const AGLKFrustum *frustumPtr
