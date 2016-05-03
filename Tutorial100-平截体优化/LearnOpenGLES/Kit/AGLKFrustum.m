@@ -6,13 +6,8 @@
 #import "AGLKFrustum.h"
 #include <GLKit/GLKit.h>
 
-
-/////////////////////////////////////////////////////////////////
-// Call to define frustum shape in the same situations when 
-// gluPerspective() would be called.
-// The projection matrix corresponding to the returned frustum
-// can be obtained by calling AGLKFrustumMakePerspective()
-// after calling this function.
+// 调用此函数后
+// 投影矩阵通过AGLKFrustumMakePerspective()返回
 AGLKFrustum AGLKFrustumMakeFrustumWithParameters
 (
    GLfloat fieldOfViewRad, 
@@ -33,8 +28,7 @@ AGLKFrustum AGLKFrustumMakeFrustumWithParameters
 }
 
 
-/////////////////////////////////////////////////////////////////
-// 
+
 extern void AGLKFrustumSetPerspective
 (
    AGLKFrustum *frustumPtr, 
@@ -54,26 +48,20 @@ extern void AGLKFrustumSetPerspective
    
    const GLfloat halfFieldOfViewRad = 0.5f * fieldOfViewRad;
    
-   // store the information
    frustumPtr->aspectRatio = aspectRatio;
    frustumPtr->nearDistance = nearDistance;
    frustumPtr->farDistance = farDistance;
    
-//    NSLog(@"cos %f  cosf %f", cos(M_PI_4), cosf(M_PI_4));
-    
-   // compute width and height of the near section
-   frustumPtr->tangentOfHalfFieldOfView = 
-      tanf(halfFieldOfViewRad);
-   frustumPtr->nearHeight = nearDistance * 
-      frustumPtr->tangentOfHalfFieldOfView;
+    //正弦值
+   frustumPtr->tangentOfHalfFieldOfView = tanf(halfFieldOfViewRad);
+   frustumPtr->nearHeight = nearDistance * frustumPtr->tangentOfHalfFieldOfView;
    frustumPtr->nearWidth = frustumPtr->nearHeight * aspectRatio;
 
-   // Calculate sphere factors (used when testing sphere 
-   // intersection with frustum)
-   frustumPtr->sphereFactorY =     
-      1.0f/cosf(frustumPtr->tangentOfHalfFieldOfView);
-   const GLfloat angleX = 
-      atanf(frustumPtr->tangentOfHalfFieldOfView * aspectRatio);
+   // 计算球体放大因子
+    // 原代码这里的部分有问题，用170°进行测试，可以发现这一行代码有bug，地球还未完全消失时候，物体就消失了。
+//    frustumPtr->sphereFactorY = 1.0f/cosf(frustumPtr->tangentOfHalfFieldOfView);
+    frustumPtr->sphereFactorY = 1.0f/cosf(halfFieldOfViewRad);
+   const GLfloat angleX = atanf(frustumPtr->tangentOfHalfFieldOfView * aspectRatio);
    frustumPtr->sphereFactorX = 1.0f/cosf(angleX);
 }
 

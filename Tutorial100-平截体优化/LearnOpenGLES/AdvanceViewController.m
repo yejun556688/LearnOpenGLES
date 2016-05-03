@@ -22,8 +22,8 @@
 @property (strong, nonatomic) GLKBaseEffect *baseEffect;
 @property (assign, nonatomic) float filteredFPS;
 @property (assign, nonatomic) AGLKFrustum frustum;
-@property (assign, nonatomic) BOOL didChange;
 @property (assign, nonatomic) float yawAngleRad;
+
 
 @property (nonatomic , strong) UILabel* fpsField;
 @property (nonatomic , strong) UISlider* mFarSlider;
@@ -36,12 +36,15 @@
 }
 
 static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
+#define ARR_LENGTH 1024
+#define EARTH_RADIUS 1
+static float randArr[ARR_LENGTH];
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     
-    //新建OpenGLES 上下文
+    // 新建OpenGLES 上下文
     self.mContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
     GLKView* view = (GLKView *)self.view;
@@ -52,16 +55,32 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     [EAGLContext setCurrentContext:self.mContext];
     
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_CULL_FACE);
     
     self.baseEffect = [[GLKBaseEffect alloc] init];
     
-    // Configure a light
+    // 光源
     [self configureLight];
     
-    // buffer data
+    // 数据
     [self bufferData];
     
+    // UI
+    [self configureUI];
+    
+    // random
+    [self configureRandom];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+- (void)configureRandom {
+    for (int i = 0; i < ARR_LENGTH; ++i) {
+        randArr[i] = 0.5 + (random() % 100) / 50.0;
+    }
+}
+
+- (void)configureUI {
     self.fpsField = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 10, 10)];
     [self.fpsField setTextColor:[UIColor yellowColor]];
     [self.view addSubview:self.fpsField];
@@ -85,10 +104,6 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     cullLabel.textColor = [UIColor yellowColor];
     [self.view addSubview:cullLabel];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)configureLight
 {
@@ -110,18 +125,8 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
                                                          1.0f);// Alpha 
 }
 
-
-- (void)setClearColor:(GLKVector4)clearColorRGBA
-{
-    glClearColor(
-                 clearColorRGBA.r,
-                 clearColorRGBA.g,
-                 clearColorRGBA.b,
-                 clearColorRGBA.a);
-}
-
+//顶点数据缓存 和 纹理
 - (void)bufferData {
-    //顶点数据缓存
     self.vertexPositionBuffer = [[AGLKVertexAttribArrayBuffer alloc]
                                  initWithAttribStride:(3 * sizeof(GLfloat))
                                  numberOfVertices:sizeof(sphereVerts) / (3 * sizeof(GLfloat))
@@ -165,8 +170,6 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
                         error:NULL];
     self.baseEffect.texture2d0.name = earthTextureInfo.name;
     self.baseEffect.texture2d0.target = earthTextureInfo.target;
-    
-    //矩阵堆
 }
 
 //地球
@@ -179,18 +182,7 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     
     GLKMatrixStackPush(modelviewMatrixStack);
     
-//    static int radiansX = 25;
-//    GLKMatrixStackRotate(modelviewMatrixStack,
-//                         GLKMathDegreesToRadians(radiansX),
-//                         1.0, 0.0, 0.0);
-//  
-//    static int radiansY = 0;
-//    
-//    GLKMatrixStackRotate(modelviewMatrixStack,
-//                         GLKMathDegreesToRadians(++radiansY),
-//                         0.0, 1.0, 0.0);
-    
-    
+    long index = 0;
     for(NSInteger i = -10; i < 5; i++)
     {
         for(NSInteger j = -10; j < 5; j++)
@@ -201,10 +193,13 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
                 ScenePosition.z / 5 * j
             };
             
-            if(!self.mCullSwitch.on || AGLKFrustumOut != AGLKFrustumCompareSphere(&_frustum, addPosition, 1))
+            float scale = randArr[index++]; // 随机放大物体
+            if(!self.mCullSwitch.on || AGLKFrustumOut != AGLKFrustumCompareSphere(&_frustum, addPosition, scale * EARTH_RADIUS))
             {
                 GLKMatrixStackPush(modelviewMatrixStack);
                 GLKMatrixStackTranslate(modelviewMatrixStack, addPosition.x, addPosition.y, addPosition.z);
+                
+                GLKMatrixStackScale(modelviewMatrixStack, scale, scale, scale);
                 self.baseEffect.transform.modelviewMatrix = GLKMatrixStackGetMatrix4(modelviewMatrixStack);
                 GLKMatrixStackPop(modelviewMatrixStack);
                 [self.baseEffect prepareToDraw];
@@ -225,10 +220,6 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     self.baseEffect.transform.modelviewMatrix = GLKMatrixStackGetMatrix4(modelviewMatrixStack);
 }
 
-- (void)onNearToFar:(UISlider *)sender {
-    self.didChange = YES;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation !=
@@ -247,8 +238,6 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
     if(0.0 < elapsedTime)
     {
         const float unfilteredFPS = 1.0f / elapsedTime;
-        // add part of the difference between current filtered FPS
-        // and unfilteredFPS (simple low pass filter)
         self.filteredFPS += 0.2f * (unfilteredFPS - self.filteredFPS);
     }
     
@@ -259,20 +248,18 @@ static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
 
 - (void)calculateFrustum {
     
-    if(self.didChange ||
-       !AGLKFrustumHasDimention(&_frustum))
+    if(!AGLKFrustumHasDimention(&_frustum))
     {
         GLfloat   aspectRatio =
         (self.view.bounds.size.width) /
         (self.view.bounds.size.height);
-        const GLfloat fieldOfViewDeg = 5.0f;
+//        const GLfloat fieldOfViewDeg = 170.0f;  用来测试平截体优化的一个bug
+        const GLfloat fieldOfViewDeg = 10.0f;
         const GLfloat nearDistance = 1.0f;
         const GLfloat farDistance = 10000.0f;
         const GLfloat fieldOfViewRad =
         GLKMathDegreesToRadians(fieldOfViewDeg);
         
-        // Initialize the frustum with same perspective parameters
-        // used by GLKMatrix4MakePerspective()
         self.frustum = AGLKFrustumMakeFrustumWithParameters(
                                                             fieldOfViewRad,
                                                             aspectRatio,

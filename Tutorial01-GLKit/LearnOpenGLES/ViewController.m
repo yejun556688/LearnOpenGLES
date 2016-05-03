@@ -70,13 +70,13 @@
 
     
     //纹理贴图
-    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"for_test" ofType:@"png"];
+    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"for_test" ofType:@"jpg"];
     NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];//GLKTextureLoaderOriginBottomLeft 纹理坐标系是相反的
     GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
     //着色器
     self.mEffect = [[GLKBaseEffect alloc] init];
-//    self.mEffect.texture2d0.enabled = GL_TRUE;
-//    self.mEffect.texture2d0.name = textureInfo.name;
+    self.mEffect.texture2d0.enabled = GL_TRUE;
+    self.mEffect.texture2d0.name = textureInfo.name;
 }
 
 - (void)didReceiveMemoryWarning {
