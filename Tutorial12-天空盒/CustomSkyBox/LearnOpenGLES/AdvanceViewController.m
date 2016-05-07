@@ -8,7 +8,7 @@
 
 #import "AdvanceViewController.h"
 #import "starship.h"
-#import <OpenGLES/ES2/glext.h>
+#import "AGLKSkyboxEffect.h"
 
 
 @interface AdvanceViewController ()
@@ -18,7 +18,7 @@
 @property (nonatomic , strong) EAGLContext* mContext;
 
 @property (strong, nonatomic) GLKBaseEffect *baseEffect;
-@property (strong, nonatomic) GLKSkyboxEffect *skyboxEffect;
+@property (strong, nonatomic) AGLKSkyboxEffect *skyboxEffect;
 @property (assign, nonatomic, readwrite) GLKVector3 eyePosition;
 @property (assign, nonatomic) GLKVector3 lookAtPosition;
 @property (assign, nonatomic) GLKVector3 upVector;
@@ -64,37 +64,21 @@
     self.angle = 0.5;
     [self setMatrices];
     
+    // 顶点缓存
     GLuint buffer;
-//    glGenVertexArraysOES(1, &_mPositionBuffer);
-//    glBindVertexArrayOES(_mPositionBuffer);
+    glGenVertexArraysOES(1, &_mPositionBuffer);
+    glBindVertexArrayOES(_mPositionBuffer);
     glGenBuffers(1, &buffer);
-    self.mPositionBuffer = buffer;
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(starshipPositions), starshipPositions, GL_STATIC_DRAW);
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     
     glGenBuffers(1, &buffer);
-    self.mNormalBuffer = buffer;
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(starshipNormals), starshipNormals, GL_STATIC_DRAW);
     glEnableVertexAttribArray(GLKVertexAttribNormal);
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-    
-    
-
-// 顶点缓存
-//    GLuint attrBuffer;
-//    glGenBuffers(1, &attrBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(starshipPositions), starshipPositions, GL_STATIC_DRAW);
-//    self.mPositionBuffer = attrBuffer;
-//    GLuint normalBuffer;
-//    glGenBuffers(1, &normalBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(starshipNormals), starshipNormals, GL_STATIC_DRAW);
-//    self.mNormalBuffer = normalBuffer;
-    
     
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -112,7 +96,7 @@
         NSLog(@"error %@", error);
     }
     // 配置天空盒特效
-    self.skyboxEffect = [[GLKSkyboxEffect alloc] init];
+    self.skyboxEffect = [[AGLKSkyboxEffect alloc] init];
     self.skyboxEffect.textureCubeMap.name = textureInfo.name;
     self.skyboxEffect.textureCubeMap.target = textureInfo.target;
     
@@ -153,9 +137,7 @@
                              self.upVector.z);
         
         // 增加角度
-        if (!self.mPauseSwitch.on) {
-            self.angle += 0.01;
-        }
+        self.angle += 0.01;
         
         // 调整眼睛的位置
         self.eyePosition = GLKVector3Make(-5.0f * sinf(self.angle),
@@ -175,11 +157,17 @@
  *  渲染场景代码
  */
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
+    if (self.mPauseSwitch.on) { // 暂停
+//        return ;
+    }
+    
     glClearColor(0.5f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-
-    [self setMatrices];
+    
+    if (!self.mPauseSwitch.on) { // 暂停
+        [self setMatrices];
+    }
     // 天空盒的眼睛
     self.skyboxEffect.center = self.eyePosition;
     self.skyboxEffect.transform.projectionMatrix = self.baseEffect.transform.projectionMatrix;
@@ -190,16 +178,26 @@
     [self.skyboxEffect draw];
     glDepthMask(true);
     
+    // DEBUG
+    {
+        GLenum error = glGetError();
+        if(GL_NO_ERROR != error)
+        {
+            NSLog(@"GL Error: 0x%x", error);
+        }
+    }
+    
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-//    glBindVertexArrayOES(0);
     // 需要重新设置顶点数据，不需要缓存
-    glBindBuffer(GL_ARRAY_BUFFER, self.mPositionBuffer);
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-    glBindBuffer(GL_ARRAY_BUFFER, self.mNormalBuffer);
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glBindVertexArrayOES(self.mPositionBuffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, self.mPositionBuffer);
+//    glEnableVertexAttribArray(GLKVertexAttribPosition);
+//    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+//    glBindVertexArrayOES(self.mNormalBuffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, self.mNormalBuffer);
+//    glEnableVertexAttribArray(GLKVertexAttribNormal);
+//    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
     // 绘制
     for(int i=0; i<starshipMaterials; i++)

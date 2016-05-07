@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FD205AEF1CD0A859000DD196 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = FD205AEE1CD0A859000DD196 /* image.png */; };
+		FD4831F81CDD8B71009F66D7 /* AGLKSkyboxEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4831F71CDD8B71009F66D7 /* AGLKSkyboxEffect.m */; };
+		FD4831FB1CDD8C5D009F66D7 /* AGLKSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD4831F91CDD8C5D009F66D7 /* AGLKSkyboxShader.fsh */; };
+		FD4831FC1CDD8C5D009F66D7 /* AGLKSkyboxShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD4831FA1CDD8C5D009F66D7 /* AGLKSkyboxShader.vsh */; };
 		FD8C73431C929DB9001A5D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73421C929DB9001A5D46 /* main.m */; };
 		FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73451C929DB9001A5D46 /* AppDelegate.m */; };
 		FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734A1C929DB9001A5D46 /* Main.storyboard */; };
@@ -30,6 +33,10 @@
 
 /* Begin PBXFileReference section */
 		FD205AEE1CD0A859000DD196 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		FD4831F61CDD8B71009F66D7 /* AGLKSkyboxEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKSkyboxEffect.h; sourceTree = "<group>"; };
+		FD4831F71CDD8B71009F66D7 /* AGLKSkyboxEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKSkyboxEffect.m; sourceTree = "<group>"; };
+		FD4831F91CDD8C5D009F66D7 /* AGLKSkyboxShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AGLKSkyboxShader.fsh; sourceTree = "<group>"; };
+		FD4831FA1CDD8C5D009F66D7 /* AGLKSkyboxShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = AGLKSkyboxShader.vsh; sourceTree = "<group>"; };
 		FD8C733E1C929DB9001A5D46 /* LearnOpenGLES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnOpenGLES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8C73421C929DB9001A5D46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FD8C73441C929DB9001A5D46 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -109,6 +116,10 @@
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FD9EB92D1CA4E7230086D839 /* AdvanceViewController.h */,
 				FD9EB92E1CA4E7230086D839 /* AdvanceViewController.m */,
+				FD4831F61CDD8B71009F66D7 /* AGLKSkyboxEffect.h */,
+				FD4831F71CDD8B71009F66D7 /* AGLKSkyboxEffect.m */,
+				FD4831F91CDD8C5D009F66D7 /* AGLKSkyboxShader.fsh */,
+				FD4831FA1CDD8C5D009F66D7 /* AGLKSkyboxShader.vsh */,
 				FD8C734A1C929DB9001A5D46 /* Main.storyboard */,
 				FD8C734D1C929DB9001A5D46 /* Assets.xcassets */,
 				FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */,
@@ -219,6 +230,8 @@
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
 				FD205AEF1CD0A859000DD196 /* image.png in Resources */,
+				FD4831FB1CDD8C5D009F66D7 /* AGLKSkyboxShader.fsh in Resources */,
+				FD4831FC1CDD8C5D009F66D7 /* AGLKSkyboxShader.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +252,7 @@
 				FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */,
 				FDCA3BF81CCB16E100D33D27 /* starship.c in Sources */,
 				FD8C73431C929DB9001A5D46 /* main.m in Sources */,
+				FD4831F81CDD8B71009F66D7 /* AGLKSkyboxEffect.m in Sources */,
 				FD9EB92F1CA4E7230086D839 /* AdvanceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
