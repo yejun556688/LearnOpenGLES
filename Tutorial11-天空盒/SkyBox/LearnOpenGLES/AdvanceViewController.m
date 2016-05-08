@@ -200,6 +200,7 @@
     glBindBuffer(GL_ARRAY_BUFFER, self.mNormalBuffer);
     glEnableVertexAttribArray(GLKVertexAttribNormal);
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    
 
     // 绘制
     for(int i=0; i<starshipMaterials; i++)
@@ -221,6 +222,7 @@
             NSLog(@"GL Error: 0x%x", error);
         }
     }
+    
  
 }
 @end
