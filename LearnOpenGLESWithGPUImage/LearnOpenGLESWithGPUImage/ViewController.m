@@ -43,7 +43,8 @@
     }
     else {
         flag = !flag;
-        self.mImageView.image = [[[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"custom"] imageByFilteringImage:[UIImage imageNamed:@"face"]];
+        
+        self.mImageView.image = [[[GPUImageFilter alloc] initWithVertexShaderFromString:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"custom" ofType:@"vsh"] encoding:NSUTF8StringEncoding error:nil] fragmentShaderFromString:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"custom" ofType:@"fsh"] encoding:NSUTF8StringEncoding error:nil]] imageByFilteringImage:[UIImage imageNamed:@"face"]];
         //    NSLog(@"%@", [[NSBundle mainBundle] pathForResource:@"custom" ofType:@"fsh"]);
     }
 }

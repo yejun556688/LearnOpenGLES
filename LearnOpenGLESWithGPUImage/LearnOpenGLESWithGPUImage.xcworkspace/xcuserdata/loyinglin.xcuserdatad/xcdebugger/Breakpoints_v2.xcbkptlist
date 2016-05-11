@@ -9,13 +9,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pods/GPUImage/framework/Source/GPUImageFilter.m"
-            timestampString = "484565066.813009"
+            filePath = "Pods/GPUImage/framework/Source/GPUImageOutput.m"
+            timestampString = "484665947.011105"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "674"
-            endingLineNumber = "674"
-            landmarkName = "-setInputSize:atIndex:"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "-addTarget:atTextureLocation:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/GPUImage/framework/Source/GPUImageOutput.m"
+            timestampString = "484665950.466193"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "-newCGImageByFilteringCGImage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/GPUImage/framework/Source/iOS/GPUImagePicture.m"
+            timestampString = "484666021.669689"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
+            landmarkName = "-processImageWithCompletionHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
