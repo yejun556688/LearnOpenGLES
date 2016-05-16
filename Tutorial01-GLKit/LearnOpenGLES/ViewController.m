@@ -28,7 +28,6 @@
     GLKView* view = (GLKView *)self.view; //storyboard记得添加
     view.context = self.mContext;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;  //颜色缓冲区格式
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24; // 模板缓冲区格式
     [EAGLContext setCurrentContext:self.mContext];
    
     
