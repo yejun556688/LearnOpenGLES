@@ -93,8 +93,7 @@
 		FD8C73401C929DB9001A5D46 /* LearnOpenGLES */ = {
 			isa = PBXGroup;
 			children = (
-				FD5FCC591CEEB5490094752B /* GLProgram.h */,
-				FD5FCC5A1CEEB5490094752B /* GLProgram.m */,
+				FDF35AE41CFD78B80059EAEA /* extend */,
 				FD8C73691C92AC07001A5D46 /* for_test.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
@@ -128,6 +127,15 @@
 				FD8C735D1C929DB9001A5D46 /* Info.plist */,
 			);
 			path = LearnOpenGLESTests;
+			sourceTree = "<group>";
+		};
+		FDF35AE41CFD78B80059EAEA /* extend */ = {
+			isa = PBXGroup;
+			children = (
+				FD5FCC591CEEB5490094752B /* GLProgram.h */,
+				FD5FCC5A1CEEB5490094752B /* GLProgram.m */,
+			);
+			name = extend;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
