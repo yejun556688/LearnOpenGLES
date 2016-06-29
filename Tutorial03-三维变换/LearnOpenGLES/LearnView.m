@@ -112,7 +112,7 @@
         0.5f, 0.5f, 0.0f,       1.0f, 0.0f, 1.0f, //右上
         -0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f, //左下
         0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 1.0f, //右下
-        0.0f, 0.0f, -1.0f,      0.0f, 1.0f, 0.0f, //顶点
+        0.0f, 0.0f, 1.0f,      0.0f, 1.0f, 0.0f, //顶点
     };
     
     GLuint indices[] =
@@ -175,7 +175,7 @@
     ksMatrixLoadIdentity(&_modelViewMatrix);
     
     //平移
-    ksTranslate(&_modelViewMatrix, 0.5, 0.0, -10.0);
+    ksTranslate(&_modelViewMatrix, 0.0, 0.0, -10.0);
     KSMatrix4 _rotationMatrix;
     ksMatrixLoadIdentity(&_rotationMatrix);
     
