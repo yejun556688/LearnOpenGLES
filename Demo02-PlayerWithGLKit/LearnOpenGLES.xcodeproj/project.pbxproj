@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD06054B1D2A665600E663A7 /* abc.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FD06054A1D2A665600E663A7 /* abc.mp4 */; };
 		FD6BA4371D0FE5CA0080EB2D /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = FD6BA4361D0FE5CA0080EB2D /* abc.png */; };
 		FD8C73431C929DB9001A5D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73421C929DB9001A5D46 /* main.m */; };
 		FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73451C929DB9001A5D46 /* AppDelegate.m */; };
@@ -15,7 +16,6 @@
 		FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734D1C929DB9001A5D46 /* Assets.xcassets */; };
 		FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */; };
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
-		FD8C736A1C92AC07001A5D46 /* for_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8C73691C92AC07001A5D46 /* for_test.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD06054A1D2A665600E663A7 /* abc.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = abc.mp4; sourceTree = "<group>"; };
 		FD6BA4361D0FE5CA0080EB2D /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
 		FD8C733E1C929DB9001A5D46 /* LearnOpenGLES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnOpenGLES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8C73421C929DB9001A5D46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -43,7 +44,6 @@
 		FD8C73571C929DB9001A5D46 /* LearnOpenGLESTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnOpenGLESTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnOpenGLESTests.m; sourceTree = "<group>"; };
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FD8C73691C92AC07001A5D46 /* for_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = for_test.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +85,8 @@
 		FD8C73401C929DB9001A5D46 /* LearnOpenGLES */ = {
 			isa = PBXGroup;
 			children = (
+				FD06054A1D2A665600E663A7 /* abc.mp4 */,
 				FD6BA4361D0FE5CA0080EB2D /* abc.png */,
-				FD8C73691C92AC07001A5D46 /* for_test.jpg */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FD8C73471C929DB9001A5D46 /* ViewController.h */,
@@ -197,8 +197,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD06054B1D2A665600E663A7 /* abc.mp4 in Resources */,
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
-				FD8C736A1C92AC07001A5D46 /* for_test.jpg in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
 				FD6BA4371D0FE5CA0080EB2D /* abc.png in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,

@@ -8,20 +8,35 @@
 
 #import "ViewController.h"
 #import <CoreImage/CoreImage.h>
+#import <AVFoundation/AVFoundation.h>
+#import <OpenGLES/ES2/glext.h>
 @interface ViewController ()
 
 @property (nonatomic , strong) EAGLContext* mContext;
 @property (nonatomic , strong) GLKBaseEffect* mEffect;
 
+
+@property (nonatomic , strong) AVAsset *mAsset;
+@property (nonatomic , strong) AVAssetReader *mReader;
+@property (nonatomic , strong) AVAssetReaderTrackOutput *mReaderVideoTrackOutput;
+
+@property (nonatomic , strong) NSLock *mLock;
+
 @property (nonatomic , assign) int mCount;
+
+@property (nonatomic , strong) dispatch_queue_t mVideoQueue;
 @end
 
 @implementation ViewController
 {
+    CVOpenGLESTextureRef _lumaTexture;
+    CVOpenGLESTextureRef _chromaTexture;
+    CVOpenGLESTextureCacheRef _videoTextureCache;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    _mVideoQueue = dispatch_queue_create("video.loying.lin", DISPATCH_QUEUE_SERIAL);
 
     //新建OpenGLES 上下文
     self.mContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2]; //2.0，还有1.0和3.0
@@ -29,7 +44,15 @@
     view.context = self.mContext;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;  //颜色缓冲区格式
     [EAGLContext setCurrentContext:self.mContext];
-   
+    
+    // Create CVOpenGLESTextureCacheRef for optimal CVPixelBufferRef to GLES texture conversion.
+    if (!_videoTextureCache) {
+        CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, self.mContext, NULL, &_videoTextureCache);
+        if (err != noErr) {
+            NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
+            return;
+        }
+    }
     
     //顶点数据，前三个是顶点坐标，后面两个是纹理坐标
     GLfloat squareVertexData[] =
@@ -75,23 +98,23 @@
     UIImage *image = [UIImage imageNamed:@"abc.png"];
     renderTarget = [self pixelBufferFromCGImage:image.CGImage];
     
-    
-    CVReturn err = CVOpenGLESTextureCacheCreateTextureFromImage (kCFAllocatorDefault, coreVideoTextureCache, renderTarget,
-                                                        NULL, // texture attributes
-                                                        GL_TEXTURE_2D,
-                                                        GL_RGBA, // opengl format
-                                                        (int)CGImageGetWidth(image.CGImage),
-                                                        (int)CGImageGetHeight(image.CGImage),
-                                                        GL_RGBA, // native iOS format
-                                                        GL_UNSIGNED_BYTE,
-                                                        0,
-                                                        &renderTexture);
-    if (err)
-    {
-        NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
-    }
-    
-    glBindTexture(CVOpenGLESTextureGetTarget(renderTexture), CVOpenGLESTextureGetName(renderTexture));
+//    glActiveTexture(GL_TEXTURE0);
+//    CVReturn err = CVOpenGLESTextureCacheCreateTextureFromImage (kCFAllocatorDefault, coreVideoTextureCache, renderTarget,
+//                                                        NULL, // texture attributes
+//                                                        GL_TEXTURE_2D,
+//                                                        GL_RGBA, // opengl format
+//                                                        (int)CGImageGetWidth(image.CGImage),
+//                                                        (int)CGImageGetHeight(image.CGImage),
+//                                                        GL_RGBA, // native iOS format
+//                                                        GL_UNSIGNED_BYTE,
+//                                                        0,
+//                                                        &renderTexture);
+//    if (err)
+//    {
+//        NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+//    }
+//    
+//    glBindTexture(CVOpenGLESTextureGetTarget(renderTexture), CVOpenGLESTextureGetName(renderTexture));
     
     
     
@@ -102,21 +125,87 @@
     //着色器
     self.mEffect = [[GLKBaseEffect alloc] init];
     self.mEffect.texture2d0.enabled = GL_TRUE;
-    self.mEffect.texture2d0.name = CVOpenGLESTextureGetName(renderTarget);//textureInfo.name;
+    self.mEffect.texture2d0.name = textureInfo.name;
     
     /**
      We can't cast a still image texture to a CVOpenGLESTextureCacheRef. Core Video lets you map video frames directly to OpenGL textures. Using a video buffer where Core Video creates the textures and gives them to us, already in video memory.
      **/
     
-    UIImage* test = [self imageFromPixelBuffer:renderTarget];
-    UIImageView* imageView = [[UIImageView alloc] initWithImage:test];
-    [self.view addSubview:imageView];
+//    UIImage* test = [self imageFromPixelBuffer:renderTarget];
+//    UIImageView* imageView = [[UIImageView alloc] initWithImage:test];
+//    [self.view addSubview:imageView];
+    
+    
+    [self loadAsset];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)loadAsset {
+    NSDictionary *inputOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    AVURLAsset *inputAsset = [[AVURLAsset alloc] initWithURL:[[NSBundle mainBundle] URLForResource:@"abc" withExtension:@"mp4"] options:inputOptions];
+    __weak typeof(self) weakSelf = self;
+    [inputAsset loadValuesAsynchronouslyForKeys:[NSArray arrayWithObject:@"tracks"] completionHandler: ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSError *error = nil;
+            AVKeyValueStatus tracksStatus = [inputAsset statusOfValueForKey:@"tracks" error:&error];
+            if (tracksStatus != AVKeyValueStatusLoaded)
+            {
+                NSLog(@"error %@", error);
+                return;
+            }
+            weakSelf.mAsset = inputAsset;
+            [weakSelf processAsset];
+        });
+    }];
+}
+
+
+
+- (AVAssetReader*)createAssetReader
+{
+    NSError *error = nil;
+    AVAssetReader *assetReader = [AVAssetReader assetReaderWithAsset:self.mAsset error:&error];
+    
+    NSMutableDictionary *outputSettings = [NSMutableDictionary dictionary];
+    
+        [outputSettings setObject:@(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+//        isFullYUVRange = YES;
+
+    
+    // Maybe set alwaysCopiesSampleData to NO on iOS 5.0 for faster video decoding
+    self.mReaderVideoTrackOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:[[self.mAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] outputSettings:outputSettings];
+    self.mReaderVideoTrackOutput.alwaysCopiesSampleData = NO;
+    [assetReader addOutput:self.mReaderVideoTrackOutput];
+    
+    return assetReader;
+}
+
+- (void)processAsset
+{
+    self.mReader = [self createAssetReader];
+    
+    AVAssetReaderOutput *readerVideoTrackOutput = nil;
+    
+    for( AVAssetReaderOutput *output in self.mReader.outputs ) {
+        if( [output.mediaType isEqualToString:AVMediaTypeVideo] ) {
+            readerVideoTrackOutput = output;
+        }
+    }
+    
+    if ([self.mReader startReading] == NO)
+    {
+        NSLog(@"Error reading from file at URL: %@", self.mAsset);
+        return;
+    }
+    else {
+        NSLog(@"Start reading success.");
+    }
+}
+
 
 - (CVPixelBufferRef) pixelBufferFromCGImage: (CGImageRef) image
 {
@@ -166,46 +255,6 @@
     
     return pxbuffer;
     
-//    NSDictionary *options = @{
-//                              (NSString*)kCVPixelBufferCGImageCompatibilityKey : @YES,
-//                              (NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @YES,
-//                              (NSString*)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]
-//                              };
-//
-//    
-//    CVPixelBufferRef pxbuffer = NULL;
-//    
-//    CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault, CGImageGetWidth(image),
-//                                          CGImageGetHeight(image), kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)options,
-//                                          &pxbuffer);
-//    if (status!=kCVReturnSuccess) {
-//        NSLog(@"Operation failed");
-//    }
-//    
-//    NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
-//    
-//    CVPixelBufferLockBaseAddress(pxbuffer, 0);
-//    void *pxdata = CVPixelBufferGetBaseAddress(pxbuffer);
-//    
-//    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-//    CGContextRef context = CGBitmapContextCreate(pxdata, CGImageGetWidth(image),
-//                                                 CGImageGetHeight(image), 8, 4*CGImageGetWidth(image), rgbColorSpace,
-//                                                 kCGImageAlphaNoneSkipFirst);
-//    NSParameterAssert(context);
-//    
-//    CGContextConcatCTM(context, CGAffineTransformMakeRotation(0));
-//    CGAffineTransform flipVertical = CGAffineTransformMake( 1, 0, 0, -1, 0, CGImageGetHeight(image) );
-//    CGContextConcatCTM(context, flipVertical);
-//    CGAffineTransform flipHorizontal = CGAffineTransformMake( -1.0, 0.0, 0.0, 1.0, CGImageGetWidth(image), 0.0 );
-//    CGContextConcatCTM(context, flipHorizontal);
-//    
-//    CGContextDrawImage(context, CGRectMake(0, 0, CGImageGetWidth(image),
-//                                           CGImageGetHeight(image)), image);
-//    CGColorSpaceRelease(rgbColorSpace);
-//    CGContextRelease(context);
-//    
-//    CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
-//    return pxbuffer;
 }
 
 - (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
@@ -229,9 +278,6 @@
     CGImageRelease(cgImage);
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(rgbColorSpace);
-    
-//    NSData* imageData = UIImageJPEGRepresentation(image, 1.0);
-//    image = [UIImage imageWithData:imageData];
     CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
     return image;
 }
@@ -242,8 +288,29 @@
  */
 - (void)update {
     
+//    static long CD = 0;
+//    if (++CD < 3) {
+//        return ;
+//    }
+//    CD = 0;
 }
 
+
+- (void)cleanUpTextures
+{
+    if (_lumaTexture) {
+        CFRelease(_lumaTexture);
+        _lumaTexture = NULL;
+    }
+    
+    if (_chromaTexture) {
+        CFRelease(_chromaTexture);
+        _chromaTexture = NULL;
+    }
+    
+    // Periodic texture cache flush every frame
+    CVOpenGLESTextureCacheFlush(_videoTextureCache, 0);
+}
 
 /**
  *  渲染场景代码
@@ -251,6 +318,108 @@
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     glClearColor(0.3f, 0.6f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    
+    
+    
+    if (self.mReader.status == AVAssetReaderStatusReading)
+    {
+        CMSampleBufferRef sampleBufferRef = [self.mReaderVideoTrackOutput copyNextSampleBuffer];
+        if (sampleBufferRef)
+        {
+            CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBufferRef);
+            if (pixelBuffer != NULL) {
+                int frameWidth = (int)CVPixelBufferGetWidth(pixelBuffer);
+                int frameHeight = (int)CVPixelBufferGetHeight(pixelBuffer);
+                
+                if (!_videoTextureCache) {
+                    NSLog(@"No video texture cache");
+                    return;
+                }
+                
+                [self cleanUpTextures];
+                
+                
+                /*
+                 Use the color attachment of the pixel buffer to determine the appropriate color conversion matrix.
+                 */
+                CFTypeRef colorAttachments = CVBufferGetAttachment(pixelBuffer, kCVImageBufferYCbCrMatrixKey, NULL);
+                
+                if (colorAttachments == kCVImageBufferYCbCrMatrix_ITU_R_601_4) {
+                    //                    NSLog(@"kCVImageBufferYCbCrMatrix_ITU_R_601_4");
+                }
+                else {
+                    //                    NSLog(@"kColorConversion709");
+                }
+                
+                /*
+                 CVOpenGLESTextureCacheCreateTextureFromImage will create GLES texture optimally from CVPixelBufferRef.
+                 */
+                
+                /*
+                 Create Y and UV textures from the pixel buffer. These textures will be drawn on the frame buffer Y-plane.
+                 */
+                glActiveTexture(GL_TEXTURE0);
+                CVReturn err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                            _videoTextureCache,
+                                                                            pixelBuffer,
+                                                                            NULL,
+                                                                            GL_TEXTURE_2D,
+                                                                            GL_RED_EXT,
+                                                                            frameWidth,
+                                                                            frameHeight,
+                                                                            GL_RED_EXT,
+                                                                            GL_UNSIGNED_BYTE,
+                                                                            0,
+                                                                            &_lumaTexture);
+                if (err) {
+                    NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+                }
+                
+                glBindTexture(CVOpenGLESTextureGetTarget(_lumaTexture), CVOpenGLESTextureGetName(_lumaTexture));
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                
+                // UV-plane.
+                glActiveTexture(GL_TEXTURE1);
+                err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                   _videoTextureCache,
+                                                                   pixelBuffer,
+                                                                   NULL,
+                                                                   GL_TEXTURE_2D,
+                                                                   GL_RG_EXT,
+                                                                   frameWidth / 2,
+                                                                   frameHeight / 2,
+                                                                   GL_RG_EXT,
+                                                                   GL_UNSIGNED_BYTE,
+                                                                   1,
+                                                                   &_chromaTexture);
+                if (err) {
+                    NSLog(@"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+                }
+                
+                glBindTexture(CVOpenGLESTextureGetTarget(_chromaTexture), CVOpenGLESTextureGetName(_chromaTexture));
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                
+                
+                self.mEffect.texture2d0.name = CVOpenGLESTextureGetName(_lumaTexture);
+                NSLog(@"id %d", self.mEffect.texture2d0.name);
+            
+                
+                
+                if (pixelBuffer != NULL) {  // 不加，会导致纹理没释放，id 不断上升
+                    CFRelease(pixelBuffer);
+                }
+            }
+            
+        }
+    }
+    
     
     //启动着色器
     [self.mEffect prepareToDraw];
