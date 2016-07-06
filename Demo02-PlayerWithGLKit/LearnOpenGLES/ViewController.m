@@ -138,11 +138,8 @@
     
     NSMutableDictionary *outputSettings = [NSMutableDictionary dictionary];
     
-        [outputSettings setObject:@(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) forKey:(id)kCVPixelBufferPixelFormatTypeKey];
-//        isFullYUVRange = YES;
-
+    [outputSettings setObject:@(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) forKey:(id)kCVPixelBufferPixelFormatTypeKey];
     
-    // Maybe set alwaysCopiesSampleData to NO on iOS 5.0 for faster video decoding
     self.mReaderVideoTrackOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:[[self.mAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] outputSettings:outputSettings];
     self.mReaderVideoTrackOutput.alwaysCopiesSampleData = NO;
     [assetReader addOutput:self.mReaderVideoTrackOutput];
@@ -179,11 +176,6 @@
  */
 - (void)update {
     
-//    static long CD = 0;
-//    if (++CD < 3) {
-//        return ;
-//    }
-//    CD = 0;
 }
 
 
@@ -229,20 +221,6 @@
                 }
                 
                 [self cleanUpTextures];
-                
-                
-                /*
-                 Use the color attachment of the pixel buffer to determine the appropriate color conversion matrix.
-                 */
-                CFTypeRef colorAttachments = CVBufferGetAttachment(pixelBuffer, kCVImageBufferYCbCrMatrixKey, NULL);
-                
-                if (colorAttachments == kCVImageBufferYCbCrMatrix_ITU_R_601_4) {
-                    //                    NSLog(@"kCVImageBufferYCbCrMatrix_ITU_R_601_4");
-                }
-                else {
-                    //                    NSLog(@"kColorConversion709");
-                }
-                
                 /*
                  CVOpenGLESTextureCacheCreateTextureFromImage will create GLES texture optimally from CVPixelBufferRef.
                  */
