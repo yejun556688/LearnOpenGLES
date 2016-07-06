@@ -91,42 +91,8 @@
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (GLfloat *)NULL + 3);
 
     
-    CVOpenGLESTextureCacheRef coreVideoTextureCache;
-    CVPixelBufferRef renderTarget;
-    CVOpenGLESTextureRef renderTexture;
-    CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, self.mContext, NULL, &coreVideoTextureCache);
-    UIImage *image = [UIImage imageNamed:@"abc.png"];
-    renderTarget = [self pixelBufferFromCGImage:image.CGImage];
-    
-//    glActiveTexture(GL_TEXTURE0);
-//    CVReturn err = CVOpenGLESTextureCacheCreateTextureFromImage (kCFAllocatorDefault, coreVideoTextureCache, renderTarget,
-//                                                        NULL, // texture attributes
-//                                                        GL_TEXTURE_2D,
-//                                                        GL_RGBA, // opengl format
-//                                                        (int)CGImageGetWidth(image.CGImage),
-//                                                        (int)CGImageGetHeight(image.CGImage),
-//                                                        GL_RGBA, // native iOS format
-//                                                        GL_UNSIGNED_BYTE,
-//                                                        0,
-//                                                        &renderTexture);
-//    if (err)
-//    {
-//        NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
-//    }
-//    
-//    glBindTexture(CVOpenGLESTextureGetTarget(renderTexture), CVOpenGLESTextureGetName(renderTexture));
-    
-    
-    
-    //纹理贴图
-    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"abc" ofType:@"png"];
-    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:@(1), GLKTextureLoaderOriginBottomLeft, nil];//GLKTextureLoaderOriginBottomLeft 纹理坐标系是相反的
-    GLKTextureInfo* textureInfo = [GLKTextureLoader textureWithContentsOfFile:filePath options:options error:nil];
-    //着色器
     self.mEffect = [[GLKBaseEffect alloc] init];
     self.mEffect.texture2d0.enabled = GL_TRUE;
-    self.mEffect.texture2d0.name = textureInfo.name;
-    
     /**
      We can't cast a still image texture to a CVOpenGLESTextureCacheRef. Core Video lets you map video frames directly to OpenGL textures. Using a video buffer where Core Video creates the textures and gives them to us, already in video memory.
      **/
@@ -206,81 +172,6 @@
     }
 }
 
-
-- (CVPixelBufferRef) pixelBufferFromCGImage: (CGImageRef) image
-{
-    NSDictionary *options = @{
-                              (NSString*)kCVPixelBufferCGImageCompatibilityKey : @YES,
-                              (NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @YES,
-                              (NSString*)kCVPixelBufferIOSurfacePropertiesKey: [NSDictionary dictionary]
-                              };
-    CVPixelBufferRef pxbuffer = NULL;
-    
-    CGFloat frameWidth = CGImageGetWidth(image);
-    CGFloat frameHeight = CGImageGetHeight(image);
-    
-    CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault,
-                                          frameWidth,
-                                          frameHeight,
-                                          kCVPixelFormatType_32BGRA,
-                                          (__bridge CFDictionaryRef) options,
-                                          &pxbuffer);
-    
-    NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
-    
-    CVPixelBufferLockBaseAddress(pxbuffer, 0);
-    void *pxdata = CVPixelBufferGetBaseAddress(pxbuffer);
-    NSParameterAssert(pxdata != NULL);
-    
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    CGContextRef context = CGBitmapContextCreate(pxdata,
-                                                 frameWidth,
-                                                 frameHeight,
-                                                 8,
-                                                 CVPixelBufferGetBytesPerRow(pxbuffer),
-                                                 rgbColorSpace,
-                                                 (CGBitmapInfo)kCGImageAlphaNoneSkipFirst);
-    NSParameterAssert(context);
-    CGContextConcatCTM(context, CGAffineTransformIdentity);
-    CGContextDrawImage(context, CGRectMake(0,
-                                           0,
-                                           frameWidth,
-                                           frameHeight),
-                       image);
-    CGColorSpaceRelease(rgbColorSpace);
-    CGContextRelease(context);
-    
-    CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
-    
-    return pxbuffer;
-    
-}
-
-- (UIImage *)imageFromPixelBuffer:(CVPixelBufferRef)pixelBufferRef {
-    CVImageBufferRef imageBuffer =  pixelBufferRef;
-    
-    CVPixelBufferLockBaseAddress(imageBuffer, 0);
-    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
-    size_t width = CVPixelBufferGetWidth(imageBuffer);
-    size_t height = CVPixelBufferGetHeight(imageBuffer);
-    size_t bufferSize = CVPixelBufferGetDataSize(imageBuffer);
-    size_t bytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 0);
-    
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, baseAddress, bufferSize, NULL);
-    
-    CGImageRef cgImage = CGImageCreate(width, height, 8, 32, bytesPerRow, rgbColorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrderDefault, provider, NULL, true, kCGRenderingIntentDefault);
-    
-    
-    UIImage *image = [UIImage imageWithCGImage:cgImage];
-    
-    CGImageRelease(cgImage);
-    CGDataProviderRelease(provider);
-    CGColorSpaceRelease(rgbColorSpace);
-    CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-    return image;
-}
 
 
 /**
