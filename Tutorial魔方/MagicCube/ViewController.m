@@ -296,26 +296,16 @@ static int randcount = 0;
             _sliceRotateAngle = 0;
         }
         for (int i= 0; i<27; i++) {
-
-            if (ATTRIBUTE_COLOR == ATTRIBUTE_TEXTURE_COORD) {
-//                NSLog(@"abc");
-            }
             glVertexAttribPointer(ATTRIBUTE_VERTEX, 3, GL_FLOAT, 0, 0, cubes[i]._vertices);
             glEnableVertexAttribArray(ATTRIBUTE_VERTEX);
             
             if (_isSelectMode) {
                 glVertexAttribPointer(ATTRIBUTE_COLOR, 4, GL_UNSIGNED_BYTE, 1, 0, cubes[i]._colors);
-                glEnableVertexAttribArray(ATTRIBUTE_COLOR);
+                glEnableVertexAttribArray(ATTRIBUTE_COLOR); // 如果是选择模式，用颜色
             }else{
                 glVertexAttribPointer(ATTRIBUTE_TEXTURE_COORD, 2, GL_FLOAT, 0, 0, cubes[i]._textureCoords);
-                glEnableVertexAttribArray(ATTRIBUTE_TEXTURE_COORD);
+                glEnableVertexAttribArray(ATTRIBUTE_TEXTURE_COORD); // 如果不上选择模式，使用纹理坐标
             }
-            NSLog(@"%d %d",ATTRIBUTE_TEXTURE_COORD, ATTRIBUTE_COLOR);
-            
-//            glVertexAttribPointer(ATTRIBUTE_COLOR, 4, GL_UNSIGNED_BYTE, 1, 0, cubes[i]._colors);
-//            glEnableVertexAttribArray(ATTRIBUTE_COLOR);
-//            glVertexAttribPointer(ATTRIBUTE_TEXTURE_COORD, 2, GL_FLOAT, 0, 0, cubes[i]._textureCoords);
-//            glEnableVertexAttribArray(ATTRIBUTE_TEXTURE_COORD);
             
             //进行变换
             [MatrixTools applyIdentity:mvpMatrix];
@@ -323,6 +313,7 @@ static int randcount = 0;
             [MatrixTools applyTranslation:_translationMatrix x:0 y:0 z:_lastZoomDistance];
             [MatrixTools multiplyMatrix:cubes[i]._rotateMatrix by:mvpMatrix giving:mvpMatrix];
             // z axis
+//            NSLog(@"%d %d %d", _currentSlice[0], _currentSlice[1], _currentSlice[2]);
             if (_currentSlice[2]>=0 && cubes[i]._layer == _currentSlice[2] ) {
                 [MatrixTools applyIdentity:_sliceRotationMatrix];
                 [MatrixTools applyRotation:_sliceRotationMatrix x:0 y:0 z:_sliceRotateAngle*M_PI/180.0f];
