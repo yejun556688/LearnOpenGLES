@@ -33,9 +33,6 @@
 	if (self) {
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
         
-//        eaglLayer.contentsScale = [[UIScreen mainScreen] scale];
-//        [self setContentScaleFactor:[UIScreen mainScreen].scale];
-        
         eaglLayer.opaque = TRUE;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
@@ -144,9 +141,7 @@
         if (!_defaultFramebuffer)
             [self createFramebuffer];
         
-        glBindFramebuffer(GL_FRAMEBUFFER, _defaultFramebuffer);
-        
-//        glViewport(0, 0, _framebufferWidth * [UIScreen mainScreen].scale, _framebufferHeight * [UIScreen mainScreen].scale);
+        glBindFramebuffer(GL_FRAMEBUFFER, _defaultFramebuffer);    
         glViewport(0, 0, _framebufferWidth, _framebufferHeight);
     }
 }

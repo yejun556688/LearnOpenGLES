@@ -313,12 +313,12 @@ static int randcount = 0;
             [MatrixTools applyTranslation:_translationMatrix x:0 y:0 z:_lastZoomDistance];
             [MatrixTools multiplyMatrix:cubes[i]._rotateMatrix by:mvpMatrix giving:mvpMatrix];
             // z axis
-//            NSLog(@"%d %d %d", _currentSlice[0], _currentSlice[1], _currentSlice[2]);
             if (_currentSlice[2]>=0 && cubes[i]._layer == _currentSlice[2] ) {
                 [MatrixTools applyIdentity:_sliceRotationMatrix];
                 [MatrixTools applyRotation:_sliceRotationMatrix x:0 y:0 z:_sliceRotateAngle*M_PI/180.0f];
                 [MatrixTools multiplyMatrix:_sliceRotationMatrix by:mvpMatrix giving:mvpMatrix];
                 if (fabs(_sliceRotateAngle)>=90) {
+                    NSLog(@"%d %d %d", _currentSlice[0], _currentSlice[1], _currentSlice[2]);
                     for (int m=0; m<27; m++) {
                         if (cubes[m]._layer == _currentSlice[2]) {
                             [MatrixTools multiplyMatrix:_sliceRotationMatrix by:cubes[m]._rotateMatrix giving:cubes[m]._rotateMatrix];
@@ -338,6 +338,7 @@ static int randcount = 0;
                 [MatrixTools applyRotation:_sliceRotationMatrix x:0 y:_sliceRotateAngle*M_PI/180.0f z:0];
                 [MatrixTools multiplyMatrix:_sliceRotationMatrix by:mvpMatrix giving:mvpMatrix];
                 if (fabs(_sliceRotateAngle)>=90) {
+                    NSLog(@"%d %d %d", _currentSlice[0], _currentSlice[1], _currentSlice[2]);
                     for (int m=0; m<27; m++) {
                         if (cubes[m]._row == _currentSlice[0]) {
                             [MatrixTools multiplyMatrix:_sliceRotationMatrix by:cubes[m]._rotateMatrix giving:cubes[m]._rotateMatrix];
@@ -357,6 +358,7 @@ static int randcount = 0;
                 [MatrixTools applyRotation:_sliceRotationMatrix x:_sliceRotateAngle*M_PI/180.0f y:0 z:0];
                 [MatrixTools multiplyMatrix:_sliceRotationMatrix by:mvpMatrix giving:mvpMatrix];
                 if (fabs(_sliceRotateAngle)>=90) {
+                    NSLog(@"%d %d %d", _currentSlice[0], _currentSlice[1], _currentSlice[2]);
                     for (int m=0; m<27; m++) {
                         if (cubes[m]._col == _currentSlice[1]) {
                             [MatrixTools multiplyMatrix:_sliceRotationMatrix by:cubes[m]._rotateMatrix giving:cubes[m]._rotateMatrix];
