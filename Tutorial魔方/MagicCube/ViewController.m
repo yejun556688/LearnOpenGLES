@@ -378,7 +378,7 @@ static int randcount = 0;
             [MatrixTools multiplyMatrix:_projectionMatrix by:mvpMatrix giving:mvpMatrix];
             
             glUniformMatrix4fv(uniforms[UNIFORM_MVP_MATRIX], 1, 0, mvpMatrix);
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 26);
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 26); 
         }
          if (!_isSelectMode) {
              [_textManager drawAllTextString];
