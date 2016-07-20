@@ -16,7 +16,6 @@
 		FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8C734F1C929DB9001A5D46 /* LaunchScreen.storyboard */; };
 		FD8C735C1C929DB9001A5D46 /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C735B1C929DB9001A5D46 /* LearnOpenGLESTests.m */; };
 		FD8C73681C92A2EF001A5D46 /* LearnView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73671C92A2EF001A5D46 /* LearnView.m */; };
-		FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */ = {isa = PBXBuildFile; fileRef = FD8C73691C92AC07001A5D46 /* for_test.png */; };
 		FDC7A56B1C992CEE002B4BB5 /* shaderv.glsl in Resources */ = {isa = PBXBuildFile; fileRef = FDC7A56A1C992CEE002B4BB5 /* shaderv.glsl */; };
 		FDC7A56D1C992CFC002B4BB5 /* shaderf.glsl in Resources */ = {isa = PBXBuildFile; fileRef = FDC7A56C1C992CFC002B4BB5 /* shaderf.glsl */; };
 		FDC7A5701C994EDE002B4BB5 /* LYGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7A56F1C994EDE002B4BB5 /* LYGLViewController.m */; };
@@ -52,7 +51,6 @@
 		FD8C735D1C929DB9001A5D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD8C73661C92A2EF001A5D46 /* LearnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnView.h; sourceTree = "<group>"; };
 		FD8C73671C92A2EF001A5D46 /* LearnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnView.m; sourceTree = "<group>"; };
-		FD8C73691C92AC07001A5D46 /* for_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = for_test.png; sourceTree = "<group>"; };
 		FDC7A56A1C992CEE002B4BB5 /* shaderv.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderv.glsl; sourceTree = "<group>"; };
 		FDC7A56C1C992CFC002B4BB5 /* shaderf.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderf.glsl; sourceTree = "<group>"; };
 		FDC7A56E1C994EDE002B4BB5 /* LYGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYGLViewController.h; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				FD0DF8A31CA29ECB00D2917E /* Utils */,
-				FD8C73691C92AC07001A5D46 /* for_test.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FDC7A56E1C994EDE002B4BB5 /* LYGLViewController.h */,
@@ -228,7 +225,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
-				FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */,
 				FDC7A56B1C992CEE002B4BB5 /* shaderv.glsl in Resources */,
 				FDC7A56D1C992CFC002B4BB5 /* shaderf.glsl in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,

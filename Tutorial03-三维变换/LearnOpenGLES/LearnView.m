@@ -15,6 +15,8 @@
 @property (nonatomic , strong) EAGLContext* myContext;
 @property (nonatomic , strong) CAEAGLLayer* myEagLayer;
 @property (nonatomic , assign) GLuint       myProgram;
+@property (nonatomic , assign) GLuint       myVertices;
+
 
 
 @property (nonatomic , assign) GLuint myColorRenderBuffer;
@@ -88,6 +90,13 @@
     NSString* vertFile = [[NSBundle mainBundle] pathForResource:@"shaderv" ofType:@"glsl"];
     NSString* fragFile = [[NSBundle mainBundle] pathForResource:@"shaderf" ofType:@"glsl"];
     
+    if (self.myProgram) {
+//        if (![self validate:self.myProgram]) {
+//            NSLog(@"Failed to validate program: %d", self.myProgram);
+//        }
+        glDeleteProgram(self.myProgram);
+        self.myProgram = 0;
+    }
     self.myProgram = [self loadShaders:vertFile frag:fragFile];
     
     glLinkProgram(self.myProgram);
@@ -105,16 +114,6 @@
         glUseProgram(self.myProgram);
     }
     
-    
-    GLfloat attrArr[] =
-    {
-        -0.5f, 0.5f, 0.0f,      1.0f, 0.0f, 1.0f, //左上
-        0.5f, 0.5f, 0.0f,       1.0f, 0.0f, 1.0f, //右上
-        -0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f, //左下
-        0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 1.0f, //右下
-        0.0f, 0.0f, 1.0f,      0.0f, 1.0f, 0.0f, //顶点
-    };
-    
     GLuint indices[] =
     {
         0, 3, 2,
@@ -124,24 +123,21 @@
         2, 3, 4,
         1, 4, 3,
     };
-
-        // 画线，可以注释上面的数组，采用这里的索引数组，然后把glDrawElements的第一个参数改为GL_LINES
-//    GLuint indices[] =
-//    {
-//        0, 4,
-//        0, 2,
-//        0, 1,
-//        1, 3,
-//        1, 4,
-//        2, 3,
-//        2, 4,
-//        3, 4
-//    };
     
-    GLuint attrBuffer;
-    glGenBuffers(1, &attrBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+    if (self.myVertices == 0) {
+        glGenBuffers(1, &_myVertices);
+    }
+    GLfloat attrArr[] =
+    {
+        -0.5f, 0.5f, 0.0f,      1.0f, 0.0f, 1.0f, //左上
+        0.5f, 0.5f, 0.0f,       1.0f, 0.0f, 1.0f, //右上
+        -0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f, //左下
+        0.5f, -0.5f, 0.0f,      1.0f, 1.0f, 1.0f, //右下
+        0.0f, 0.0f, 1.0f,      0.0f, 1.0f, 0.0f, //顶点
+    };
+    glBindBuffer(GL_ARRAY_BUFFER, _myVertices);
     glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, _myVertices);
     
     GLuint position = glGetAttribLocation(self.myProgram, "position");
     glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, NULL);
@@ -195,6 +191,25 @@
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
     
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+- (BOOL)validate:(GLuint)_programId {
+    GLint logLength, status;
+    
+    glValidateProgram(_programId);
+    glGetProgramiv(_programId, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(_programId, logLength, &logLength, log);
+        NSLog(@"Program validate log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(_programId, GL_VALIDATE_STATUS, &status);
+    if (status == 0) {
+        return NO;
+    }
+    return YES;
 }
 
 
