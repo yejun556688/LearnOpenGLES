@@ -59,8 +59,8 @@
     self.mCaptureDeviceOutput = [[AVCaptureVideoDataOutput alloc] init];
     [self.mCaptureDeviceOutput setAlwaysDiscardsLateVideoFrames:NO];
     
-    self.mGLView.isFullYUVRange = NO;
-    [self.mCaptureDeviceOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
+    self.mGLView.isFullYUVRange = YES;
+    [self.mCaptureDeviceOutput setVideoSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange] forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
     [self.mCaptureDeviceOutput setSampleBufferDelegate:self queue:mProcessQueue];
     if ([self.mCaptureSession canAddOutput:self.mCaptureDeviceOutput]) {
         [self.mCaptureSession addOutput:self.mCaptureDeviceOutput];

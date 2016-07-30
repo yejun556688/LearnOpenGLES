@@ -20,7 +20,7 @@ void main()
 	
 	// Subtract constants to map the video range start at 0
     yuv.x = (texture2D(SamplerY, texCoordVarying).r);// - (16.0/255.0));
-    yuv.yz = (texture2D(SamplerUV, texCoordVarying).rg - vec2(0.5, 0.5));
+    yuv.yz = (texture2D(SamplerUV, texCoordVarying).ra - vec2(0.5, 0.5));
 	
 	rgb = colorConversionMatrix * yuv;
 

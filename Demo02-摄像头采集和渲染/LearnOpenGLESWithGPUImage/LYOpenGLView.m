@@ -204,7 +204,9 @@ const GLfloat kColorConversion601FullRange[] = {
 			NSLog(@"No video texture cache");
 			return;
 		}
-        [EAGLContext setCurrentContext:_context]; // 非常重要的一行代码
+        if ([EAGLContext currentContext] != _context) {
+            [EAGLContext setCurrentContext:_context]; // 非常重要的一行代码
+        }
 		[self cleanUpTextures];
 		
 		
@@ -250,7 +252,6 @@ const GLfloat kColorConversion601FullRange[] = {
 		}
 		
         glBindTexture(CVOpenGLESTextureGetTarget(_lumaTexture), CVOpenGLESTextureGetName(_lumaTexture));
-//        NSLog(@"id %d", CVOpenGLESTextureGetName(_lumaTexture));
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -258,7 +259,6 @@ const GLfloat kColorConversion601FullRange[] = {
 		
 		// UV-plane.
 		glActiveTexture(GL_TEXTURE1);
-        
 		err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
 														   _videoTextureCache,
 														   pixelBuffer,
