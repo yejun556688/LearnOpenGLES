@@ -264,10 +264,10 @@ const GLfloat kColorConversion601FullRange[] = {
 														   pixelBuffer,
 														   NULL,
                                                            GL_TEXTURE_2D,
-                                                           GL_RG_EXT,
+                                                           GL_LUMINANCE_ALPHA,
                                                            frameWidth / 2,
                                                            frameHeight / 2,
-                                                           GL_RG_EXT,
+                                                           GL_LUMINANCE_ALPHA,
 														   GL_UNSIGNED_BYTE,
 														   1,
 														   &_chromaTexture);
