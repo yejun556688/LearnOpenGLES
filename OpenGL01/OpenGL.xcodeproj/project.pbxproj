@@ -379,6 +379,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OpenGL/GLTools",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = loying.lin.OpenGL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -396,6 +397,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OpenGL/GLTools",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = loying.lin.OpenGL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -446,6 +448,7 @@
 				FD1FD4FB1D5B2D5300E098A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FD1FD4FC1D5B2D5300E098A9 /* Build configuration list for PBXNativeTarget "OpenGLTests" */ = {
 			isa = XCConfigurationList;
@@ -454,6 +457,7 @@
 				FD1FD4FE1D5B2D5300E098A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
