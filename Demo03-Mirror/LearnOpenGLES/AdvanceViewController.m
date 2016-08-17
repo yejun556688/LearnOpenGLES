@@ -18,10 +18,14 @@
 @property (nonatomic , assign) float mDegreeY;
 @property (nonatomic , assign) float mDegreeZ;
 
-
 @property (nonatomic , assign) BOOL mBoolX;
 @property (nonatomic , assign) BOOL mBoolY;
 @property (nonatomic , assign) BOOL mBoolZ;
+
+@property (nonatomic , assign) GLint mDefaultFBO;
+@property (nonatomic , assign) GLuint mExtraFBO;
+@property (nonatomic , assign) GLuint mExtraDepthBuffer;
+@property (nonatomic , assign) GLuint mExtraTexture;
 
 @property (nonatomic , assign) int mCount;
 @property (nonatomic , assign) GLuint mAttr;
@@ -82,10 +86,10 @@
     
     GLfloat mirrorAttr[] =
     {
-        -0.5f, -0.5f, 0.0f,            0.0f, 0.0f,//左下
-        0.5f, -0.5f, 0.0f,             1.0f, 0.0f,//右下
-        -0.5f, 0.5f, 0.0f,             0.0f, 1.0f,//左上
-        0.5f, 0.5f, 0.0f,              1.0f, 1.0f,//右上
+        -1.0f, -1.0f, 1.0f,             1.0f, 1.0f,
+        1.0f, -1.0f, 1.0f,              0.0f, 1.0f,
+        -1.0f, -1.0f, -1.0f,             1.0f, 0.0f,
+        1.0f, -1.0f, -1.0f,              0.0f, 0.0f,
     };
     
     
@@ -137,14 +141,15 @@
     projectionMatrix = GLKMatrix4Scale(projectionMatrix, 1.0f, 1.0f, 1.0f);
     self.mEffect.transform.projectionMatrix = projectionMatrix;
     
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -2.0f);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -4.0f);
     self.mEffect.transform.modelviewMatrix = modelViewMatrix;
     
-    
-    projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(120.0), aspect, 0.1f, 10.f);
     self.mMirrorEffect.transform.projectionMatrix = projectionMatrix;
-    modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 2.0f, -2.0f);
-    self.mMirrorEffect.transform.modelviewMatrix = GLKMatrix4RotateX(modelViewMatrix, 0.0);
+    modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, 0.0f);
+    self.mMirrorEffect.transform.modelviewMatrix = GLKMatrix4MakeLookAt(0.0, 3.0, 2.0,
+                                                                        0.0, 0.0, -1.0,
+                                                                        0, 0, 1);
+//    self.mMirrorEffect.transform.modelviewMatrix = GLKMatrix4Translate(self.mMirrorEffect.transform.modelviewMatrix, 0, 0.5, 0);
     
     //定时器
     double delayInSeconds = 0.1;
@@ -157,6 +162,12 @@
         
     });
     dispatch_resume(timer);
+    
+    
+    int width, height;
+    width = self.view.bounds.size.width * self.view.contentScaleFactor;
+    height = self.view.bounds.size.height * self.view.contentScaleFactor;
+    [self extraInitWithWidth:width height:height]; //特别注意这里的大小
 }
 
 -(IBAction)onX:(id)sender {
@@ -172,11 +183,69 @@
 }
 
 
+
+- (void)extraInitWithWidth:(GLint)width height:(GLint)height {
+    
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_mDefaultFBO);
+    glGenTextures(1, &_mExtraTexture);
+    NSLog(@"render texture %d", self.mExtraTexture);
+    glGenFramebuffers(1, &_mExtraFBO);
+    glGenRenderbuffers(1, &_mExtraDepthBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
+    glBindTexture(GL_TEXTURE_2D, self.mExtraTexture);
+    
+    
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA,
+                 width,
+                 height,
+                 0,
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+                 NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    
+    
+    glFramebufferTexture2D(GL_FRAMEBUFFER,
+                           GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D, self.mExtraTexture, 0);
+    
+    
+    glBindRenderbuffer(GL_RENDERBUFFER, self.mExtraDepthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16,
+                          width, height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, self.mExtraDepthBuffer);
+    
+    GLenum status;
+    status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    switch(status) {
+        case GL_FRAMEBUFFER_COMPLETE:
+            NSLog(@"fbo complete width %d height %d", width, height);
+            break;
+            
+        case GL_FRAMEBUFFER_UNSUPPORTED:
+            NSLog(@"fbo unsupported");
+            break;
+            
+        default:
+            NSLog(@"Framebuffer Error");
+            break;
+    }
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, self.mDefaultFBO);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
 /**
  *  场景数据变化
  */
 - (void)update {
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -2.0f);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -4.0f);
     
     modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, self.mDegreeX);
     modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, self.mDegreeY);
@@ -185,11 +254,30 @@
     self.mEffect.transform.modelviewMatrix = modelViewMatrix;
 }
 
+- (void)renderFBO {
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
+    
+    //如果视口和主缓存的不同，需要根据当前的大小调整，同时在下面的绘制时需要调整glviewport
+    //    glViewport(0, 0, const_length, const_length)
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    [self.mEffect prepareToDraw];
+    glDrawElements(GL_TRIANGLES, self.mCount, GL_UNSIGNED_INT, 0);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, self.mDefaultFBO);
+    self.mMirrorEffect.texture2d0.name = self.mExtraTexture;
+}
+
 
 /**
  *  渲染场景代码
  */
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
+    [self renderFBO];
+    
+    [((GLKView *) self.view) bindDrawable];
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
