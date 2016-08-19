@@ -29,6 +29,7 @@
     view.context = self.mContext;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;  //颜色缓冲区格式
     [EAGLContext setCurrentContext:self.mContext];
+    
    
     
     //顶点数据，前三个是顶点坐标，后面两个是纹理坐标

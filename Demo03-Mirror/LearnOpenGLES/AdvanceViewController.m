@@ -92,6 +92,7 @@
         1.0f, -1.0f, -1.0f,              0.0f, 0.0f,
     };
     
+//    self.preferredFramesPerSecond
     
     glGenBuffers(1, &_mMirrorAttr);
     glBindBuffer(GL_ARRAY_BUFFER, _mMirrorAttr);
