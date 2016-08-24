@@ -18,6 +18,7 @@ enum
 	UNIFORM_Y,
 	UNIFORM_UV,
 	UNIFORM_COLOR_CONVERSION_MATRIX,
+    UNIFORM_ROTATE,
 	NUM_UNIFORMS
 };
 GLint uniforms[NUM_UNIFORMS];
@@ -125,6 +126,7 @@ const GLfloat kColorConversion601FullRange[] = {
 	
 	glUniform1i(uniforms[UNIFORM_Y], 0);
 	glUniform1i(uniforms[UNIFORM_UV], 1);
+    glUniform1f(uniforms[UNIFORM_ROTATE], GLKMathDegreesToRadians(90));
 	
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
 	
@@ -404,6 +406,7 @@ const GLfloat kColorConversion601FullRange[] = {
 	// Get uniform locations.
 	uniforms[UNIFORM_Y] = glGetUniformLocation(self.program, "SamplerY");
 	uniforms[UNIFORM_UV] = glGetUniformLocation(self.program, "SamplerUV");
+    uniforms[UNIFORM_ROTATE] = glGetUniformLocation(self.program, "preferredRotation");
 	uniforms[UNIFORM_COLOR_CONVERSION_MATRIX] = glGetUniformLocation(self.program, "colorConversionMatrix");
 	
 	// Release vertex and fragment shaders.

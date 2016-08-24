@@ -43,6 +43,7 @@
     [self.view addSubview:self.mLabel];
     
     self.mDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
+    self.mDisplayLink.frameInterval = 2;
     [[self mDisplayLink] addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [[self mDisplayLink] setPaused:YES];
     
@@ -124,6 +125,9 @@
         if (pixelBuffer != NULL) {
             CFRelease(pixelBuffer);
         }
+    }
+    else {
+        NSLog(@"empty");
     }
 }
 
