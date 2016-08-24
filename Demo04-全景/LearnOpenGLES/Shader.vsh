@@ -10,6 +10,8 @@ attribute vec4 position;
 attribute vec2 texCoord;
 
 uniform float preferredRotation;
+uniform mat4 projectionMatrix;
+uniform mat4 modelViewMatrix;
 
 varying vec2 texCoordVarying;
 
@@ -19,7 +21,7 @@ void main()
                                sin(preferredRotation),  cos(preferredRotation), 0.0, 0.0,
                                0.0,					    0.0, 1.0, 0.0,
                                0.0,					    0.0, 0.0, 1.0);
-    gl_Position = position * rotationMatrix;
+    gl_Position = projectionMatrix * modelViewMatrix * rotationMatrix * position;// * modelViewMatrix * projectionMatrix;
     texCoordVarying = texCoord;
 }
 

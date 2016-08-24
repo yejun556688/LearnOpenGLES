@@ -7,6 +7,7 @@
 //
 
 #import "LYOpenGLView.h"
+#import "sphere.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVUtilities.h>
 #import <mach/mach_time.h>
@@ -18,6 +19,8 @@ enum
 	UNIFORM_Y,
 	UNIFORM_UV,
 	UNIFORM_COLOR_CONVERSION_MATRIX,
+    UNIFORM_PROJECTION_MARTRIX,
+    UNIFORM_MODELVIEW_MARTRIX,
     UNIFORM_ROTATE,
 	NUM_UNIFORMS
 };
@@ -60,6 +63,9 @@ const GLfloat kColorConversion601FullRange[] = {
 	// The pixel dimensions of the CAEAGLLayer.
 	GLint _backingWidth;
 	GLint _backingHeight;
+    
+    GLuint _vertexBuffer;
+    GLuint _textureBuffer;
 
 	EAGLContext *_context;
 	CVOpenGLESTextureRef _lumaTexture;
@@ -70,6 +76,7 @@ const GLfloat kColorConversion601FullRange[] = {
 	GLuint _colorBufferHandle;
 	
 	const GLfloat *_preferredConversion;
+    CADisplayLink *displayLink;
 }
 
 @property GLuint program;
@@ -129,6 +136,16 @@ const GLfloat kColorConversion601FullRange[] = {
     glUniform1f(uniforms[UNIFORM_ROTATE], GLKMathDegreesToRadians(90));
 	
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
+    
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(90, CGRectGetWidth(self.bounds) * 1.0 / CGRectGetHeight(self.bounds), 0.01, 10);
+    
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
+                                                      0, 0, 1,
+                                                      0, 1, 0);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MARTRIX], 1, GL_FALSE, projectionMatrix.m);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
+    
 	
 	// Create CVOpenGLESTextureCacheRef for optimal CVPixelBufferRef to GLES texture conversion.
 	if (!_videoTextureCache) {
@@ -138,6 +155,34 @@ const GLfloat kColorConversion601FullRange[] = {
 			return;
 		}
 	}
+    
+//    displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeModelView)];
+//    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+}
+
+- (void)changeModelViewWithX:(float)x Y:(float)y {
+    static float degreeX = 0, degreeY = 0;
+    degreeX += x / 100;
+    degreeY += y / 100;
+    
+    
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
+                                                      sin(degreeX) * sin(degreeY),
+                                                      sin(degreeX) * cos(degreeY),
+                                                      fabs(cos(degreeY)),
+                                                      0, 1, 0);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch* touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    CGPoint prePoint = [touch previousLocationInView:self];
+    
+    
+    NSLog(@"Processing");
+    [self changeModelViewWithX:point.x - prePoint.x Y:point.y - prePoint.y];
 }
 
 #pragma mark - Utilities
@@ -157,6 +202,16 @@ const GLfloat kColorConversion601FullRange[] = {
 	
 	glGenRenderbuffers(1, &_colorBufferHandle);
 	glBindRenderbuffer(GL_RENDERBUFFER, _colorBufferHandle);
+    
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereVerts), sphereVerts, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &_textureBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _textureBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_STATIC_DRAW);
+    
+    
 	
 	[_context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
 	glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
@@ -297,49 +352,17 @@ const GLfloat kColorConversion601FullRange[] = {
 	glUseProgram(self.program);
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
 	
-	// Set up the quad vertices with respect to the orientation and aspect ratio of the video.
-	CGRect vertexSamplingRect = AVMakeRectWithAspectRatioInsideRect(CGSizeMake(_backingWidth, _backingHeight), self.layer.bounds);
-	
-	// Compute normalized quad coordinates to draw the frame into.
-	CGSize normalizedSamplingSize = CGSizeMake(0.0, 0.0);
-	CGSize cropScaleAmount = CGSizeMake(vertexSamplingRect.size.width/self.layer.bounds.size.width, vertexSamplingRect.size.height/self.layer.bounds.size.height);
-	
-	// Normalize the quad vertices.
-	if (cropScaleAmount.width > cropScaleAmount.height) {
-		normalizedSamplingSize.width = 1.0;
-		normalizedSamplingSize.height = cropScaleAmount.height/cropScaleAmount.width;
-	}
-	else {
-		normalizedSamplingSize.width = 1.0;
-		normalizedSamplingSize.height = cropScaleAmount.width/cropScaleAmount.height;
-	}
-	
-	/*
-     The quad vertex data defines the region of 2D plane onto which we draw our pixel buffers.
-     Vertex data formed using (-1,-1) and (1,1) as the bottom left and top right coordinates respectively, covers the entire screen.
-     */
-	GLfloat quadVertexData [] = {
-		-1 * normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
-			 normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
-		-1 * normalizedSamplingSize.width, normalizedSamplingSize.height,
-			 normalizedSamplingSize.width, normalizedSamplingSize.height,
-	};
-	
+		
 	// 更新顶点数据
-	glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, quadVertexData);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+	glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIB_VERTEX);
     
-    GLfloat quadTextureData[] =  { // 正常坐标
-        0, 0,
-        1, 0,
-        0, 1,
-        1, 1
-    };
-	
-	glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, 0, 0, quadTextureData);
+    glBindBuffer(GL_ARRAY_BUFFER, _textureBuffer);
+	glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIB_TEXCOORD);
 	
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, _colorBufferHandle);
     
@@ -348,6 +371,7 @@ const GLfloat kColorConversion601FullRange[] = {
     }
     
 }
+
 
 #pragma mark -  OpenGL ES 2 shader compilation
 
@@ -408,6 +432,8 @@ const GLfloat kColorConversion601FullRange[] = {
 	uniforms[UNIFORM_UV] = glGetUniformLocation(self.program, "SamplerUV");
     uniforms[UNIFORM_ROTATE] = glGetUniformLocation(self.program, "preferredRotation");
 	uniforms[UNIFORM_COLOR_CONVERSION_MATRIX] = glGetUniformLocation(self.program, "colorConversionMatrix");
+    uniforms[UNIFORM_PROJECTION_MARTRIX] = glGetUniformLocation(self.program, "projectionMatrix");
+    uniforms[UNIFORM_MODELVIEW_MARTRIX] = glGetUniformLocation(self.program, "modelViewMatrix");
 	
 	// Release vertex and fragment shaders.
 	if (vertShader) {
