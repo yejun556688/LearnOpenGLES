@@ -160,17 +160,49 @@ const GLfloat kColorConversion601FullRange[] = {
 //    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
+
+/**
+ *  使用极坐标来跟随镜头
+ *
+ *  @param x 摄像头水平移动角度
+ *  @param y 摄像头抬起角度
+ */
 - (void)changeModelViewWithX:(float)x Y:(float)y {
     static float degreeX = 0, degreeY = 0;
     degreeX += x / 100;
     degreeY += y / 100;
+//    if (degreeY >= M_PI_2 - 0.01) {
+//        degreeY = M_PI_2 - 0.01;
+//    }
+//    if (degreeY < 0) {
+//        degreeY = 0;
+//    }
+//    if (degreeX >= M_PI_2 - 0.01) {
+//        degreeX = M_PI_2 - 0.01;
+//    }
+//    if (degreeX < 0) {
+//        degreeX = 0;
+//    }
     
-    
+    NSLog(@"%f %f", GLKMathRadiansToDegrees(degreeX) ,GLKMathRadiansToDegrees(degreeY));
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
-                                                      sin(degreeX) * sin(degreeY),
                                                       sin(degreeX) * cos(degreeY),
+                                                      sin(degreeX) * sin(degreeY),
                                                       fabs(cos(degreeY)),
                                                       0, 1, 0);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
+}
+
+- (void)roatateWithX:(float)x Y:(float)y {
+    
+    static float degreeX = 0, degreeY = -M_PI;
+    degreeX += x / 100;
+    degreeY += y / 100;
+    NSLog(@"%f %f", GLKMathRadiansToDegrees(degreeX) ,GLKMathRadiansToDegrees(degreeY));
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
+    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, degreeX);
+    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, degreeY);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
 }
@@ -182,7 +214,7 @@ const GLfloat kColorConversion601FullRange[] = {
     
     
     NSLog(@"Processing");
-    [self changeModelViewWithX:point.x - prePoint.x Y:point.y - prePoint.y];
+    [self roatateWithX:point.y - prePoint.y Y:point.x - prePoint.x];
 }
 
 #pragma mark - Utilities
