@@ -41,7 +41,6 @@
    
     self.mLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
     self.mLabel.textColor = [UIColor redColor];
-    self.mLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
     [self.view addSubview:self.mLabel];
     
     self.mDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
@@ -131,7 +130,7 @@
         }
     }
     else {
-        NSLog(@"empty");
+        NSLog(@"播放完成");
         [self.mDisplayLink setPaused:YES];
     }
 }

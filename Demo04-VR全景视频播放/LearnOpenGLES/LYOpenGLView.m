@@ -77,6 +77,11 @@ const GLfloat kColorConversion601FullRange[] = {
 	
 	const GLfloat *_preferredConversion;
     CADisplayLink *displayLink;
+    
+    UILabel* horizontalLabel;
+    float horizontalDegree;
+    UILabel* verticalLabel;
+    float verticalDegree;
 }
 
 @property GLuint program;
@@ -117,8 +122,35 @@ const GLfloat kColorConversion601FullRange[] = {
 		}
 		
 		_preferredConversion = kColorConversion709;
+        
+        [self setupView];
 	}
 	return self;
+}
+
+#define LY_ROTATE YES
+
+
+- (void)setupView {
+    horizontalLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 200, 50)];
+    [self addSubview:horizontalLabel];
+    horizontalLabel.textColor = [UIColor redColor];
+    verticalLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, 200, 50)];
+    [self addSubview:verticalLabel];
+    verticalLabel.textColor = [UIColor redColor];
+    
+    if (LY_ROTATE) {
+        horizontalLabel.text = [NSString stringWithFormat:@"绕X轴旋转角度为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
+        verticalLabel.text = [NSString stringWithFormat:@"绕Y轴旋转角度为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
+        horizontalDegree = 0.0;
+        verticalDegree = M_PI_2;
+    }
+    else {
+        horizontalLabel.text = [NSString stringWithFormat:@"偏航角为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
+        verticalLabel.text = [NSString stringWithFormat:@"高度角为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
+        horizontalDegree = M_PI_2;
+        verticalDegree = 0.0;
+    }
 }
 
 # pragma mark - OpenGL setup
@@ -133,21 +165,20 @@ const GLfloat kColorConversion601FullRange[] = {
 	
 	glUniform1i(uniforms[UNIFORM_Y], 0);
 	glUniform1i(uniforms[UNIFORM_UV], 1);
-    glUniform1f(uniforms[UNIFORM_ROTATE], GLKMathDegreesToRadians(90));
+    glUniform1f(uniforms[UNIFORM_ROTATE], GLKMathDegreesToRadians(180));
 	
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
     
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(90, CGRectGetWidth(self.bounds) * 1.0 / CGRectGetHeight(self.bounds), 0.01, 10);
     
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
-                                                      0, 0, 1,
+                                                      1, 0, 0,
                                                       0, 1, 0);
     
     glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MARTRIX], 1, GL_FALSE, projectionMatrix.m);
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
     
 	
-	// Create CVOpenGLESTextureCacheRef for optimal CVPixelBufferRef to GLES texture conversion.
 	if (!_videoTextureCache) {
 		CVReturn err = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _context, NULL, &_videoTextureCache);
 		if (err != noErr) {
@@ -155,9 +186,6 @@ const GLfloat kColorConversion601FullRange[] = {
 			return;
 		}
 	}
-    
-//    displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeModelView)];
-//    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 
@@ -168,21 +196,17 @@ const GLfloat kColorConversion601FullRange[] = {
  *  @param v 摄像头抬起角度
  */
 - (void)changeModelViewWithHorizontal:(float)h Vertical:(float)v {
-    static float H = 0, V = 0;
-    H += h / 100;
-    V += v / 100;
-    if (V >= M_PI / 2) {
-        V = M_PI / 2;
-    }
-    if (V <= -M_PI_2) {
-        V = -M_PI_2;
-    }
+    horizontalDegree -= h / 100;
+    verticalDegree -= v / 100;
     
-    NSLog(@"H:%f V:%f", GLKMathRadiansToDegrees(H) ,GLKMathRadiansToDegrees(V));
+    horizontalLabel.text = [NSString stringWithFormat:@"偏航角为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
+    verticalLabel.text = [NSString stringWithFormat:@"高度角为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
+
+    
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
-                                                      sin(M_PI_2 - V) * cos(H),
-                                                      sin(H) * sin(M_PI_2 - V),
-                                                      cos(M_PI_2 - V),
+                                                      sin(horizontalDegree) * cos(verticalDegree),
+                                                      sin(horizontalDegree) * sin(verticalDegree),
+                                                      cos(horizontalDegree),
                                                       0, 1, 0);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
@@ -192,18 +216,19 @@ const GLfloat kColorConversion601FullRange[] = {
 /**
  *  旋转表示
  *
- *  @param x x
- *  @param y y
+ *  @param x 绕x轴角度变换
+ *  @param y 绕y轴角度变换
  */
 - (void)roatateWithX:(float)x Y:(float)y {
+    horizontalDegree -= x / 100;
+    verticalDegree += y / 100;
     
-    static float degreeX = 0, degreeY = -M_PI;
-    degreeX += x / 100;
-    degreeY += y / 100;
-    NSLog(@"%f %f", GLKMathRadiansToDegrees(degreeX) ,GLKMathRadiansToDegrees(degreeY));
+    horizontalLabel.text = [NSString stringWithFormat:@"绕X轴旋转角度为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
+    verticalLabel.text = [NSString stringWithFormat:@"绕Y轴旋转角度为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
+    
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, degreeX);
-    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, degreeY);
+    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, horizontalDegree);
+    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, verticalDegree);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
 }
@@ -212,15 +237,11 @@ const GLfloat kColorConversion601FullRange[] = {
     UITouch* touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
     CGPoint prePoint = [touch previousLocationInView:self];
-    
-    
-    NSLog(@"Processing");
-    bool rotate = 0;
-    if (rotate) {
+    if (LY_ROTATE) {
         [self roatateWithX:point.y - prePoint.y Y:point.x - prePoint.x];
     }
     else {
-        [self changeModelViewWithHorizontal:point.y - prePoint.y Vertical:point.x - prePoint.x];
+        [self changeModelViewWithHorizontal:point.x - prePoint.x Vertical:point.y - prePoint.y];
     }
 }
 
@@ -307,10 +328,6 @@ const GLfloat kColorConversion601FullRange[] = {
         }
 		[self cleanUpTextures];
 		
-		
-		/*
-		 Use the color attachment of the pixel buffer to determine the appropriate color conversion matrix.
-		 */
 		CFTypeRef colorAttachments = CVBufferGetAttachment(pixelBuffer, kCVImageBufferYCbCrMatrixKey, NULL);
 		
 		if (colorAttachments == kCVImageBufferYCbCrMatrix_ITU_R_601_4) {
@@ -325,13 +342,7 @@ const GLfloat kColorConversion601FullRange[] = {
 			_preferredConversion = kColorConversion709;
 		}
 		
-		/*
-         CVOpenGLESTextureCacheCreateTextureFromImage will create GLES texture optimally from CVPixelBufferRef.
-         */
 		
-		/*
-         Create Y and UV textures from the pixel buffer. These textures will be drawn on the frame buffer Y-plane.
-         */
 		glActiveTexture(GL_TEXTURE0);
 		err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
 														   _videoTextureCache,
@@ -355,7 +366,6 @@ const GLfloat kColorConversion601FullRange[] = {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		
-		// UV-plane.
 		glActiveTexture(GL_TEXTURE1);
 		err = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
 														   _videoTextureCache,
@@ -374,7 +384,6 @@ const GLfloat kColorConversion601FullRange[] = {
 		}
 		
 		glBindTexture(CVOpenGLESTextureGetTarget(_chromaTexture), CVOpenGLESTextureGetName(_chromaTexture));
-//        NSLog(@"id %d", CVOpenGLESTextureGetName(_chromaTexture));
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -382,14 +391,12 @@ const GLfloat kColorConversion601FullRange[] = {
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferHandle);
 		
-		// Set the view port to the entire view.
 		glViewport(0, 0, _backingWidth, _backingHeight);
 	}
 	
 	glClearColor(0.1f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
-	// Use shader program.
+
 	glUseProgram(self.program);
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
 	
