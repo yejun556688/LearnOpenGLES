@@ -13,6 +13,7 @@
 
 @interface ViewController ()
 @property (nonatomic , strong) UILabel  *mLabel;
+@property (nonatomic , strong) NSDate *mStartDate;
 
 @property (nonatomic , strong) AVAsset *mAsset;
 @property (nonatomic , strong) AVAssetReader *mReader;
@@ -38,15 +39,15 @@
     [self.mGLView setupGL];
     
    
-    self.mLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 100, 100)];
+    self.mLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
     self.mLabel.textColor = [UIColor redColor];
+    self.mLabel.transform = CGAffineTransformMakeRotation(M_PI_2);
     [self.view addSubview:self.mLabel];
     
     self.mDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
     self.mDisplayLink.frameInterval = 2;
     [[self mDisplayLink] addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [[self mDisplayLink] setPaused:YES];
-    
     
     [self loadAsset];
 }
@@ -108,6 +109,7 @@
         return;
     }
     else {
+        self.mStartDate = [NSDate dateWithTimeIntervalSinceNow:0];
         [self.mDisplayLink setPaused:NO];
         NSLog(@"Start reading success.");
     }
@@ -120,6 +122,8 @@
         
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     if (pixelBuffer) {
+        self.mLabel.text = [NSString stringWithFormat:@"播放%.f秒", [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSinceDate:self.mStartDate]];
+        [self.mLabel sizeToFit];
         [self.mGLView displayPixelBuffer:pixelBuffer];
         
         if (pixelBuffer != NULL) {
@@ -128,6 +132,7 @@
     }
     else {
         NSLog(@"empty");
+        [self.mDisplayLink setPaused:YES];
     }
 }
 

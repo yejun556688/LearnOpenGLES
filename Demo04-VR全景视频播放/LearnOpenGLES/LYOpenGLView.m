@@ -164,36 +164,37 @@ const GLfloat kColorConversion601FullRange[] = {
 /**
  *  使用极坐标来跟随镜头
  *
- *  @param x 摄像头水平移动角度
- *  @param y 摄像头抬起角度
+ *  @param h 摄像头水平移动角度
+ *  @param v 摄像头抬起角度
  */
-- (void)changeModelViewWithX:(float)x Y:(float)y {
-    static float degreeX = 0, degreeY = 0;
-    degreeX += x / 100;
-    degreeY += y / 100;
-//    if (degreeY >= M_PI_2 - 0.01) {
-//        degreeY = M_PI_2 - 0.01;
-//    }
-//    if (degreeY < 0) {
-//        degreeY = 0;
-//    }
-//    if (degreeX >= M_PI_2 - 0.01) {
-//        degreeX = M_PI_2 - 0.01;
-//    }
-//    if (degreeX < 0) {
-//        degreeX = 0;
-//    }
+- (void)changeModelViewWithHorizontal:(float)h Vertical:(float)v {
+    static float H = 0, V = 0;
+    H += h / 100;
+    V += v / 100;
+    if (V >= M_PI / 2) {
+        V = M_PI / 2;
+    }
+    if (V <= -M_PI_2) {
+        V = -M_PI_2;
+    }
     
-    NSLog(@"%f %f", GLKMathRadiansToDegrees(degreeX) ,GLKMathRadiansToDegrees(degreeY));
+    NSLog(@"H:%f V:%f", GLKMathRadiansToDegrees(H) ,GLKMathRadiansToDegrees(V));
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
-                                                      sin(degreeX) * cos(degreeY),
-                                                      sin(degreeX) * sin(degreeY),
-                                                      fabs(cos(degreeY)),
+                                                      sin(M_PI_2 - V) * cos(H),
+                                                      sin(H) * sin(M_PI_2 - V),
+                                                      cos(M_PI_2 - V),
                                                       0, 1, 0);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
 }
 
+
+/**
+ *  旋转表示
+ *
+ *  @param x x
+ *  @param y y
+ */
 - (void)roatateWithX:(float)x Y:(float)y {
     
     static float degreeX = 0, degreeY = -M_PI;
@@ -214,8 +215,16 @@ const GLfloat kColorConversion601FullRange[] = {
     
     
     NSLog(@"Processing");
-    [self roatateWithX:point.y - prePoint.y Y:point.x - prePoint.x];
+    bool rotate = 0;
+    if (rotate) {
+        [self roatateWithX:point.y - prePoint.y Y:point.x - prePoint.x];
+    }
+    else {
+        [self changeModelViewWithHorizontal:point.y - prePoint.y Vertical:point.x - prePoint.x];
+    }
 }
+
+
 
 #pragma mark - Utilities
 
