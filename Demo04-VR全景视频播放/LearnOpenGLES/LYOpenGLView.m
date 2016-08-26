@@ -128,7 +128,7 @@ const GLfloat kColorConversion601FullRange[] = {
 	return self;
 }
 
-#define LY_ROTATE YES
+#define LY_ROTATE NO
 
 
 - (void)setupView {
@@ -140,16 +140,16 @@ const GLfloat kColorConversion601FullRange[] = {
     verticalLabel.textColor = [UIColor redColor];
     
     if (LY_ROTATE) {
-        horizontalLabel.text = [NSString stringWithFormat:@"绕X轴旋转角度为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
-        verticalLabel.text = [NSString stringWithFormat:@"绕Y轴旋转角度为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
         horizontalDegree = 0.0;
         verticalDegree = M_PI_2;
+        horizontalLabel.text = [NSString stringWithFormat:@"绕X轴旋转角度为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
+        verticalLabel.text = [NSString stringWithFormat:@"绕Y轴旋转角度为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
     }
     else {
-        horizontalLabel.text = [NSString stringWithFormat:@"偏航角为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
-        verticalLabel.text = [NSString stringWithFormat:@"高度角为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
         horizontalDegree = M_PI_2;
         verticalDegree = 0.0;
+        horizontalLabel.text = [NSString stringWithFormat:@"偏航角为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
+        verticalLabel.text = [NSString stringWithFormat:@"高度角为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
     }
 }
 
