@@ -94,14 +94,6 @@
 {
     self.mReader = [self createAssetReader];
     
-    AVAssetReaderOutput *readerVideoTrackOutput = nil;
-    
-    for( AVAssetReaderOutput *output in self.mReader.outputs ) {
-        if( [output.mediaType isEqualToString:AVMediaTypeVideo] ) {
-            readerVideoTrackOutput = output;
-        }
-    }
-    
     if ([self.mReader startReading] == NO)
     {
         NSLog(@"Error reading from file at URL: %@", self.mAsset);
