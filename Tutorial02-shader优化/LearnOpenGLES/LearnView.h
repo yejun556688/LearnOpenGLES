@@ -12,4 +12,6 @@
 
 - (void)customInit;
 
+- (void)update;
+
 @end

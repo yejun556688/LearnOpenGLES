@@ -20,6 +20,7 @@
     // Do any additional setup after loading the view.
     self.myView = (LearnView *)self.view;
     [self.myView customInit];
+    [self.myView update];
 
 }
 

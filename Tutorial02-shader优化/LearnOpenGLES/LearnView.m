@@ -20,6 +20,10 @@
 @property (nonatomic , assign) GLuint myColorFrameBuffer;
 @property (nonatomic , strong) GLProgram* mProgram;
 
+@property (nonatomic , assign) GLuint myTexture0;
+@property (nonatomic , assign) GLuint myTexture1;
+
+
 - (void)setupLayer;
 
 @end
@@ -30,14 +34,14 @@
     return [CAEAGLLayer class];
 }
 
-- (void)layoutSubviews {
+- (void)update {
     [self destoryRenderAndFrameBuffer];
     
     [self setupRenderBuffer];
     
     [self setupFrameBuffer];
     
-    [self render]; 
+    [self render];
 }
 
 - (void)customInit {
@@ -84,12 +88,11 @@
             NSAssert(NO, @"Filter shader link failed");
         }
     }
-    
+    GLuint texture0Unifom = [self.mProgram uniformIndex:@"myTexture0"];
+    GLuint texture1Unifom = [self.mProgram uniformIndex:@"myTexture1"];
     GLuint displayPositionAttribute = [self.mProgram attributeIndex:@"position"];
     GLuint displayTextureCoordinateAttribute = [self.mProgram attributeIndex:@"textCoordinate"];
-    GLuint displayColorMapUniform = [self.mProgram uniformIndex:@"colorMap"]; // This does assume a name of "colorMap" for the fragment shader
     GLuint displayRotateMatrixUniform = [self.mProgram uniformIndex:@"rotateMatrix"];
-    
     [self.mProgram use];
     glEnableVertexAttribArray(displayPositionAttribute);
     glEnableVertexAttribArray(displayTextureCoordinateAttribute);
@@ -119,7 +122,8 @@
     glEnableVertexAttribArray(displayTextureCoordinateAttribute);
     
     //加载纹理
-    [self setupTexture:@"for_test"];
+    [self setupFirstTexture:@"for_test"];
+    [self setupSecondTexture:@"abc"];
     
     float radians = 10 * 3.14159f / 180.0f;
     float s = sin(radians);
@@ -135,6 +139,14 @@
     
     //设置旋转矩阵
     glUniformMatrix4fv(displayRotateMatrixUniform, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
+    
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, self.myTexture0);
+    glUniform1i(texture0Unifom, 0);
+    
+//    glActiveTexture(GL_TEXTURE1);
+//    glBindTexture(GL_TEXTURE_2D, self.myTexture1);
+    glUniform1i(texture1Unifom, 1);
 }
 
 - (void)setupLayer
@@ -202,7 +214,7 @@
 
 
 
-- (GLuint)setupTexture:(NSString *)fileName {
+- (GLuint)setupFirstTexture:(NSString *)fileName {
     // 1获取图片的CGImageRef
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
     if (!spriteImage) {
@@ -224,8 +236,10 @@
     
     CGContextRelease(spriteContext);
     
-    // 4绑定纹理到默认的纹理ID（这里只有一张图片，故而相当于默认于片元着色器里面的colorMap，如果有多张图不可以这么做）
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE0);
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &_myTexture0);
+    glBindTexture(GL_TEXTURE_2D, self.myTexture0);
     
     
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -236,7 +250,50 @@
     float fw = width, fh = height;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     
-    glBindTexture(GL_TEXTURE_2D, 0);
+//    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    free(spriteData);
+    return 0;
+}
+
+
+
+- (GLuint)setupSecondTexture:(NSString *)fileName {
+    // 1获取图片的CGImageRef
+    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    if (!spriteImage) {
+        NSLog(@"Failed to load image %@", fileName);
+        exit(1);
+    }
+    
+    // 2 读取图片的大小
+    size_t width = CGImageGetWidth(spriteImage);
+    size_t height = CGImageGetHeight(spriteImage);
+    
+    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
+    
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
+                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+    
+    // 3在CGContextRef上绘图
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
+    
+    CGContextRelease(spriteContext);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures(1, &(_myTexture1));
+    glBindTexture(GL_TEXTURE_2D, self.myTexture1);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    float fw = width, fh = height;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+//    glBindTexture(GL_TEXTURE_2D, 0);
     
     free(spriteData);
     return 0;

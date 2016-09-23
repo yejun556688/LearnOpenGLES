@@ -19,6 +19,7 @@
 		FDC7A56B1C992CEE002B4BB5 /* shaderv.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FDC7A56A1C992CEE002B4BB5 /* shaderv.vsh */; };
 		FDC7A56D1C992CFC002B4BB5 /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDC7A56C1C992CFC002B4BB5 /* shaderf.fsh */; };
 		FDC7A5701C994EDE002B4BB5 /* LYGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7A56F1C994EDE002B4BB5 /* LYGLViewController.m */; };
+		FDE22ED11D94F62600FC772D /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = FDE22ED01D94F62600FC772D /* abc.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		FDC7A56C1C992CFC002B4BB5 /* shaderf.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderf.fsh; sourceTree = "<group>"; };
 		FDC7A56E1C994EDE002B4BB5 /* LYGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYGLViewController.h; sourceTree = "<group>"; };
 		FDC7A56F1C994EDE002B4BB5 /* LYGLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYGLViewController.m; sourceTree = "<group>"; };
+		FDE22ED01D94F62600FC772D /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			children = (
 				FDF35AE41CFD78B80059EAEA /* extend */,
 				FD8C73691C92AC07001A5D46 /* for_test.png */,
+				FDE22ED01D94F62600FC772D /* abc.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
 				FDC7A56E1C994EDE002B4BB5 /* LYGLViewController.h */,
@@ -222,6 +225,7 @@
 				FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */,
 				FDC7A56B1C992CEE002B4BB5 /* shaderv.vsh in Resources */,
 				FDC7A56D1C992CFC002B4BB5 /* shaderf.fsh in Resources */,
+				FDE22ED11D94F62600FC772D /* abc.png in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
 			);
