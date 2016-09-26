@@ -88,11 +88,12 @@
             NSAssert(NO, @"Filter shader link failed");
         }
     }
-    GLuint texture0Unifom = [self.mProgram uniformIndex:@"myTexture0"];
-    GLuint texture1Unifom = [self.mProgram uniformIndex:@"myTexture1"];
+    GLuint texture0Uniform = [self.mProgram uniformIndex:@"myTexture0"];
+    GLuint texture1Uniform = [self.mProgram uniformIndex:@"myTexture1"];
+    GLuint leftBottomUniform = [self.mProgram uniformIndex:@"leftBottom"];
+    GLuint rightTopUniform = [self.mProgram uniformIndex:@"rightTop"];
     GLuint displayPositionAttribute = [self.mProgram attributeIndex:@"position"];
     GLuint displayTextureCoordinateAttribute = [self.mProgram attributeIndex:@"textCoordinate"];
-    GLuint displayRotateMatrixUniform = [self.mProgram uniformIndex:@"rotateMatrix"];
     [self.mProgram use];
     glEnableVertexAttribArray(displayPositionAttribute);
     glEnableVertexAttribArray(displayTextureCoordinateAttribute);
@@ -125,28 +126,15 @@
     [self setupFirstTexture:@"for_test"];
     [self setupSecondTexture:@"abc"];
     
-    float radians = 10 * 3.14159f / 180.0f;
-    float s = sin(radians);
-    float c = cos(radians);
-    
-    //z轴旋转矩阵
-    GLfloat zRotation[16] = { //
-        c, -s, 0, 0.2, //
-        s, c, 0, 0,//
-        0, 0, 1.0, 0,//
-        0.0, 0, 0, 1.0//
-    };
-    
-    //设置旋转矩阵
-    glUniformMatrix4fv(displayRotateMatrixUniform, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
-    
 //    glActiveTexture(GL_TEXTURE0);
 //    glBindTexture(GL_TEXTURE_2D, self.myTexture0);
-    glUniform1i(texture0Unifom, 0);
+    glUniform1i(texture0Uniform, 0);
     
 //    glActiveTexture(GL_TEXTURE1);
 //    glBindTexture(GL_TEXTURE_2D, self.myTexture1);
-    glUniform1i(texture1Unifom, 1);
+    glUniform1i(texture1Uniform, 1);
+    glUniform2f(leftBottomUniform, -0.15, -0.15);
+    glUniform2f(rightTopUniform, 0.30, 0.30);
 }
 
 - (void)setupLayer
@@ -240,7 +228,6 @@
     glEnable(GL_TEXTURE_2D);
     glGenTextures(1, &_myTexture0);
     glBindTexture(GL_TEXTURE_2D, self.myTexture0);
-    
     
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
