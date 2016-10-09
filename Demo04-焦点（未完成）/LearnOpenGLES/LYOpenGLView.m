@@ -131,7 +131,7 @@ const GLfloat kColorConversion601FullRange[] = {
 	return self;
 }
 
-#define LY_ROTATE NO
+#define LY_ROTATE YES
 
 
 - (void)setupView {
@@ -216,6 +216,8 @@ const GLfloat kColorConversion601FullRange[] = {
     horizontalLabel.text = [NSString stringWithFormat:@"偏航角为%.2f", GLKMathRadiansToDegrees(horizontalDegree)];
     verticalLabel.text = [NSString stringWithFormat:@"高度角为%.2f", GLKMathRadiansToDegrees(verticalDegree)];
 
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(90, CGRectGetWidth(self.bounds) * 1.0 / CGRectGetHeight(self.bounds), 0.01, 10);
+   
     
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeLookAt(0, 0, 0,
                                                       sin(horizontalDegree) * cos(verticalDegree),
@@ -223,6 +225,22 @@ const GLfloat kColorConversion601FullRange[] = {
                                                       cos(horizontalDegree),
                                                       0, 1, 0);
     
+    GLKVector4 position = GLKVector4Make(0, 0, -1, 1);
+    GLKVector4 targetPosition = GLKMatrix4MultiplyVector4(GLKMatrix4Multiply(projectionMatrix, modelViewMatrix), position);
+    
+    
+    float dif = 0.3;
+    if (fabs(targetPosition.x - 0.01) <= dif &&
+        fabs(targetPosition.y + 0.05) <= dif &&
+        fabs(targetPosition.z + 1.00) <= dif &&
+        1) {
+        [self setupFirstTexture:@"select"];
+    }
+    else {
+        [self setupFirstTexture:@"normal"];
+    }
+    
+    NSLog(@"%@", NSStringFromGLKVector4(targetPosition));
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
 }
 
@@ -243,6 +261,27 @@ const GLfloat kColorConversion601FullRange[] = {
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
     modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, horizontalDegree);
     modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, verticalDegree);
+    
+    
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(90, CGRectGetWidth(self.bounds) * 1.0 / CGRectGetHeight(self.bounds), 0.01, 10);
+    
+    GLKVector4 position = GLKVector4Make(0, 0, -1, 1);
+    GLKVector4 targetPosition = GLKMatrix4MultiplyVector4(GLKMatrix4Multiply(projectionMatrix, modelViewMatrix), position);
+    
+    
+    float dif = 0.3;
+    if (fabs(targetPosition.x - 0.2) <= dif &&
+        fabs(targetPosition.y + 0.05) <= dif &&
+        fabs(targetPosition.z + 1.00) <= dif &&
+        1) {
+        [self setupFirstTexture:@"select"];
+    }
+    else {
+        [self setupFirstTexture:@"normal"];
+    }
+    
+    NSLog(@"%@", NSStringFromGLKVector4(targetPosition));
+    
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MARTRIX], 1, GL_FALSE, modelViewMatrix.m);
 }
@@ -435,7 +474,22 @@ const GLfloat kColorConversion601FullRange[] = {
 }
 
 
-- (GLuint)setupFirstTexture:(NSString *)fileName {
+- (void)setupFirstTexture:(NSString *)fileName {
+    static bool selected = NO;
+    NSLog(@"current is : %@", fileName);
+    if ([fileName isEqualToString:@"select"]) {
+        if (selected) {
+            return ;
+        }
+        selected = YES;
+    }
+    else {
+        if (!selected) {
+            return ;
+        }
+        selected = NO;
+    }
+    
     // 1获取图片的CGImageRef
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
     if (!spriteImage) {
@@ -472,7 +526,7 @@ const GLfloat kColorConversion601FullRange[] = {
     
     
     free(spriteData);
-    return 0;
+    return ;
 }
 
 
