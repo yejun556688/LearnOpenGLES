@@ -2,16 +2,15 @@
 // Fragment Shader
 // Richard S. Wright Jr.
 // OpenGL SuperBible
-// #version 130
+#version 120
 
-out vec4 vFragColor;
 
-in vec4 vStarColor;
+varying vec4 vStarColor;
 
 uniform sampler2D  starImage;
 
 void main(void)
     { 
-    vFragColor = texture(starImage, gl_PointCoord) * vStarColor;
+    gl_FragColor = texture2D(starImage, gl_PointCoord) * vStarColor;
     }
     
