@@ -15,7 +15,7 @@
 #else
 #define FREEGLUT_STATIC
 #include <GL/glut.h>
-#endif
+#endif 
 
 #define NUM_STARS 10000
 
