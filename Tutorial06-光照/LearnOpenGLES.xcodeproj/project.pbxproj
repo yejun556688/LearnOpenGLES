@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FD1328E81CC3C4F400A49783 /* sceneUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1328E71CC3C4F400A49783 /* sceneUtil.m */; };
-		FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */; };
-		FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0351CBDEE52008AB24C /* Moon256x128.png */; };
-		FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD1DF0371CBDEE52008AB24C /* sphere.obj */; };
 		FD1DF03E1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1DF03D1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m */; };
 		FD8C73431C929DB9001A5D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73421C929DB9001A5D46 /* main.m */; };
 		FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73451C929DB9001A5D46 /* AppDelegate.m */; };
@@ -35,10 +32,6 @@
 /* Begin PBXFileReference section */
 		FD1328E61CC3C4F400A49783 /* sceneUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sceneUtil.h; sourceTree = "<group>"; };
 		FD1328E71CC3C4F400A49783 /* sceneUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sceneUtil.m; sourceTree = "<group>"; };
-		FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
-		FD1DF0351CBDEE52008AB24C /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
-		FD1DF0361CBDEE52008AB24C /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
-		FD1DF0371CBDEE52008AB24C /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		FD1DF03C1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGLKVertexAttribArrayBuffer.h; sourceTree = "<group>"; };
 		FD1DF03D1CBDF3AD008AB24C /* AGLKVertexAttribArrayBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGLKVertexAttribArrayBuffer.m; sourceTree = "<group>"; };
 		FD8C733E1C929DB9001A5D46 /* LearnOpenGLES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnOpenGLES.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,10 +71,6 @@
 		FD1DF0331CBDEE52008AB24C /* res */ = {
 			isa = PBXGroup;
 			children = (
-				FD1DF0341CBDEE52008AB24C /* Earth512x256.jpg */,
-				FD1DF0351CBDEE52008AB24C /* Moon256x128.png */,
-				FD1DF0361CBDEE52008AB24C /* sphere.h */,
-				FD1DF0371CBDEE52008AB24C /* sphere.obj */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -200,6 +189,7 @@
 				TargetAttributes = {
 					FD8C733D1C929DB9001A5D46 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = A478ENRUX2;
 					};
 					FD8C73561C929DB9001A5D46 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -231,12 +221,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1DF03A1CBDEE52008AB24C /* sphere.obj in Resources */,
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
-				FD1DF0391CBDEE52008AB24C /* Moon256x128.png in Resources */,
 				FD8C736A1C92AC07001A5D46 /* for_test.png in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
-				FD1DF0381CBDEE52008AB24C /* Earth512x256.jpg in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A478ENRUX2;
 				INFOPLIST_FILE = LearnOpenGLES/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = loying.lin.LearnOpenGLES;
@@ -396,6 +384,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A478ENRUX2;
 				INFOPLIST_FILE = LearnOpenGLES/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = loying.lin.LearnOpenGLES;
