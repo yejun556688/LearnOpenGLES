@@ -57,6 +57,7 @@
                                                          0.7f, // Green
                                                          0.7f, // Blue
                                                          1.0f);// Alpha
+    
     self.baseEffect.light0.position = GLKVector4Make(
                                                      1.0f,
                                                      1.0f,
