@@ -19,6 +19,7 @@
 @implementation ViewController
 {
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
    
@@ -63,8 +64,6 @@
     
     glEnableVertexAttribArray(GLKVertexAttribPosition); //顶点数据缓存
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (GLfloat *)NULL + 0);
-
-
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0); //纹理
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (GLfloat *)NULL + 3);
 
