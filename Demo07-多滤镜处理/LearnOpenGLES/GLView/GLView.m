@@ -314,7 +314,6 @@ GLint glViewUniforms[NUM_UNIFORMS];
     glVertexAttribPointer(glViewAttributes[TEMP_ATTRIBUTE_POSITION], 4, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), 0);
     glVertexAttribPointer(glViewAttributes[TEMP_ATTRIBUTE_INPUT_TEXTURE_COORDINATE], 2, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), (GLvoid *)(sizeof(float) * 4));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-//    glFinish();
     
     // 绘制第二个滤镜
     glUseProgram(_programHandle);
@@ -329,7 +328,6 @@ GLint glViewUniforms[NUM_UNIFORMS];
     glVertexAttribPointer(glViewAttributes[ATTRIBUTE_INPUT_TEXTURE_COORDINATE], 2, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), (GLvoid *)(sizeof(float) * 4));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-//    glInsertEventMarkerEXT(0, "com.apple.GPUTools.event.debug-frame");
 }
 
 #pragma mark - Public 
