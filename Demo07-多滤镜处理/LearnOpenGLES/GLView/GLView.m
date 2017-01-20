@@ -112,12 +112,10 @@ GLint glViewUniforms[NUM_UNIFORMS];
         glDeleteFramebuffers(1, &_framebuffer);
         _framebuffer = 0;
     }
-    
     // 生成 framebuffer ( framebuffer = 画布 )
     glGenFramebuffers(1, &_framebuffer);
     // 绑定 fraembuffer
     glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-    
     // framebuffer 不对绘制的内容做存储, 所以这一步是将 framebuffer 绑定到 renderbuffer ( 绘制的结果就存在 renderbuffer )
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                               GL_RENDERBUFFER, _renderbuffer);
@@ -158,16 +156,13 @@ GLint glViewUniforms[NUM_UNIFORMS];
     CGContextScaleCTM (context, 1.0,-1.0);
     CGContextDrawImage( context, CGRectMake( 0, 0, width, height ), image.CGImage );
     CGContextRelease(context);
-    
     glActiveTexture(GL_TEXTURE1);
     glGenTextures(1, &_texture);
     glBindTexture(GL_TEXTURE_2D, _texture);
-    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    
     glTexImage2D(GL_TEXTURE_2D,
                  0,
                  GL_RGBA,
@@ -188,7 +183,6 @@ GLint glViewUniforms[NUM_UNIFORMS];
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.frame.size.width * self.contentScaleFactor, self.frame.size.height * self.contentScaleFactor, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
     glBindFramebuffer(GL_FRAMEBUFFER, _tempFramebuffer);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _tempTexture, 0);
 }
@@ -199,7 +193,6 @@ GLint glViewUniforms[NUM_UNIFORMS];
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     NSString *errorMessage = nil;
     BOOL result = NO;
-    
     switch (status)
     {
         case GL_FRAMEBUFFER_UNSUPPORTED:
@@ -224,12 +217,10 @@ GLint glViewUniforms[NUM_UNIFORMS];
             result = NO;
             break;
     }
-    
     NSLog(@"%@",errorMessage ? errorMessage : @"");
     *error = errorMessage ? [NSError errorWithDomain:@"com.Yue.error"
                                                 code:status
                                             userInfo:@{@"ErrorMessage" : errorMessage}] : nil;
-    
     return result;
 }
 
@@ -240,9 +231,7 @@ GLint glViewUniforms[NUM_UNIFORMS];
     if (!shaderString) {
         exit(1);
     }
-    
     GLuint shaderHandle = glCreateShader(shaderType);
-    
     const char* shaderStringUFT8 = [shaderString UTF8String];
     int shaderStringLength = (int)[shaderString length];
     glShaderSource(shaderHandle, 1, &shaderStringUFT8, &shaderStringLength);
@@ -258,7 +247,6 @@ GLint glViewUniforms[NUM_UNIFORMS];
         NSLog(@"glGetShaderiv ShaderIngoLog: %@", messageString);
         exit(1);
     }
-    
     return shaderHandle;
 }
 
@@ -280,14 +268,11 @@ GLint glViewUniforms[NUM_UNIFORMS];
         NSLog(@"glGetProgramiv ShaderIngoLog: %@", messageString);
         exit(1);
     }
-    
     glUseProgram(_programHandle);
-    
     glViewAttributes[ATTRIBUTE_POSITION] = glGetAttribLocation(_programHandle, "position");
     glViewAttributes[ATTRIBUTE_INPUT_TEXTURE_COORDINATE]  = glGetAttribLocation(_programHandle, "inputTextureCoordinate");
     glViewUniforms[UNIFORM_INPUT_IMAGE_TEXTURE] = glGetUniformLocation(_programHandle, "inputImageTexture");
     glViewUniforms[UNIFORM_TEMPERATURE] = glGetUniformLocation(_programHandle, "temperature");
-
     glEnableVertexAttribArray(glViewAttributes[ATTRIBUTE_POSITION]);
     glEnableVertexAttribArray(glViewAttributes[ATTRIBUTE_INPUT_TEXTURE_COORDINATE]);
 }
@@ -295,12 +280,10 @@ GLint glViewUniforms[NUM_UNIFORMS];
 - (void)compileTempShaders {
     GLuint vertexShader = [self compileShader:@"OpenGLESDemo.vsh" withType:GL_VERTEX_SHADER];
     GLuint fragmentShader = [self compileShader:@"Saturation.fsh" withType:GL_FRAGMENT_SHADER];
-    
     _tempProgramHandle = glCreateProgram();
     glAttachShader(_tempProgramHandle, vertexShader);
     glAttachShader(_tempProgramHandle, fragmentShader);
     glLinkProgram(_tempProgramHandle);
-    
     GLint linkSuccess;
     glGetProgramiv(_tempProgramHandle, GL_LINK_STATUS, &linkSuccess);
     if (linkSuccess == GL_FALSE) {
@@ -310,19 +293,17 @@ GLint glViewUniforms[NUM_UNIFORMS];
         NSLog(@"glGetProgramiv ShaderIngoLog: %@", messageString);
         exit(1);
     }
-    
     glUseProgram(_tempProgramHandle);
-    
     glViewAttributes[TEMP_ATTRIBUTE_POSITION] = glGetAttribLocation(_tempProgramHandle, "position");
     glViewAttributes[TEMP_ATTRIBUTE_INPUT_TEXTURE_COORDINATE]  = glGetAttribLocation(_tempProgramHandle, "inputTextureCoordinate");
     glViewUniforms[TEMP_UNIFORM_INPUT_IMAGE_TEXTURE] = glGetUniformLocation(_tempProgramHandle, "inputImageTexture");
     glViewUniforms[UNIFORM_SATURATION] = glGetUniformLocation(_tempProgramHandle, "saturation");
-    
     glEnableVertexAttribArray(glViewAttributes[TEMP_ATTRIBUTE_POSITION]);
     glEnableVertexAttribArray(glViewAttributes[TEMP_ATTRIBUTE_INPUT_TEXTURE_COORDINATE]);
 }
 
 - (void)render {
+    // 绘制第一个滤镜
     glUseProgram(_tempProgramHandle);
     glBindFramebuffer(GL_FRAMEBUFFER, _tempFramebuffer);
     glViewport(0, 0, self.frame.size.width * self.contentScaleFactor, self.frame.size.height * self.contentScaleFactor);
@@ -333,9 +314,9 @@ GLint glViewUniforms[NUM_UNIFORMS];
     glVertexAttribPointer(glViewAttributes[TEMP_ATTRIBUTE_POSITION], 4, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), 0);
     glVertexAttribPointer(glViewAttributes[TEMP_ATTRIBUTE_INPUT_TEXTURE_COORDINATE], 2, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), (GLvoid *)(sizeof(float) * 4));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    glFinish();
+//    glFinish();
     
-    
+    // 绘制第二个滤镜
     glUseProgram(_programHandle);
     glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer);
@@ -348,7 +329,6 @@ GLint glViewUniforms[NUM_UNIFORMS];
     glVertexAttribPointer(glViewAttributes[ATTRIBUTE_INPUT_TEXTURE_COORDINATE], 2, GL_FLOAT, GL_FALSE, sizeof(CustomVertex), (GLvoid *)(sizeof(float) * 4));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-    
 //    glInsertEventMarkerEXT(0, "com.apple.GPUTools.event.debug-frame");
 }
 
