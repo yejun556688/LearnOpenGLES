@@ -256,7 +256,7 @@
 }
 
 - (void)renderFBO {
-    glBindTexture(GL_TEXTURE_2D, 0);
+//    glBindTexture(GL_TEXTURE_2D, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, self.mExtraFBO);
     
     //如果视口和主缓存的不同，需要根据当前的大小调整，同时在下面的绘制时需要调整glviewport
