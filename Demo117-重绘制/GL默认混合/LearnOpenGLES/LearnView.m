@@ -12,19 +12,24 @@
 #import <GLKit/GLKit.h>
 
 @interface LearnView()
-@property (nonatomic , strong) EAGLContext* myContext;
-@property (nonatomic , strong) CAEAGLLayer* myEagLayer;
+@property (nonatomic, strong) EAGLContext* myContext;
+@property (nonatomic, strong) CAEAGLLayer* myEagLayer;
 
-@property (nonatomic , assign) GLuint myColorRenderBuffer;
-@property (nonatomic , assign) GLuint myColorFrameBuffer;
-@property (nonatomic , strong) GLProgram* mProgram;
-@property (nonatomic , strong) GLProgram* mTextProgram;
+@property (nonatomic, assign) GLuint myColorRenderBuffer;
+@property (nonatomic, assign) GLuint myColorFrameBuffer;
+@property (nonatomic, strong) GLProgram* mProgram;
+@property (nonatomic, strong) GLProgram* mTextProgram;
 
 
-@property (nonatomic , assign) GLuint myTexture0;
-@property (nonatomic , assign) GLuint myTexture1;
-@property (nonatomic , assign) GLuint myBuffer0;
-@property (nonatomic , assign) GLuint myBuffer1;
+@property (nonatomic, assign) GLuint mRotateMatrix;
+@property (nonatomic, assign) float mRotateAngle;
+@property (nonatomic, assign) BOOL mRotateOn;
+
+@property (nonatomic, assign) GLuint myTexture0;
+@property (nonatomic, assign) GLuint myTexture1;
+@property (nonatomic, assign) GLuint myBuffer0;
+@property (nonatomic, assign) GLuint myBuffer1;
+
 
 
 
@@ -46,6 +51,10 @@
     [self setupFrameBuffer];
     
     [self render];
+    
+    if (self.mRotateOn) {
+        self.mRotateAngle += 0.02;
+    }
 }
 
 - (void)customInit {
@@ -56,6 +65,10 @@
     [self setupProgram];
     
     [self setupTextProgram];
+}
+
+- (IBAction)onRotate:(id)sender {
+    self.mRotateOn = !self.mRotateOn;
 }
 
 - (void)render {
@@ -71,16 +84,13 @@
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
     [self.mTextProgram use];
+    glUniformMatrix4fv(self.mRotateMatrix, 1, GL_FALSE, GLKMatrix4MakeZRotation(self.mRotateAngle).m);
     glBindBuffer(GL_ARRAY_BUFFER, self.myBuffer1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, (float *)NULL + 3);
     glEnableVertexAttribArray(1);
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    
-    
-    
-    
     
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
 }
@@ -177,6 +187,7 @@
     GLuint displayPositionAttribute = [self.mTextProgram attributeIndex:@"position"];
     GLuint displayTextureCoordinateAttribute = [self.mTextProgram attributeIndex:@"textCoordinate"];
     GLuint rotateMatrix = [self.mTextProgram uniformIndex:@"rotateMatrix"];
+    self.mRotateMatrix = rotateMatrix;
     [self.mTextProgram use];
     glEnableVertexAttribArray(displayPositionAttribute);
     glEnableVertexAttribArray(displayTextureCoordinateAttribute);
@@ -209,7 +220,9 @@
     
     glUniform1i(texture1Uniform, 1);
 
-    glUniformMatrix4fv(rotateMatrix, 1, GL_FALSE, GLKMatrix4MakeZRotation(M_PI_4).m);
+    self.mRotateOn = NO;
+    self.mRotateAngle = M_PI_4;
+    glUniformMatrix4fv(rotateMatrix, 1, GL_FALSE, GLKMatrix4MakeZRotation(self.mRotateAngle).m);
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

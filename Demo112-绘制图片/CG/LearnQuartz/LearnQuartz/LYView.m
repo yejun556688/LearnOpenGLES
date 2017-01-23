@@ -29,7 +29,7 @@
      CGContextSetLineWidth(context, 1.0);
      CGContextSetRGBFillColor (context, 0.5, 0.5, 0.5, 0.5);
      UIFont  *font = [UIFont boldSystemFontOfSize:18.0];
-     [@"公司：北京中软科技股份有限公司\n部门：ERP事业部\n姓名：McLiang" drawInRect:CGRectMake(20, 40, 280, 300) withFont:font];
+     [@"公司：熊猫科技有限科技公司\n部门：ERP事业部\n姓名：McLiang" drawInRect:CGRectMake(20, 40, 280, 300) withFont:font];
      
     
     //*NO.3画一个正方形图形 没有边框

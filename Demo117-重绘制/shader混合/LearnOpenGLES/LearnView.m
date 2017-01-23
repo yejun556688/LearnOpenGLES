@@ -78,10 +78,6 @@
     glEnableVertexAttribArray(1);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
-    
-    
-    
-    
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
