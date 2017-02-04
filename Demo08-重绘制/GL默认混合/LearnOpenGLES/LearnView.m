@@ -72,7 +72,7 @@
 }
 
 - (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
     [self.mProgram use];
