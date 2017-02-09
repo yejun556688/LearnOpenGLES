@@ -32,6 +32,7 @@
 
 + (Class)layerClass {
     return [CAEAGLLayer class];
+    
 }
 
 - (void)update {
@@ -126,12 +127,12 @@
     [self setupFirstTexture:@"for_test"];
     [self setupSecondTexture:@"abc"];
     
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindTexture(GL_TEXTURE_2D, self.myTexture0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, self.myTexture0);
     glUniform1i(texture0Uniform, 0);
     
-//    glActiveTexture(GL_TEXTURE1);
-//    glBindTexture(GL_TEXTURE_2D, self.myTexture1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, self.myTexture1);
     glUniform1i(texture1Uniform, 1);
     glUniform2f(leftBottomUniform, -0.15, -0.15);
     glUniform2f(rightTopUniform, 0.30, 0.30);
@@ -224,8 +225,7 @@
     
     CGContextRelease(spriteContext);
     
-    glActiveTexture(GL_TEXTURE0);
-    glEnable(GL_TEXTURE_2D);
+    
     glGenTextures(1, &_myTexture0);
     glBindTexture(GL_TEXTURE_2D, self.myTexture0);
     
@@ -237,7 +237,6 @@
     float fw = width, fh = height;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     
-//    glBindTexture(GL_TEXTURE_2D, 0);
     
     free(spriteData);
     return 0;
@@ -267,8 +266,6 @@
     
     CGContextRelease(spriteContext);
     
-    glActiveTexture(GL_TEXTURE1);
-    glEnable(GL_TEXTURE_2D);
     glGenTextures(1, &(_myTexture1));
     glBindTexture(GL_TEXTURE_2D, self.myTexture1);
     
@@ -279,8 +276,6 @@
     
     float fw = width, fh = height;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-//    glBindTexture(GL_TEXTURE_2D, 0);
     
     free(spriteData);
     return 0;
