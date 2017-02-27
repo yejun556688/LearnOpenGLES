@@ -69,7 +69,6 @@
     self.mEffect.texture2d0.name = textureInfo.name;
 }
 
-
 /**
  *  渲染场景代码
  */

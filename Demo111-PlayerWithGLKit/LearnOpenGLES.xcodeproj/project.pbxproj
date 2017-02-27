@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD06054B1D2A665600E663A7 /* abc.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FD06054A1D2A665600E663A7 /* abc.mp4 */; };
+		FD4A7D8B1E64197A008051F8 /* abc.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FD4A7D8A1E64197A008051F8 /* abc.mp4 */; };
 		FD6BA4371D0FE5CA0080EB2D /* abc.png in Resources */ = {isa = PBXBuildFile; fileRef = FD6BA4361D0FE5CA0080EB2D /* abc.png */; };
 		FD8C73431C929DB9001A5D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73421C929DB9001A5D46 /* main.m */; };
 		FD8C73461C929DB9001A5D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8C73451C929DB9001A5D46 /* AppDelegate.m */; };
@@ -29,7 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FD06054A1D2A665600E663A7 /* abc.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = abc.mp4; sourceTree = "<group>"; };
+		FD4A7D8A1E64197A008051F8 /* abc.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = abc.mp4; path = ../../Common/resources/abc.mp4; sourceTree = "<group>"; };
 		FD6BA4361D0FE5CA0080EB2D /* abc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = abc.png; sourceTree = "<group>"; };
 		FD8C733E1C929DB9001A5D46 /* LearnOpenGLES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnOpenGLES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8C73421C929DB9001A5D46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		FD8C73401C929DB9001A5D46 /* LearnOpenGLES */ = {
 			isa = PBXGroup;
 			children = (
-				FD06054A1D2A665600E663A7 /* abc.mp4 */,
+				FD4A7D8A1E64197A008051F8 /* abc.mp4 */,
 				FD6BA4361D0FE5CA0080EB2D /* abc.png */,
 				FD8C73441C929DB9001A5D46 /* AppDelegate.h */,
 				FD8C73451C929DB9001A5D46 /* AppDelegate.m */,
@@ -166,6 +166,7 @@
 				TargetAttributes = {
 					FD8C733D1C929DB9001A5D46 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = A478ENRUX2;
 					};
 					FD8C73561C929DB9001A5D46 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -197,9 +198,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD06054B1D2A665600E663A7 /* abc.mp4 in Resources */,
 				FD8C73511C929DB9001A5D46 /* LaunchScreen.storyboard in Resources */,
 				FD8C734E1C929DB9001A5D46 /* Assets.xcassets in Resources */,
+				FD4A7D8B1E64197A008051F8 /* abc.mp4 in Resources */,
 				FD6BA4371D0FE5CA0080EB2D /* abc.png in Resources */,
 				FD8C734C1C929DB9001A5D46 /* Main.storyboard in Resources */,
 			);
@@ -347,6 +348,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A478ENRUX2;
 				INFOPLIST_FILE = LearnOpenGLES/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -360,6 +362,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A478ENRUX2;
 				INFOPLIST_FILE = LearnOpenGLES/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
