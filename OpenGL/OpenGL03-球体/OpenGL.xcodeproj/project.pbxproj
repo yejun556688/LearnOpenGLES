@@ -13,15 +13,15 @@
 		FD1FD5201D5B2E0600E098A9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD1FD51F1D5B2E0600E098A9 /* main.cpp */; };
 		FD1FD5221D5B2F4600E098A9 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD1FD5211D5B2F4600E098A9 /* GLUT.framework */; };
 		FD1FD5241D5B2F5000E098A9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD1FD5231D5B2F5000E098A9 /* OpenGL.framework */; };
-		FD2EAA871D73C8920051CFBD /* GLBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD2EAA811D73C8920051CFBD /* GLBatch.cpp */; };
-		FD2EAA891D73C8920051CFBD /* GLShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD2EAA831D73C8920051CFBD /* GLShaderManager.cpp */; };
-		FD2EAA8A1D73C8920051CFBD /* GLTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD2EAA841D73C8920051CFBD /* GLTools.cpp */; };
-		FD2EAA8B1D73C8920051CFBD /* GLTriangleBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD2EAA851D73C8920051CFBD /* GLTriangleBatch.cpp */; };
-		FD2EAA8C1D73C8920051CFBD /* math3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD2EAA861D73C8920051CFBD /* math3d.cpp */; };
-		FD2EAA8E1D73C8D10051CFBD /* libGLTools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD2EAA8D1D73C8D10051CFBD /* libGLTools.a */; };
 		FD2EAA921D73C99A0051CFBD /* SphereMap.tga in Resources */ = {isa = PBXBuildFile; fileRef = FD2EAA8F1D73C99A0051CFBD /* SphereMap.tga */; };
 		FD2EAA931D73C99A0051CFBD /* SphereMapped.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD2EAA901D73C99A0051CFBD /* SphereMapped.fsh */; };
 		FD2EAA941D73C99A0051CFBD /* SphereMapped.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD2EAA911D73C99A0051CFBD /* SphereMapped.vsh */; };
+		FDC1BD611E72BB3F00531D72 /* libGLTools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC1BD591E72BB3F00531D72 /* libGLTools.a */; };
+		FDC1BD621E72BB3F00531D72 /* GLBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC1BD5B1E72BB3F00531D72 /* GLBatch.cpp */; };
+		FDC1BD641E72BB3F00531D72 /* GLShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC1BD5D1E72BB3F00531D72 /* GLShaderManager.cpp */; };
+		FDC1BD651E72BB3F00531D72 /* GLTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC1BD5E1E72BB3F00531D72 /* GLTools.cpp */; };
+		FDC1BD661E72BB3F00531D72 /* GLTriangleBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC1BD5F1E72BB3F00531D72 /* GLTriangleBatch.cpp */; };
+		FDC1BD671E72BB3F00531D72 /* math3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC1BD601E72BB3F00531D72 /* math3d.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,29 +46,30 @@
 		FD1FD51F1D5B2E0600E098A9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FD1FD5211D5B2F4600E098A9 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		FD1FD5231D5B2F5000E098A9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		FD2EAA721D73C6220051CFBD /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
-		FD2EAA731D73C6220051CFBD /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
-		FD2EAA741D73C6220051CFBD /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
-		FD2EAA751D73C6220051CFBD /* GLBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLBatch.h; sourceTree = "<group>"; };
-		FD2EAA761D73C6220051CFBD /* GLBatchBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLBatchBase.h; sourceTree = "<group>"; };
-		FD2EAA771D73C6220051CFBD /* GLFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFrame.h; sourceTree = "<group>"; };
-		FD2EAA781D73C6220051CFBD /* GLFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFrustum.h; sourceTree = "<group>"; };
-		FD2EAA791D73C6220051CFBD /* GLGeometryTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLGeometryTransform.h; sourceTree = "<group>"; };
-		FD2EAA7A1D73C6220051CFBD /* GLMatrixStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLMatrixStack.h; sourceTree = "<group>"; };
-		FD2EAA7B1D73C6220051CFBD /* GLShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLShaderManager.h; sourceTree = "<group>"; };
-		FD2EAA7C1D73C6220051CFBD /* GLTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTools.h; sourceTree = "<group>"; };
-		FD2EAA7D1D73C6220051CFBD /* GLTriangleBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTriangleBatch.h; sourceTree = "<group>"; };
-		FD2EAA7E1D73C6220051CFBD /* math3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = math3d.h; sourceTree = "<group>"; };
-		FD2EAA7F1D73C6220051CFBD /* StopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopWatch.h; sourceTree = "<group>"; };
-		FD2EAA811D73C8920051CFBD /* GLBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLBatch.cpp; sourceTree = "<group>"; };
-		FD2EAA831D73C8920051CFBD /* GLShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLShaderManager.cpp; sourceTree = "<group>"; };
-		FD2EAA841D73C8920051CFBD /* GLTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLTools.cpp; sourceTree = "<group>"; };
-		FD2EAA851D73C8920051CFBD /* GLTriangleBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLTriangleBatch.cpp; sourceTree = "<group>"; };
-		FD2EAA861D73C8920051CFBD /* math3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = math3d.cpp; sourceTree = "<group>"; };
-		FD2EAA8D1D73C8D10051CFBD /* libGLTools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGLTools.a; sourceTree = "<group>"; };
 		FD2EAA8F1D73C99A0051CFBD /* SphereMap.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = SphereMap.tga; sourceTree = SOURCE_ROOT; };
 		FD2EAA901D73C99A0051CFBD /* SphereMapped.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapped.fsh; sourceTree = SOURCE_ROOT; };
 		FD2EAA911D73C99A0051CFBD /* SphereMapped.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapped.vsh; sourceTree = SOURCE_ROOT; };
+		FDC1BD4B1E72BB3F00531D72 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
+		FDC1BD4C1E72BB3F00531D72 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
+		FDC1BD4D1E72BB3F00531D72 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
+		FDC1BD4E1E72BB3F00531D72 /* GLBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLBatch.h; sourceTree = "<group>"; };
+		FDC1BD4F1E72BB3F00531D72 /* GLBatchBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLBatchBase.h; sourceTree = "<group>"; };
+		FDC1BD501E72BB3F00531D72 /* GLFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFrame.h; sourceTree = "<group>"; };
+		FDC1BD511E72BB3F00531D72 /* GLFrustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFrustum.h; sourceTree = "<group>"; };
+		FDC1BD521E72BB3F00531D72 /* GLGeometryTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLGeometryTransform.h; sourceTree = "<group>"; };
+		FDC1BD531E72BB3F00531D72 /* GLMatrixStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLMatrixStack.h; sourceTree = "<group>"; };
+		FDC1BD541E72BB3F00531D72 /* GLShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLShaderManager.h; sourceTree = "<group>"; };
+		FDC1BD551E72BB3F00531D72 /* GLTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTools.h; sourceTree = "<group>"; };
+		FDC1BD561E72BB3F00531D72 /* GLTriangleBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTriangleBatch.h; sourceTree = "<group>"; };
+		FDC1BD571E72BB3F00531D72 /* math3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = math3d.h; sourceTree = "<group>"; };
+		FDC1BD581E72BB3F00531D72 /* StopWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopWatch.h; sourceTree = "<group>"; };
+		FDC1BD591E72BB3F00531D72 /* libGLTools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGLTools.a; sourceTree = "<group>"; };
+		FDC1BD5B1E72BB3F00531D72 /* GLBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLBatch.cpp; sourceTree = "<group>"; };
+		FDC1BD5C1E72BB3F00531D72 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
+		FDC1BD5D1E72BB3F00531D72 /* GLShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLShaderManager.cpp; sourceTree = "<group>"; };
+		FDC1BD5E1E72BB3F00531D72 /* GLTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLTools.cpp; sourceTree = "<group>"; };
+		FDC1BD5F1E72BB3F00531D72 /* GLTriangleBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLTriangleBatch.cpp; sourceTree = "<group>"; };
+		FDC1BD601E72BB3F00531D72 /* math3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = math3d.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD2EAA8E1D73C8D10051CFBD /* libGLTools.a in Frameworks */,
+				FDC1BD611E72BB3F00531D72 /* libGLTools.a in Frameworks */,
 				FD1FD5241D5B2F5000E098A9 /* OpenGL.framework in Frameworks */,
 				FD1FD5221D5B2F4600E098A9 /* GLUT.framework in Frameworks */,
 			);
@@ -115,11 +116,11 @@
 		FD1FD4DC1D5B2D5300E098A9 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				FDC1BD481E72BB3F00531D72 /* GLTools */,
 				FD2EAA8F1D73C99A0051CFBD /* SphereMap.tga */,
 				FD2EAA901D73C99A0051CFBD /* SphereMapped.fsh */,
 				FD2EAA911D73C99A0051CFBD /* SphereMapped.vsh */,
 				FD1FD51F1D5B2E0600E098A9 /* main.cpp */,
-				FD1FD4FF1D5B2DC700E098A9 /* GLTools */,
 				FD1FD4E31D5B2D5300E098A9 /* ViewController.h */,
 				FD1FD4E41D5B2D5300E098A9 /* ViewController.m */,
 				FD1FD4E61D5B2D5300E098A9 /* Assets.xcassets */,
@@ -145,53 +146,55 @@
 			path = OpenGLTests;
 			sourceTree = "<group>";
 		};
-		FD1FD4FF1D5B2DC700E098A9 /* GLTools */ = {
+		FDC1BD481E72BB3F00531D72 /* GLTools */ = {
 			isa = PBXGroup;
 			children = (
-				FD2EAA8D1D73C8D10051CFBD /* libGLTools.a */,
-				FD2EAA801D73C8920051CFBD /* src */,
-				FD2EAA701D73C6220051CFBD /* include */,
+				FDC1BD491E72BB3F00531D72 /* include */,
+				FDC1BD591E72BB3F00531D72 /* libGLTools.a */,
+				FDC1BD5A1E72BB3F00531D72 /* src */,
 			);
-			path = GLTools;
+			name = GLTools;
+			path = ../../GLTools;
 			sourceTree = "<group>";
 		};
-		FD2EAA701D73C6220051CFBD /* include */ = {
+		FDC1BD491E72BB3F00531D72 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				FD2EAA711D73C6220051CFBD /* GL */,
-				FD2EAA751D73C6220051CFBD /* GLBatch.h */,
-				FD2EAA761D73C6220051CFBD /* GLBatchBase.h */,
-				FD2EAA771D73C6220051CFBD /* GLFrame.h */,
-				FD2EAA781D73C6220051CFBD /* GLFrustum.h */,
-				FD2EAA791D73C6220051CFBD /* GLGeometryTransform.h */,
-				FD2EAA7A1D73C6220051CFBD /* GLMatrixStack.h */,
-				FD2EAA7B1D73C6220051CFBD /* GLShaderManager.h */,
-				FD2EAA7C1D73C6220051CFBD /* GLTools.h */,
-				FD2EAA7D1D73C6220051CFBD /* GLTriangleBatch.h */,
-				FD2EAA7E1D73C6220051CFBD /* math3d.h */,
-				FD2EAA7F1D73C6220051CFBD /* StopWatch.h */,
+				FDC1BD4A1E72BB3F00531D72 /* GL */,
+				FDC1BD4E1E72BB3F00531D72 /* GLBatch.h */,
+				FDC1BD4F1E72BB3F00531D72 /* GLBatchBase.h */,
+				FDC1BD501E72BB3F00531D72 /* GLFrame.h */,
+				FDC1BD511E72BB3F00531D72 /* GLFrustum.h */,
+				FDC1BD521E72BB3F00531D72 /* GLGeometryTransform.h */,
+				FDC1BD531E72BB3F00531D72 /* GLMatrixStack.h */,
+				FDC1BD541E72BB3F00531D72 /* GLShaderManager.h */,
+				FDC1BD551E72BB3F00531D72 /* GLTools.h */,
+				FDC1BD561E72BB3F00531D72 /* GLTriangleBatch.h */,
+				FDC1BD571E72BB3F00531D72 /* math3d.h */,
+				FDC1BD581E72BB3F00531D72 /* StopWatch.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
 		};
-		FD2EAA711D73C6220051CFBD /* GL */ = {
+		FDC1BD4A1E72BB3F00531D72 /* GL */ = {
 			isa = PBXGroup;
 			children = (
-				FD2EAA721D73C6220051CFBD /* glew.h */,
-				FD2EAA731D73C6220051CFBD /* glxew.h */,
-				FD2EAA741D73C6220051CFBD /* wglew.h */,
+				FDC1BD4B1E72BB3F00531D72 /* glew.h */,
+				FDC1BD4C1E72BB3F00531D72 /* glxew.h */,
+				FDC1BD4D1E72BB3F00531D72 /* wglew.h */,
 			);
 			path = GL;
 			sourceTree = "<group>";
 		};
-		FD2EAA801D73C8920051CFBD /* src */ = {
+		FDC1BD5A1E72BB3F00531D72 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				FD2EAA811D73C8920051CFBD /* GLBatch.cpp */,
-				FD2EAA831D73C8920051CFBD /* GLShaderManager.cpp */,
-				FD2EAA841D73C8920051CFBD /* GLTools.cpp */,
-				FD2EAA851D73C8920051CFBD /* GLTriangleBatch.cpp */,
-				FD2EAA861D73C8920051CFBD /* math3d.cpp */,
+				FDC1BD5B1E72BB3F00531D72 /* GLBatch.cpp */,
+				FDC1BD5C1E72BB3F00531D72 /* glew.c */,
+				FDC1BD5D1E72BB3F00531D72 /* GLShaderManager.cpp */,
+				FDC1BD5E1E72BB3F00531D72 /* GLTools.cpp */,
+				FDC1BD5F1E72BB3F00531D72 /* GLTriangleBatch.cpp */,
+				FDC1BD601E72BB3F00531D72 /* math3d.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -297,12 +300,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD2EAA8B1D73C8920051CFBD /* GLTriangleBatch.cpp in Sources */,
-				FD2EAA871D73C8920051CFBD /* GLBatch.cpp in Sources */,
-				FD2EAA891D73C8920051CFBD /* GLShaderManager.cpp in Sources */,
+				FDC1BD661E72BB3F00531D72 /* GLTriangleBatch.cpp in Sources */,
+				FDC1BD621E72BB3F00531D72 /* GLBatch.cpp in Sources */,
+				FDC1BD641E72BB3F00531D72 /* GLShaderManager.cpp in Sources */,
 				FD1FD4E51D5B2D5300E098A9 /* ViewController.m in Sources */,
-				FD2EAA8C1D73C8920051CFBD /* math3d.cpp in Sources */,
-				FD2EAA8A1D73C8920051CFBD /* GLTools.cpp in Sources */,
+				FDC1BD671E72BB3F00531D72 /* math3d.cpp in Sources */,
+				FDC1BD651E72BB3F00531D72 /* GLTools.cpp in Sources */,
 				FD1FD5201D5B2E0600E098A9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -414,12 +417,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OpenGL/GLTools/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../GLTools/**";
 				INFOPLIST_FILE = OpenGL/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/OpenGL/GLTools",
+					"$(PROJECT_DIR)/../GLTools",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = loying.lin.OpenGL;
@@ -432,12 +435,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OpenGL/GLTools/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../GLTools/**";
 				INFOPLIST_FILE = OpenGL/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/OpenGL/GLTools",
+					"$(PROJECT_DIR)/../GLTools",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_BUNDLE_IDENTIFIER = loying.lin.OpenGL;
