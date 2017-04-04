@@ -10,6 +10,7 @@
 #import "AGLKVertexAttribArrayBuffer.h"
 #import "AGLKFrustum.h"
 #import "sphere.h"
+#import <mach/mach_time.h>
 
 @interface AdvanceViewController ()
 
@@ -24,6 +25,7 @@
 @property (assign, nonatomic) AGLKFrustum frustum;
 @property (assign, nonatomic) float yawAngleRad;
 
+@property (nonatomic, strong) CADisplayLink *mDisplayLink;
 
 @property (nonatomic , strong) UILabel* fpsField;
 @property (nonatomic , strong) UISlider* mFarSlider;
@@ -33,16 +35,37 @@
 
 @implementation AdvanceViewController
 {
+    dispatch_source_t timer;
 }
 
 static const GLKVector3 ScenePosition = {50.0f, 0.0f, 50.0f};
-#define ARR_LENGTH 1024
+#define ARR_LENGTH 50024
 #define EARTH_RADIUS 1
 static float randArr[ARR_LENGTH];
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+//    self.preferredFramesPerSecond = 20;
+    
+    _mDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(dispalyLinkCallback)];
+    [_mDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC, 0.0);
+    dispatch_source_set_event_handler(timer, ^{
+        static uint64_t last = 0;
+        uint64_t end = mach_absolute_time();
+        if (last != 0) {
+            mach_timebase_info_data_t timebaseInfo;
+            (void) mach_timebase_info(&timebaseInfo);
+            uint64_t elapsedNano = (end - last) * timebaseInfo.numer / timebaseInfo.denom;
+            double elapsedSeconds = (double)elapsedNano / 1000000000.0;
+            NSLog(@"当前timer回调间隔 %.5lf", elapsedSeconds);
+        }
+        last = end;
+    });
+    dispatch_resume(timer);
     
     // 新建OpenGLES 上下文
     self.mContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -73,6 +96,20 @@ static float randArr[ARR_LENGTH];
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+- (void)dispalyLinkCallback {
+    static uint64_t last = 0;
+    uint64_t end = mach_absolute_time();
+    if (last != 0) {
+        mach_timebase_info_data_t timebaseInfo;
+        (void) mach_timebase_info(&timebaseInfo);
+        uint64_t elapsedNano = (end - last) * timebaseInfo.numer / timebaseInfo.denom;
+        double elapsedSeconds = (double)elapsedNano / 1000000000.0;
+        NSLog(@"当前FPS %.2f", 1.0 / elapsedSeconds);
+    }
+    last = end;
+}
+
 
 - (void)configureRandom {
     for (int i = 0; i < ARR_LENGTH; ++i) {
@@ -183,9 +220,9 @@ static float randArr[ARR_LENGTH];
     GLKMatrixStackPush(modelviewMatrixStack);
     
     long index = 0;
-    for(NSInteger i = -10; i < 5; i++)
+    for(NSInteger i = -100; i < 100; i++)
     {
-        for(NSInteger j = -10; j < 5; j++)
+        for(NSInteger j = -10; j < 50; j++)
         {
             const GLKVector3 addPosition = {
                 ScenePosition.x / 5 * i,
