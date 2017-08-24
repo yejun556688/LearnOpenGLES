@@ -15,8 +15,8 @@ static const GLfloat baseVertices[] =
     -1, -1, 0.0, 0.0, 0.0,  // 左下
     1, -1, 0.0, 1.0, 0.0,  // 右下
     -1, 1, 0.0, 0.0, 1.0,  // 左上
-
-     1, -1, 0.0, 1.0, 0.0, //右下
+    
+    1, -1, 0.0, 1.0, 0.0, //右下
     -1,  1, 0.0, 0.0, 1.0, //左上
     1,  1, 0.0, 1.0, 1.0 //右上
 };
@@ -28,7 +28,7 @@ static const GLfloat firstVertices[] =
     1, -1, 0.0,1.0, 0.0,  // 右下
     0, 1, 0.0,0.0, 1.0,  // 左上
     
-     1, -1, 0.0,1.0, 0.0, //右下
+    1, -1, 0.0,1.0, 0.0, //右下
     0,  1, 0.0,0.0, 1.0, //左上
     1,  1, 0.0,1.0, 1.0 //右上
 };
@@ -155,7 +155,7 @@ static const GLfloat secondVertices[] =
         glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
         glDrawArrays(GL_TRIANGLES, 0, 6); // 6个顶点，2个三角形
-
+        
         success = YES;
     } while (NO);
     
@@ -299,7 +299,7 @@ static const GLfloat secondVertices[] =
         CFRelease(secondVideoTextureRef);
         secondVideoTextureRef = NULL;
     }
-
+    
     CVOpenGLESTextureCacheFlush(videoTextureCache, 0);
 }
 

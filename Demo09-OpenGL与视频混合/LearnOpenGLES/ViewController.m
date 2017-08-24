@@ -336,7 +336,7 @@ static void testContext(){};
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
     if (context != testContext) {
-//        NSLog(@"this also yes");
+        //        NSLog(@"this also yes");
     }
 }
 
