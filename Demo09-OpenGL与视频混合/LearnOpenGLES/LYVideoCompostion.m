@@ -23,10 +23,6 @@
     CVPixelBufferRef					_previousBuffer;
 }
 
-
-
-
-
 - (instancetype)init
 {
     self = [super init];
@@ -38,7 +34,6 @@
     }
     return self;
 }
-
 
 - (NSDictionary *)sourcePixelBufferAttributes {
     return @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA],

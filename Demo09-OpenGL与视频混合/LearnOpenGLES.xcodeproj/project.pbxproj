@@ -10,11 +10,9 @@
 		FDAAD21C1CE0923A00C7B6AC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAAD21B1CE0923A00C7B6AC /* main.m */; };
 		FDAAD21F1CE0923A00C7B6AC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAAD21E1CE0923A00C7B6AC /* AppDelegate.m */; };
 		FDAAD2291CE0923A00C7B6AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDAAD2271CE0923A00C7B6AC /* Main.storyboard */; };
-		FDAAD22B1CE0923A00C7B6AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDAAD22A1CE0923A00C7B6AC /* Assets.xcassets */; };
 		FDAAD22E1CE0923A00C7B6AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDAAD22C1CE0923A00C7B6AC /* LaunchScreen.storyboard */; };
 		FDAAD2391CE0923A00C7B6AC /* LearnOpenGLESTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDAAD2381CE0923A00C7B6AC /* LearnOpenGLESTests.m */; };
 		FDFC88E71F4D811F0043C763 /* abc.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FDFC88D61F4D811F0043C763 /* abc.mp4 */; };
-		FDFC88E81F4D811F0043C763 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDFC88D71F4D811F0043C763 /* Assets.xcassets */; };
 		FDFC88E91F4D811F0043C763 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDFC88D91F4D811F0043C763 /* LaunchScreen.storyboard */; };
 		FDFC88EA1F4D811F0043C763 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDFC88DB1F4D811F0043C763 /* Main.storyboard */; };
 		FDFC88EB1F4D811F0043C763 /* eer.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FDFC88DD1F4D811F0043C763 /* eer.mp4 */; };
@@ -41,14 +39,12 @@
 		FDAAD21D1CE0923A00C7B6AC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDAAD21E1CE0923A00C7B6AC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FDAAD2281CE0923A00C7B6AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FDAAD22A1CE0923A00C7B6AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDAAD22D1CE0923A00C7B6AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FDAAD22F1CE0923A00C7B6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDAAD2341CE0923A00C7B6AC /* LearnOpenGLESTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnOpenGLESTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDAAD2381CE0923A00C7B6AC /* LearnOpenGLESTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnOpenGLESTests.m; sourceTree = "<group>"; };
 		FDAAD23A1CE0923A00C7B6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFC88D61F4D811F0043C763 /* abc.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = abc.mp4; sourceTree = "<group>"; };
-		FDFC88D71F4D811F0043C763 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDFC88DA1F4D811F0043C763 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FDFC88DC1F4D811F0043C763 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		FDFC88DD1F4D811F0043C763 /* eer.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = eer.mp4; sourceTree = "<group>"; };
@@ -106,22 +102,18 @@
 				FDFC88DD1F4D811F0043C763 /* eer.mp4 */,
 				FDFC88E21F4D811F0043C763 /* qwe.mp4 */,
 				FDAAD21D1CE0923A00C7B6AC /* AppDelegate.h */,
-				FDFC88DE1F4D811F0043C763 /* LYOpenGLManager.h */,
-				FDFC88E01F4D811F0043C763 /* LYVideoCompostion.h */,
-				FDFC88E31F4D811F0043C763 /* SimpleEditor.h */,
-				FDFC88E51F4D811F0043C763 /* ViewController.h */,
 				FDAAD21E1CE0923A00C7B6AC /* AppDelegate.m */,
+				FDFC88DE1F4D811F0043C763 /* LYOpenGLManager.h */,
 				FDFC88DF1F4D811F0043C763 /* LYOpenGLManager.m */,
+				FDFC88E01F4D811F0043C763 /* LYVideoCompostion.h */,
 				FDFC88E11F4D811F0043C763 /* LYVideoCompostion.m */,
+				FDFC88E31F4D811F0043C763 /* SimpleEditor.h */,
 				FDFC88E41F4D811F0043C763 /* SimpleEditor.m */,
+				FDFC88E51F4D811F0043C763 /* ViewController.h */,
 				FDFC88E61F4D811F0043C763 /* ViewController.m */,
-				FDAAD22F1CE0923A00C7B6AC /* Info.plist */,
-				FDFC88D71F4D811F0043C763 /* Assets.xcassets */,
-				FDFC88D81F4D811F0043C763 /* Base.lproj */,
 				FDAAD22C1CE0923A00C7B6AC /* LaunchScreen.storyboard */,
 				FDAAD2271CE0923A00C7B6AC /* Main.storyboard */,
 				FDAAD21A1CE0923A00C7B6AC /* Supporting Files */,
-				FDAAD22A1CE0923A00C7B6AC /* Assets.xcassets */,
 			);
 			path = LearnOpenGLES;
 			sourceTree = "<group>";
@@ -129,6 +121,8 @@
 		FDAAD21A1CE0923A00C7B6AC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FDAAD22F1CE0923A00C7B6AC /* Info.plist */,
+				FDFC88D81F4D811F0043C763 /* Base.lproj */,
 				FDAAD21B1CE0923A00C7B6AC /* main.m */,
 			);
 			name = "Supporting Files";
@@ -237,9 +231,7 @@
 				FDAAD2291CE0923A00C7B6AC /* Main.storyboard in Resources */,
 				FDFC88E71F4D811F0043C763 /* abc.mp4 in Resources */,
 				FDFC88EA1F4D811F0043C763 /* Main.storyboard in Resources */,
-				FDAAD22B1CE0923A00C7B6AC /* Assets.xcassets in Resources */,
 				FDFC88E91F4D811F0043C763 /* LaunchScreen.storyboard in Resources */,
-				FDFC88E81F4D811F0043C763 /* Assets.xcassets in Resources */,
 				FDAAD22E1CE0923A00C7B6AC /* LaunchScreen.storyboard in Resources */,
 				FDFC88EE1F4D811F0043C763 /* qwe.mp4 in Resources */,
 			);

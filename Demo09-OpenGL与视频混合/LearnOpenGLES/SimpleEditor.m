@@ -80,7 +80,7 @@
         AVAssetTrack *clipVideoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
         NSError* error;
         [compositionVideoTracks[alternatingIndex] insertTimeRange:timeRangeInAsset ofTrack:clipVideoTrack atTime:nextClipStartTime error:&error];
-        NSLog(@"video track %ld, insert start:%lf, length:%lf, at time:%lf", alternatingIndex, CMTimeGetSeconds(timeRangeInAsset.start), CMTimeGetSeconds(timeRangeInAsset.duration), CMTimeGetSeconds(nextClipStartTime));
+        NSLog(@"video track %ld, insert start:%lf, length:%lf, at time:%lf", (long)alternatingIndex, CMTimeGetSeconds(timeRangeInAsset.start), CMTimeGetSeconds(timeRangeInAsset.duration), CMTimeGetSeconds(nextClipStartTime));
         
         AVAssetTrack *clipAudioTrack = [[asset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
         [compositionAudioTracks[alternatingIndex] insertTimeRange:timeRangeInAsset ofTrack:clipAudioTrack atTime:nextClipStartTime error:&error];

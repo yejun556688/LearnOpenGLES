@@ -45,18 +45,6 @@ static const GLfloat secondVertices[] =
     0,  1, 0.0,1.0, 1.0 //右上
 };
 
-
-
-
-
-
-@interface LYOpenGLManager ()
-
-
-
-@end
-
-
 @implementation LYOpenGLManager
 {
     GLKBaseEffect *baseEffect;
